@@ -1,0 +1,226 @@
+@charset "utf-8";
+@import url("reset.css");
+
+/************************
+* General 全体的なCSSのデザイン部分
+************************/
+.container {
+    margin: 0 auto;
+    height: 100vh;
+    background-image: url("../img/sdgs_bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+}
+
+.wrapper {
+    position: relative;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* top.html */
+#top-container {
+    background-image: url(../img/sdgs_title_bg.png);
+    background-size: 100% 100%;
+    padding-top: 120px;
+    background-position: center;
+    height: 100vh;
+    background-repeat: no-repeat;
+    /* padding-left: 23%; */
+    text-align: center; /* 追加：文字関係を中央寄せにする */
+}
+
+/*img追加 */
+#img {
+    /* 横幅の最大値を指定 */
+    /* 1200px未満になったら、最大値がその横幅に合わせる */
+    max-width: 1200px;
+    /* 中央寄せ：0は縦幅を0pxという意味で、autoは画面のサイズに応じて横幅を中央に揃える */
+    margin: 0 auto;
+}
+
+#start {
+    /* margin: auto; */
+    /* width: 90%; */
+    /* padding-left: 23%; */
+    padding-top: 10%;
+}
+
+#start button {
+    /* display: inline-block; */
+    width: 55%;
+    /* height: 45%; */
+    padding: 25px 0;
+    font-size: 55px;
+    font-weight: bold;
+    background: white;
+    border-radius: 20px;
+}
+
+
+/************************
+* Header headerの部分に含まれるデザイン
+************************/
+header {
+    padding-top: 60px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+}
+
+header .question-num {
+    border: 1px solid black;
+    padding: 5px 70px;
+    background: white;
+}
+
+header .back {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px 70px;
+    background: white;
+    color: black;
+    text-decoration: none;
+}
+
+
+/************************
+* Main mainの部分に含まれるデザイン
+************************/
+main {
+    text-align: center;
+}
+
+/* question.html */
+#question-main {
+    margin: 60px auto 0;
+}
+
+#question-1 {
+    font-size: 50px;
+    font-weight: normal;
+    margin-bottom: 30px;
+    border: 1px solid black;
+    background: white;
+    padding: 10px 50px;
+}
+
+#question-2 {
+    width: 90%;
+    margin: 40px auto;
+    padding: 30px 10px;
+    font-size: 30px;
+    border: 1px solid black;
+    background: white;
+    border-radius: 10px;
+}
+
+#answers {
+    width: 90%;
+    margin: 0 auto;
+}
+
+#answers button {
+    display: inline-block;
+    width: 45%;
+    padding: 15px 0;
+    font-size: 25px;
+    font-weight: bold;
+    background: white;
+    border-radius: 20px;
+}
+
+#answers button:hover {
+    cursor: pointer;
+}
+
+#answers button:first-child,
+#answers button:nth-child(3) {
+    margin-right: 30px;
+}
+
+#answers button:first-child,
+#answers button:nth-child(2) {
+    margin-bottom: 20px;
+}
+
+/* answer.html */
+#answer-img {
+    width: 60%;
+    margin: -40px auto 0;
+}
+
+#answer {
+    margin: 20px 0;
+    font-size: 60px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background: white;
+}
+
+#commentary {
+    font-size: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background: white;
+    padding: 10px 20px;
+}
+
+#next {
+    margin-top: 40px;
+
+}
+
+#next button {
+    width: 30%;
+    padding: 5px 0;
+    font-size: 40px;
+    background: white;
+    border-radius: 10px;
+}
+
+#next button:hover {
+    cursor: pointer;
+}
+
+/* result.html */
+#result-main {
+    padding-top: 150px;
+    text-align: center;
+}
+
+#bubble {
+    width: 45%;
+    margin: -100px 0 0 auto;
+}
+
+#result {
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px 10px;
+    font-size: 60px;
+    border: 1px solid black;
+    background: white;
+    border-radius: 20px;
+}
+
+#menu {
+    margin-top: 50px;
+}
+
+#menu a {
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 20px 70px;
+    background: white;
+    color: black;
+    text-decoration: none;
+    font-size: 50px;
+}
+
+#menu a:first-child {
+    margin-right: 120px;
+}
