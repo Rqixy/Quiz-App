@@ -41,7 +41,7 @@ public class QuizServlet extends HttpServlet {
 			// DB接続準備
 			String db = "jdbc:mysql://localhost:3306/tech_c_itpj?useSSL=false";
 			String user = "root";
-			String pass = "SYF02549";
+			String pass = "";	// ここに自分のMySQLのパスワードを追記
 
 			// DBへの接続
 			Connection con = DriverManager.getConnection(db, user, pass);
