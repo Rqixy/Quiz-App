@@ -12,46 +12,38 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.AnswersEntity;
 import model.QuizInfoEntity;
 
-/**
- * Servlet implementation class AnswerServlet
- */
 @WebServlet("/AnswerServlet")
 public class AnswerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public AnswerServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			// セッションスコープの準備
 			HttpSession session = request.getSession();
 
-			// 問題を取得
+			// 問題リストを取得
 			ArrayList<QuizInfoEntity> quizList = (ArrayList<QuizInfoEntity>)session.getAttribute("quizlist");
+			// 回答リストを取得
+			ArrayList<AnswersEntity> answers = (ArrayList<AnswersEntity>)session.getAttribute("answers");
 
 			// 問題番号を取得
 			int quizNum = (int)session.getAttribute("quiznum");
 			// 問題リストから出題された問題番号の要素を削除する
 			quizList.remove(quizNum);
+			// 回答リストから出題された回答番号の要素を削除する
+			answers.remove(quizNum);
+
 			// セッションスコープへオブジェクト(quizList)を保存
 			session.setAttribute("quizlist", quizList);
 

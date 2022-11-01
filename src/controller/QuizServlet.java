@@ -26,28 +26,30 @@ import model.QuizInfoEntity;
 public class QuizServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public QuizServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    // 最初(1問目)のQuizServletが呼ばれた時の処理
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		// DBからクイズ問題を取得
 		try {
 			// JDBCドライバのロード
 			Class.forName("com.mysql.cj.jdbc.Driver");
+
+			// DB接続準備
+			String db = "jdbc:mysql://localhost:3306/tech_c_itpj?useSSL=false";
+			String user = "root";
+			String pass = "SYF02549";
+
 			// DBへの接続
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tech_c_itpj?useSSL=false", "root", "root");
+			Connection con = DriverManager.getConnection(db, user, pass);
+
 			// ステートメントの作成
 			Statement stmtQuizInfo = con.createStatement();
 			Statement stmtAnswers = con.createStatement();
+
 			// SQL文の実行(参照系)
 			ResultSet resQuizInfo = stmtQuizInfo.executeQuery("select * from quiz_info");
 			ResultSet resAnswers = stmtAnswers.executeQuery("select * from answers");
@@ -57,7 +59,7 @@ public class QuizServlet extends HttpServlet {
 			// コレクションクラス(ArrayList)を初期化し、変数answersへ代入
 			ArrayList<AnswersEntity> answers = new ArrayList<>();
 
-			// ResultSetの操作
+			// DBからクイズ情報をリストに追加する操作
 			while(resQuizInfo.next()) {
 				// QuizInfoEntityをインスタンス化
 				QuizInfoEntity quizInfoObj = new QuizInfoEntity();
@@ -74,6 +76,7 @@ public class QuizServlet extends HttpServlet {
 				quizList.add(quizInfoObj);
 			}
 
+			// DBから回答情報をリストに追加する操作
 			while(resAnswers.next()) {
 				// AnswersEntityをインスタンス化
 				AnswersEntity answersObj = new AnswersEntity();
@@ -126,19 +129,19 @@ public class QuizServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	// 2問目以降にQuizServletが呼ばれた時の処理
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		request.setCharacterEncoding("UTF-8");
-		// DBからクイズ問題を取得
+		//  リストからクイズ問題を取得
 		try {
 			// セッションスコープへquizListを保存
 			// セッションスコープの準備
 			HttpSession session = request.getSession();
 			// 問題出現回数を取得
 			int currentCount = (int)session.getAttribute("currentcount");
+
+			// 問題出現回数を１プラスして
+			// セッションに保存する
 			currentCount++;
 			session.setAttribute("currentcount", currentCount);
 

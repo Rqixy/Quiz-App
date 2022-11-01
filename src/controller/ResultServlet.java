@@ -11,32 +11,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Servlet implementation class ResultServlet
- */
 @WebServlet("/ResultServlet")
 public class ResultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public ResultServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			request.setCharacterEncoding("UTF-8");
 			// セッションスコープの準備
 			HttpSession session = request.getSession();
-			// 正解数を取得
+			// セッションから正解数を取得
 			int answerCount = (int)session.getAttribute("answercount");
 
+			// 一言画像のURLを初期化
 			String resultCommentImage = "";
 
 			// 正解数によって出力する一言画像を変更しセッションに保存する
@@ -50,6 +41,7 @@ public class ResultServlet extends HttpServlet {
 				resultCommentImage = "bubble_all_correct.png";
 			}
 
+			// セッションに一言画像のURLを保存する
 			session.setAttribute("resultcommentimage", resultCommentImage);
 
 			// 転送処理(フォワード)
