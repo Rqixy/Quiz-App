@@ -18,6 +18,9 @@
 
 	QuizInfoEntity qe = quizList.get(quizNum);
 	AnswersEntity ae = answers.get(quizNum);
+/*
+	System.out.println(qe.getQuiz());
+	System.out.println(ae.getCorrect()); */
 
 	// 出力された問題をリストから削除するため、
 	// 問題番号をセッションに保存する
@@ -26,34 +29,23 @@
 	session.setAttribute("answer", qe.getAnswer());
 	session.setAttribute("commentary", qe.getCommentary());
 %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>クイズアプリ</title>
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/style.css">
-</head>
-<body>
-    <div class="container">
-        <div class="wrapper">
-            <header>
-                <p class="question-num"><%=currentCount %>問目</p>
-                <p><a href="TopServlet" class="back">TOPに戻る</a></p>
-            </header>
-            <main id="question-main">
-                <h2 id="question-1">「？？」に入るものを選びなさい</h2>
-                <p id="question-2"><%=qe.getQuiz() %></p>
-                <form method="post" action="AnswerServlet" id="answers">
-                    <button name="answer" type="submit" value="<%=ae.getCorrect() %>"><%=ae.getCorrect() %></button>
-                    <button name="answer" type="submit" value="<%=ae.getIncorrect_1() %>"><%=ae.getIncorrect_1() %></button>
-                    <button name="answer" type="submit" value="<%=ae.getIncorrect_2() %>"><%=ae.getIncorrect_2() %></button>
-                    <button name="answer" type="submit" value="<%=ae.getIncorrect_3() %>"><%=ae.getIncorrect_3() %></button>
-                </form>
-            </main>
-        </div>
+<%@ include file="./unit/header.jsp" %>
+<div class="container">
+    <div class="wrapper">
+        <header>
+            <p class="question-num"><%=currentCount %>問目</p>
+            <p><a href="TopServlet" class="back">TOPに戻る</a></p>
+        </header>
+        <main id="question-main">
+            <h2 id="question-1">「？？」に入るものを選びなさい</h2>
+            <p id="question-2"><%=qe.getQuiz() %></p>
+            <form method="post" action="AnswerServlet" id="answers">
+                <button name="answer" type="submit" value="<%=ae.getCorrect() %>"><%=ae.getCorrect() %></button>
+                <button name="answer" type="submit" value="<%=ae.getIncorrect_1() %>"><%=ae.getIncorrect_1() %></button>
+                <button name="answer" type="submit" value="<%=ae.getIncorrect_2() %>"><%=ae.getIncorrect_2() %></button>
+                <button name="answer" type="submit" value="<%=ae.getIncorrect_3() %>"><%=ae.getIncorrect_3() %></button>
+            </form>
+        </main>
     </div>
-
-    <script src="<%=request.getContextPath() %>/js/shuffle.js"></script>
-</body>
+</div>
+<%@ include file="./unit/footer.jsp" %>
