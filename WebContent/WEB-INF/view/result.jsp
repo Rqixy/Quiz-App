@@ -4,7 +4,7 @@
 	String resultCommentImage = (String)session.getAttribute("resultcommentimage");
 	int answerCount = (int)session.getAttribute("answercount");
 %>
-<%@ include file="./unit/header.jsp" %>
+<%@ include file="./layouts/header.jsp" %>
 <div class="container">
     <div class="wrapper">
         <main id="result-main">
@@ -21,4 +21,4 @@
         </main>
     </div>
 </div>
-<%@ include file="./unit/footer.jsp" %>
+<%@ include file="./layouts/footer.jsp" %>

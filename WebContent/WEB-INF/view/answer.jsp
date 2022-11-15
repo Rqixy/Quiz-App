@@ -10,7 +10,7 @@
 	// 問題の解説を取得する
 	String commentary = (String)session.getAttribute("commentary");
 %>
-<%@ include file="./unit/header.jsp" %>
+<%@ include file="./layouts/header.jsp" %>
 <div class="container">
     <div class="wrapper">
         <header>
@@ -37,4 +37,4 @@
         </main>
     </div>
 </div>
-<%@ include file="./unit/footer.jsp" %>
+<%@ include file="./layouts/footer.jsp" %>
