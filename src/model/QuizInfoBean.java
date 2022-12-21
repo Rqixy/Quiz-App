@@ -2,7 +2,7 @@ package model;
 /*
  * クイズ情報管理クラス
  */
-public class QuizInfoEntity {
+public class QuizInfoBean {
 
 	// フィールド
 	private int quiz_id;		// 問題番号
@@ -11,7 +11,7 @@ public class QuizInfoEntity {
 	private String commentary;	// 解説
 
 	// コンストラクタ
-	public QuizInfoEntity() {
+	public QuizInfoBean() {
 		this.quiz_id = 0;
 		this.quiz = "";
 		this.answer = "";
