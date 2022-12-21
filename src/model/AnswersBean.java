@@ -2,7 +2,7 @@ package model;
 /*
  * 回答一覧を管理するクラス
  */
-public class AnswersEntity {
+public class AnswersBean {
 
 	// フィールド
 	private int answers_id;		// 回答番号
@@ -12,7 +12,7 @@ public class AnswersEntity {
 	private String incorrect_3;	// 誤答3
 
 	// コンストラクタ
-	public AnswersEntity() {
+	public AnswersBean() {
 		this.answers_id = 0;
 		this.correct = "";
 		this.incorrect_1 = "";

@@ -2,41 +2,47 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Random" %>
-<%@ page import="model.QuizInfoEntity" %>
-<%@ page import="model.AnswersEntity" %>
+<%@ page import="model.QuizInfoBean" %>
+<%@ page import="model.AnswersBean" %>
 <%
-	// 現在の問題番号を取得する
-	int currentCount = (int)session.getAttribute("currentcount");
+// 現在の問題番号を取得する
+	int currentQuizCount = (int)session.getAttribute("currentQuizCount");
 
 	// 問題と回答一覧のリストを取得する
-	ArrayList<QuizInfoEntity> quizList = (ArrayList<QuizInfoEntity>)session.getAttribute("quizlist");
-	ArrayList<AnswersEntity> answers = (ArrayList<AnswersEntity>)session.getAttribute("answers");
+	ArrayList<QuizInfoBean> quizList = (ArrayList<QuizInfoBean>)session.getAttribute("quizList");
+	ArrayList<AnswersBean> answerList = (ArrayList<AnswersBean>)session.getAttribute("answerList");
 
 	// 問題をランダムに表示する番号
-	Random rand = new Random();
-	int quizNum = rand.nextInt(quizList.size());
+	Random randomNumber = new Random();
+	int quizNumber = randomNumber.nextInt(quizList.size());
 
-	QuizInfoEntity qe = quizList.get(quizNum);
-	AnswersEntity ae = answers.get(quizNum);
+	QuizInfoBean qe = quizList.get(quizNumber);
+	AnswersBean ae = answerList.get(quizNumber);
 /*
 	System.out.println(qe.getQuiz());
 	System.out.println(ae.getCorrect()); */
 
 	// 出力された問題をリストから削除するため、
 	// 問題番号をセッションに保存する
-	session.setAttribute("quiznum", quizNum);
+	session.setAttribute("quizNumber", quizNumber);
 
-	session.setAttribute("answer", qe.getAnswer());
+	// 答えと解説は、answer.jspでを使うため、セッションに保存しておく
+	session.setAttribute("quizAnswer", qe.getAnswer());
 	session.setAttribute("commentary", qe.getCommentary());
 %>
 <%@ include file="./layouts/header.jsp" %>
 <div class="container">
     <div class="wrapper">
         <header>
-            <p class="question-num"><%=currentCount %>問目</p>
+            <p class="question-num"><%=currentQuizCount %>問目</p>
             <p><a href="TopServlet" class="back">TOPに戻る</a></p>
         </header>
         <main id="question-main">
+        非同期的処理を行う
+        選択問題を選択したら、答えに丸の画像を配置して、誤答にはバツの画像を配置し、1秒後に次の問題に移動する。
+       	もし正解したら、モンスターの隣あたりに武器アイコン表示する。
+       	最後の問題だったら、1秒後にリザルトページに遷移する。
+
             <h2 id="question-1">「？？」に入るものを選びなさい</h2>
             <p id="question-2"><%=qe.getQuiz() %></p>
             <form method="post" action="AnswerServlet" id="answers">
