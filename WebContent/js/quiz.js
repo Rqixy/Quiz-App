@@ -1,17 +1,39 @@
 /**
- * 問題の回答を非同期で行い、その後自動で次の問題やリザルトページに遷移する
+ * 
  */
  
-'use strict';
-
-let answers = document.querySelectorAll(`input[type='button'][name='answer']`);
-
-const hoge = (e) =>{
-  console.log(e.target.value)
+ async function postData(url = '', data = {}) {
+	const response = await fetch(url, {
+		method: 'POST',
+	    mode: 'cors',
+	    cache: 'no-cache',
+	    credentials: 'same-origin',
+	    headers: {
+	      'Content-Type': 'application/json'
+	    },
+		redirect: 'follow',
+		referrerPolicy: 'no-referrer',
+		body: JSON.stringify(data)
+	});
+	
+	return response.json();
 }
  
-for (var i=0; i < answers.length; i++) {
-	console.log(answers[i]);
-	console.log(answers[i].value);
-    answers[i].addEventListener('click', hoge, false)
-};
+
+const answerBtn = document.querySelectorAll(`button[type='submit'][name='answer']`);
+
+for (let i = 0; i < answerBtn.length; i++) {
+	answerBtn[i].addEventListener('click', function() {
+		// 数秒後に次の問題に遷移する
+		setTimeout(() => {
+			console.log('click!');
+		}, 5000);
+		
+		const requestUrl = 'http://localhost:8080/QuizApp/AnswerServlet';
+
+		postData(requestUrl, { selectedAnswer: answerBtn[i].value })
+			.then((data) => {
+				console.log(data);
+			});
+	}, false);
+}
