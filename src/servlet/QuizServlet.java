@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -38,6 +39,26 @@ public class QuizServlet extends HttpServlet {
 
 			/* targetNumberのパラメータが存在していなかったら、２問目以降なので、その処理を行う*/
 			if (goalNumber == null) {
+				/* 問題リストと回答リストを取得 */
+				ArrayList<QuizInfoBean> quizList = (ArrayList<QuizInfoBean>)session.getAttribute("quizList");
+				ArrayList<AnswersBean> answerList = (ArrayList<AnswersBean>)session.getAttribute("answerList");
+				
+				/* 問題番号を取得 */
+				int quizNumber = (int)session.getAttribute("quizNumber");
+				
+				/* 問題リストと回答リストから出題された問題番号の要素を削除する */
+				quizList.remove(quizNumber);
+				answerList.remove(quizNumber);
+				
+				// 問題をランダムに表示する番号
+				Random randomNumber = new Random();
+				quizNumber = randomNumber.nextInt(quizList.size()); 
+				
+				session.setAttribute("quizNumber", quizNumber);
+
+				// セッションスコープへオブジェクト(quizList)を保存
+				session.setAttribute("quizList", quizList);
+				
 				// 現在の問題出現回数を取得
 				int currentQuizCount = (int)session.getAttribute("currentQuizCount");
 
@@ -45,6 +66,8 @@ public class QuizServlet extends HttpServlet {
 				// セッションに再保存する
 				currentQuizCount++;
 				session.setAttribute("currentQuizCount", currentQuizCount);
+				
+				session.setAttribute("answerCheck", false);
 
 				// 転送処理(フォワード)
 				// 問題画面へ表示
@@ -121,6 +144,10 @@ public class QuizServlet extends HttpServlet {
 			psA.close();
 			rsQ.close();
 			rsA.close();
+			
+			// 問題をランダムに表示する番号
+			Random randomNumber = new Random();
+			int quizNumber = randomNumber.nextInt(quizList.size());
 
 			/* セッションスコープへ、クイズ情報と回答一覧を保存する */
 			// セッションの保存期間の設定(10分)
@@ -136,6 +163,8 @@ public class QuizServlet extends HttpServlet {
 			session.setAttribute("maxQuizCount", quizList.size());
 			// 正答数を保存する(初期値：0)
 			session.setAttribute("answerCount", 0);
+			session.setAttribute("quizNumber", quizNumber);
+			session.setAttribute("answerCheck", false);
 
 			// 転送処理(フォワード)
 			// 問題画面へ表示
