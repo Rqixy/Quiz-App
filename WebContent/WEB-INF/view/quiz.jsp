@@ -13,14 +13,13 @@
 	ArrayList<AnswersBean> answerList = (ArrayList<AnswersBean>)session.getAttribute("answerList");
 
 	// 問題をランダムに表示する番号
-	Random randomNumber = new Random();
-	int quizNumber = randomNumber.nextInt(quizList.size());
-
+	int quizNumber = (int)session.getAttribute("quizNumber");
+	// 問題を取得する
 	QuizInfoBean qe = quizList.get(quizNumber);
 	AnswersBean ae = answerList.get(quizNumber);
-/*
-	System.out.println(qe.getQuiz());
-	System.out.println(ae.getCorrect()); */
+	
+	// 正解かどうか判定するbooleanを取得
+	boolean answerCheck = (boolean)session.getAttribute("answerCheck");
 
 	// 出力された問題をリストから削除するため、
 	// 問題番号をセッションに保存する
@@ -44,13 +43,23 @@
        	最後の問題だったら、1秒後にリザルトページに遷移する。
 
             <h2 id="question-1">「？？」に入るものを選びなさい</h2>
-            <p id="question-2"><%=qe.getQuiz() %></p>
+            <p id="question-2">
+            	<%=qe.getQuiz() %>
+            	<% if(answerCheck) {%>
+            		<h2 style="color: red; font-size: 40px;">正解！！！</h2>
+            	<% } %>
+           	</p>
             <form method="post" action="AnswerServlet" id="answers">
-                <button name="answer" type="submit" value="<%=ae.getCorrect() %>"><%=ae.getCorrect() %></button>
-                <button name="answer" type="submit" value="<%=ae.getIncorrect_1() %>"><%=ae.getIncorrect_1() %></button>
-                <button name="answer" type="submit" value="<%=ae.getIncorrect_2() %>"><%=ae.getIncorrect_2() %></button>
-                <button name="answer" type="submit" value="<%=ae.getIncorrect_3() %>"><%=ae.getIncorrect_3() %></button>
+            	
             </form>
+            
+            <button name="answer" type="submit" value="<%=ae.getCorrect() %>"><%=ae.getCorrect() %></button>
+            <button name="answer" type="submit" value="<%=ae.getIncorrect_1() %>"><%=ae.getIncorrect_1() %></button>
+            <button name="answer" type="submit" value="<%=ae.getIncorrect_2() %>"><%=ae.getIncorrect_2() %></button>
+            <button name="answer" type="submit" value="<%=ae.getIncorrect_3() %>"><%=ae.getIncorrect_3() %></button>
+            
+           
+            
         </main>
     </div>
 </div>
