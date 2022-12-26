@@ -5,7 +5,7 @@
 <%@ page import="model.QuizInfoBean" %>
 <%@ page import="model.AnswersBean" %>
 <%
-// 現在の問題番号を取得する
+	// 現在の問題番号を取得する
 	int currentQuizCount = (int)session.getAttribute("currentQuizCount");
 
 	// 問題と回答一覧のリストを取得する
@@ -18,16 +18,10 @@
 	QuizInfoBean qe = quizList.get(quizNumber);
 	AnswersBean ae = answerList.get(quizNumber);
 
-	// 正解かどうか判定するbooleanを取得
-	boolean answerCheck = (boolean)session.getAttribute("answerCheck");
-
-	// 出力された問題をリストから削除するため、
-	// 問題番号をセッションに保存する
+	// 出力された問題をリストから削除するため、問題番号をセッションに保存する
 	session.setAttribute("quizNumber", quizNumber);
-
-	// 答えと解説は、answer.jspでを使うため、セッションに保存しておく
+	// 答えは、AnswerServletでを使うため、セッションに保存しておく
 	session.setAttribute("quizAnswer", qe.getAnswer());
-	session.setAttribute("commentary", qe.getCommentary());
 %>
 <%@ include file="./layouts/header.jsp" %>
 <div class="container">
@@ -45,8 +39,6 @@
 	            <button name="answer" type="submit" value="<%=ae.getIncorrect_2() %>"><%=ae.getIncorrect_2() %></button>
 	            <button name="answer" type="submit" value="<%=ae.getIncorrect_3() %>"><%=ae.getIncorrect_3() %></button>
             </div>
-
-
         </main>
     </div>
 </div>
