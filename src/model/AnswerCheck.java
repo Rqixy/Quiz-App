@@ -3,10 +3,12 @@ package model;
 public class AnswerCheck {
 	private String selectedAnswer;
 	private boolean checkAnswer;
-	
+	private boolean finished;
+
 	public AnswerCheck() {
 		selectedAnswer = "";
 		checkAnswer = false;
+		finished = false;
 	}
 
 	public String getSelectedAnswer() {
@@ -24,6 +26,12 @@ public class AnswerCheck {
 	public void setCheckAnswer(boolean checkAnswer) {
 		this.checkAnswer = checkAnswer;
 	}
-	
-	
+
+	public boolean isFinished() {
+		return finished;
+	}
+
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
 }
