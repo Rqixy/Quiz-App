@@ -52,22 +52,17 @@ public class QuizServlet extends HttpServlet {
 				
 				// 問題をランダムに表示する番号
 				Random randomNumber = new Random();
-				quizNumber = randomNumber.nextInt(quizList.size()); 
-				
+				quizNumber = randomNumber.nextInt(quizList.size());
+				// 次の問題番号をセッションに保存
 				session.setAttribute("quizNumber", quizNumber);
-
 				// セッションスコープへオブジェクト(quizList)を保存
 				session.setAttribute("quizList", quizList);
 				
 				// 現在の問題出現回数を取得
 				int currentQuizCount = (int)session.getAttribute("currentQuizCount");
-
-				// 問題出現回数を１プラスして
-				// セッションに再保存する
+				// 問題出現回数を１プラスしてセッションに再保存する
 				currentQuizCount++;
 				session.setAttribute("currentQuizCount", currentQuizCount);
-				
-				session.setAttribute("answerCheck", false);
 
 				// 転送処理(フォワード)
 				// 問題画面へ表示
@@ -164,7 +159,6 @@ public class QuizServlet extends HttpServlet {
 			// 正答数を保存する(初期値：0)
 			session.setAttribute("answerCount", 0);
 			session.setAttribute("quizNumber", quizNumber);
-			session.setAttribute("answerCheck", false);
 
 			// 転送処理(フォワード)
 			// 問題画面へ表示
