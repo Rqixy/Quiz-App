@@ -23,37 +23,29 @@ public class AnswerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			// 回答を取得する
-			
 			//. JSON テキストを全部取り出す
 		    BufferedReader br = new BufferedReader( request.getReader() );
 		    String jsonText = br.readLine();
 		    jsonText = URLDecoder.decode(jsonText, "UTF-8");
-		    
-		    ObjectMapper mapper = new ObjectMapper(); 
-		    
+
+		    ObjectMapper mapper = new ObjectMapper();
 		    AnswerCheck answerCheckObj = mapper.readValue(jsonText, AnswerCheck.class);
-		    
-		    String selectedAnswer = answerCheckObj.getSelectedAnswer(); 
+
+		    String selectedAnswer = answerCheckObj.getSelectedAnswer();
 //		    System.out.println(selectedAnswer);
-		    
+
 			// quiz.jspにanswerCheckのデータをjson形式で送信する
-			
 			/* セッションスコープの準備 */
 			HttpSession session = request.getSession();
 
-			/* 問題リストと回答リストを取得 */
-//			ArrayList<QuizInfoBean> quizList = (ArrayList<QuizInfoBean>)session.getAttribute("quizList");
-//			ArrayList<AnswersBean> answerList = (ArrayList<AnswersBean>)session.getAttribute("answerList");
-//
-//			/* 問題番号を取得 */
-//			int quizNumber = (int)session.getAttribute("quizNumber");
-//
-//			/* 問題リストと回答リストから出題された問題番号の要素を削除する */
-//			quizList.remove(quizNumber);
-//			answerList.remove(quizNumber);
-//
-//			// セッションスコープへオブジェクト(quizList)を保存
-//			session.setAttribute("quizList", quizList);
+			// 現在の問題番号を取得する
+			int currentQuizCount = (int)session.getAttribute("currentQuizCount");
+			//
+			int maxQuizCount = (int)session.getAttribute("maxQuizCount");
+
+			if (currentQuizCount >= maxQuizCount) {
+				answerCheckObj.setFinished(true);
+			}
 
 			// 問題の答えを取得
 			String quizAnswer = (String)session.getAttribute("quizAnswer");
@@ -62,12 +54,7 @@ public class AnswerServlet extends HttpServlet {
 			int answerCount = (int)session.getAttribute("answerCount");
 
 			/* 問題の答えと選択した答えが一致しているか判定 */
-			// 正解か不正解か判定する変数(初期値：false)
-			boolean answerCheck = false;
 			if(quizAnswer.equals(selectedAnswer)) {
-				// 一致していたらtrueに変更する
-				answerCheck = true;
-
 				// 正答数を+1してセッションに再保存する
 				answerCount++;
 				answerCheckObj.setCheckAnswer(true);
@@ -79,17 +66,6 @@ public class AnswerServlet extends HttpServlet {
 			PrintWriter pw = response.getWriter();
 			pw.print(answerCheckJson);
 			pw.close();
-			
-			// セッションにtrueかfalseを保存する
-			session.setAttribute("answerCheck", answerCheck);
-
-			
-			
-			// 転送処理(フォワード)
-//			// 問題画面へ表示
-//			ServletContext s = request.getServletContext();
-//			RequestDispatcher rd = s.getRequestDispatcher("/WEB-INF/view/quiz.jsp");
-//			rd.forward(request, response);
 		} catch(Exception e) {
 			// 例外処理
 			e.getStackTrace();
