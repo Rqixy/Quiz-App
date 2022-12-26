@@ -17,7 +17,7 @@
 	// 問題を取得する
 	QuizInfoBean qe = quizList.get(quizNumber);
 	AnswersBean ae = answerList.get(quizNumber);
-	
+
 	// 正解かどうか判定するbooleanを取得
 	boolean answerCheck = (boolean)session.getAttribute("answerCheck");
 
@@ -37,29 +37,16 @@
             <p><a href="TopServlet" class="back">TOPに戻る</a></p>
         </header>
         <main id="question-main">
-        非同期的処理を行う
-        選択問題を選択したら、答えに丸の画像を配置して、誤答にはバツの画像を配置し、1秒後に次の問題に移動する。
-       	もし正解したら、モンスターの隣あたりに武器アイコン表示する。
-       	最後の問題だったら、1秒後にリザルトページに遷移する。
-
             <h2 id="question-1">「？？」に入るものを選びなさい</h2>
-            <p id="question-2">
-            	<%=qe.getQuiz() %>
-            	<% if(answerCheck) {%>
-            		<h2 style="color: red; font-size: 40px;">正解！！！</h2>
-            	<% } %>
-           	</p>
-            <form method="post" action="AnswerServlet" id="answers">
-            	
-            </form>
-            
-            <button name="answer" type="submit" value="<%=ae.getCorrect() %>"><%=ae.getCorrect() %></button>
-            <button name="answer" type="submit" value="<%=ae.getIncorrect_1() %>"><%=ae.getIncorrect_1() %></button>
-            <button name="answer" type="submit" value="<%=ae.getIncorrect_2() %>"><%=ae.getIncorrect_2() %></button>
-            <button name="answer" type="submit" value="<%=ae.getIncorrect_3() %>"><%=ae.getIncorrect_3() %></button>
-            
-           
-            
+            <p id="question-2"><%=qe.getQuiz() %></p>
+            <div id="answers">
+	            <button name="answer" type="submit" value="<%=ae.getCorrect() %>"><%=ae.getCorrect() %></button>
+	            <button name="answer" type="submit" value="<%=ae.getIncorrect_1() %>"><%=ae.getIncorrect_1() %></button>
+	            <button name="answer" type="submit" value="<%=ae.getIncorrect_2() %>"><%=ae.getIncorrect_2() %></button>
+	            <button name="answer" type="submit" value="<%=ae.getIncorrect_3() %>"><%=ae.getIncorrect_3() %></button>
+            </div>
+
+
         </main>
     </div>
 </div>
