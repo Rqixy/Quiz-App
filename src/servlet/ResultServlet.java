@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
@@ -88,31 +89,12 @@ public class ResultServlet extends HttpServlet {
 
 			// 正答率を求める
 			float correctAnswerRate = answerCount / maxQuizCount;
-
 			if (clearStatusInDb < 2 && correctAnswerRate == 1) {
 				// 全問正解したことがなく、初めて全問正解なら数字を2に更新する
-				// 更新処理のSQl文
-				sql = "UPDATE clear_status SET " + clearStatusColumn + " = ? WHERE user_id = ?";
-				// プリペアードステートメント作成
-				ps = con.prepareStatement(sql);
-				// 数字を2にセットする
-				ps.setInt(1, 2);
-				// ユーザーIDをセット
-				ps.setInt(2, userId);
-				// 実行
-				ps.executeUpdate();
+				updateClearStatus(clearStatusColumn, 2, userId);
 			} else if (clearStatusInDb == 0 && correctAnswerRate >= 0.6f) {
 				// もしまだ6割未満(数字が0)で、今回正答率が6割超えたら1に更新する
-				// 更新処理のSQl文
-				sql = "UPDATE clear_status SET " + clearStatusColumn + " = ? WHERE user_id = ?";
-				// プリペアードステートメント作成
-				ps = con.prepareStatement(sql);
-				// 数字を2にセットする
-				ps.setInt(1, 1);
-				// ユーザーIDをセット
-				ps.setInt(2, userId);
-				// 実行
-				ps.executeUpdate();
+				updateClearStatus(clearStatusColumn, 1, userId);
 			}
 
 			/* DBへの接続開放(クローズ処理) */
@@ -156,5 +138,30 @@ public class ResultServlet extends HttpServlet {
 			e.getStackTrace();
 		}
 	}
-
+	
+	private void updateClearStatus(String clearStatusColumn, int updateStatus, int userId) {
+		try {
+			/* DBに接続する */
+			Db db = new Db();
+			Connection con = db.DbConnection();
+			
+			// 更新処理のSQl文
+			String sql = "UPDATE clear_status SET " + clearStatusColumn + " = ? WHERE user_id = ?";
+			// プリペアードステートメント作成
+			PreparedStatement ps = con.prepareStatement(sql);
+			// 数字を2にセットする
+			ps.setInt(1, updateStatus);
+			// ユーザーIDをセット
+			ps.setInt(2, userId);
+			// 実行
+			ps.executeUpdate();
+			
+			/* DBへの接続開放(クローズ処理) */
+			con.close();
+			ps.close();
+		} catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
 }
