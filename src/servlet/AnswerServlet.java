@@ -31,21 +31,20 @@ public class AnswerServlet extends HttpServlet {
 		    
 		    String selectedAnswerJsonText = br.readLine();
 		    selectedAnswerJsonText = URLDecoder.decode(selectedAnswerJsonText, "UTF-8");
-		    // 
+		    
+		    // JSONからオブジェクトに変換する
 		    AjaxAnswerInfo ajaxAnswerInfo = ob.readValue(selectedAnswerJsonText, AjaxAnswerInfo.class);
 			
-			// 現在の問題番号を取得する
+			// 現在の問題番号とクイズの最大問題数を取得する
 			int currentQuizCount = (int)session.getAttribute("currentQuizCount");
-			// クイズの問題数を取得する
 			int maxQuizCount = (int)session.getAttribute("maxQuizCount");
 			// 出力した問題数が最大値に達したら、finishedをtrueに変更する
 			if (currentQuizCount >= maxQuizCount) {
 				ajaxAnswerInfo.setFinished(true);
 			}
 
-			// 問題の答えを取得
+			// 問題の答えと正解数を取得
 			String quizAnswer = (String)session.getAttribute("quizAnswer");
-			// 正解数のセッションを取得
 			int answerCount = (int)session.getAttribute("answerCount");
 
 			/* 問題の答えと選択した答えが一致しているか判定 */
