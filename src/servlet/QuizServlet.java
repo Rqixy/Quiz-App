@@ -37,7 +37,7 @@ public class QuizServlet extends HttpServlet {
 			/* POSTで「targetNumber」を取得する */
 			String goalNumber = request.getParameter("goalNumber");
 
-			/* targetNumberのパラメータが存在していなかったら、２問目以降なので、その処理を行う*/
+			/* goalNumberのパラメータが存在していなかったら、２問目以降なので、その処理を行う*/
 			if (goalNumber == null) {
 				/* 問題リストと回答リストを取得 */
 				ArrayList<QuizInfoBean> quizList = (ArrayList<QuizInfoBean>)session.getAttribute("quizList");
@@ -45,23 +45,23 @@ public class QuizServlet extends HttpServlet {
 				
 				/* 問題番号を取得 */
 				int quizNumber = (int)session.getAttribute("quizNumber");
+				/* 現在の問題出現回数を取得 */
+				int currentQuizCount = (int)session.getAttribute("currentQuizCount");
 				
 				/* 問題リストと回答リストから出題された問題番号の要素を削除する */
 				quizList.remove(quizNumber);
 				answerList.remove(quizNumber);
 				
-				// 問題をランダムに表示する番号
-				Random randomNumber = new Random();
-				quizNumber = randomNumber.nextInt(quizList.size());
-				// 次の問題番号をセッションに保存
-				session.setAttribute("quizNumber", quizNumber);
-				// セッションスコープへオブジェクト(quizList)を保存
-				session.setAttribute("quizList", quizList);
+				// 次の問題をランダムで決定する
+				Random random = new Random();
+				quizNumber = random.nextInt(quizList.size());
 				
-				// 現在の問題出現回数を取得
-				int currentQuizCount = (int)session.getAttribute("currentQuizCount");
-				// 問題出現回数を１プラスしてセッションに再保存する
+				// 現在の問題番号を１プラスする
 				currentQuizCount++;
+				
+				/* セッションに更新した情報を再保存する */
+				session.setAttribute("quizNumber", quizNumber);
+				session.setAttribute("quizList", quizList);
 				session.setAttribute("currentQuizCount", currentQuizCount);
 
 				// 転送処理(フォワード)
@@ -94,18 +94,16 @@ public class QuizServlet extends HttpServlet {
 			psQ.setString(1, goalNumber);
 			psA.setString(1, goalNumber);
 
-			/* SQLを実行する */
+			/* 実行 */
 			ResultSet rsQ = psQ.executeQuery();
 			ResultSet rsA = psA.executeQuery();
 
-			// コレクションクラス(ArrayList)を初期化し、変数quizListへ代入
+			// クイズ情報と回答一覧のオブジェクトを初期化
 			ArrayList<QuizInfoBean> quizList = new ArrayList<>();
-			// コレクションクラス(ArrayList)を初期化し、変数answerListへ代入
 			ArrayList<AnswersBean> answerList = new ArrayList<>();
 
 			/* DBからクイズ情報をリストに追加する操作 */
 			while(rsQ.next()) {
-				// QuizInfoEntityをインスタンス化
 				QuizInfoBean quizInfoObj = new QuizInfoBean();
 
 				// DBから取得したクイズ情報をQuizInfoEntityオブジェクトのクイズ情報へ代入
@@ -120,7 +118,6 @@ public class QuizServlet extends HttpServlet {
 
 			/* DBから回答情報をリストに追加する操作 */
 			while(rsA.next()) {
-				// AnswersEntityをインスタンス化
 				AnswersBean answersObj = new AnswersBean();
 
 				answersObj.setAnswers_id(rsA.getInt("answer_id"));
@@ -145,21 +142,15 @@ public class QuizServlet extends HttpServlet {
 			int quizNumber = randomNumber.nextInt(quizList.size());
 
 			/* セッションスコープへ、クイズ情報と回答一覧を保存する */
-			// セッションの保存期間の設定(10分)
-			session.setMaxInactiveInterval(600);
-			// 目標番号を保存する
-			session.setAttribute("goalNumber", goalNumber);
-			// クイズ情報と回答情報を保存する
-			session.setAttribute("quizList", quizList);
-			session.setAttribute("answerList", answerList);
-			// 現在の出題した問題数が何問目かどうかを保存する(初期値：1)
-			session.setAttribute("currentQuizCount", 1);
-			// 最大何問出題するか保存する
-			session.setAttribute("maxQuizCount", quizList.size());
-			// 正答数を保存する(初期値：0)
-			session.setAttribute("answerCount", 0);
-			session.setAttribute("quizNumber", quizNumber);
-
+			session.setMaxInactiveInterval(600);					// セッションの保存期間の設定(10分)
+			session.setAttribute("goalNumber", goalNumber);			// 目標番号
+			session.setAttribute("quizList", quizList);				// クイズ情報
+			session.setAttribute("answerList", answerList);			// 回答情報を保存する
+			session.setAttribute("quizNumber", quizNumber);			// 問題番号
+			session.setAttribute("currentQuizCount", 1);			// 問題出題回数
+			session.setAttribute("maxQuizCount", quizList.size());	// 最大出題回数
+			session.setAttribute("answerCount", 0);					// 正答数
+			
 			// 転送処理(フォワード)
 			// 問題画面へ表示
 			ServletContext s = request.getServletContext();
