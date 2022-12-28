@@ -64,9 +64,10 @@ public class AnswerServlet extends HttpServlet {
 			PrintWriter pw = response.getWriter();
 			pw.print(answerCheckJson);
 			pw.close();
-		} catch(Exception e) {
-			// 例外処理
-			e.getStackTrace();
+		} catch (IOException e) {
+			System.out.println("IOException : " + e.getMessage());
+		} catch (Exception e) {
+			System.out.println("Exception : " + e.getMessage());
 		}
 	}
 }
