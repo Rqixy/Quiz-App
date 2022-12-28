@@ -15,13 +15,13 @@
 	// 問題をランダムに表示する番号
 	int quizNumber = (int)session.getAttribute("quizNumber");
 	// 問題を取得する
-	QuizInfoBean qe = quizList.get(quizNumber);
-	AnswersBean ae = answerList.get(quizNumber);
+	QuizInfoBean quiz = quizList.get(quizNumber);
+	AnswersBean answer = answerList.get(quizNumber);
 
 	// 出力された問題をリストから削除するため、問題番号をセッションに保存する
 	session.setAttribute("quizNumber", quizNumber);
 	// 答えは、AnswerServletでを使うため、セッションに保存しておく
-	session.setAttribute("quizAnswer", qe.getAnswer());
+	session.setAttribute("quizAnswer", quiz.getAnswer());
 %>
 <%@ include file="./layouts/header.jsp" %>
 <div class="container">
@@ -32,12 +32,12 @@
         </header>
         <main id="question-main">
             <h2 id="question-1">「？？」に入るものを選びなさい</h2>
-            <p id="question-2"><%=qe.getQuiz() %></p>
+            <p id="question-2"><%=quiz.getQuiz() %></p>
             <div id="answers">
-	            <button name="answer" type="submit" value="<%=ae.getCorrect() %>"><%=ae.getCorrect() %></button>
-	            <button name="answer" type="submit" value="<%=ae.getIncorrect_1() %>"><%=ae.getIncorrect_1() %></button>
-	            <button name="answer" type="submit" value="<%=ae.getIncorrect_2() %>"><%=ae.getIncorrect_2() %></button>
-	            <button name="answer" type="submit" value="<%=ae.getIncorrect_3() %>"><%=ae.getIncorrect_3() %></button>
+	            <button name="answer" type="submit" value="<%=answer.getCorrect() %>"><%=answer.getCorrect() %></button>
+	            <button name="answer" type="submit" value="<%=answer.getIncorrect_1() %>"><%=answer.getIncorrect_1() %></button>
+	            <button name="answer" type="submit" value="<%=answer.getIncorrect_2() %>"><%=answer.getIncorrect_2() %></button>
+	            <button name="answer" type="submit" value="<%=answer.getIncorrect_3() %>"><%=answer.getIncorrect_3() %></button>
             </div>
         </main>
     </div>
