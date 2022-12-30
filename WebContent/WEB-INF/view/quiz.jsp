@@ -21,7 +21,7 @@
 	// 出力された問題をリストから削除するため、問題番号をセッションに保存する
 	session.setAttribute("quizNumber", quizNumber);
 	// 答えは、AnswerServletでを使うため、セッションに保存しておく
-	session.setAttribute("quizAnswer", quiz.getAnswer());
+	session.setAttribute("quizAnswer", quiz.answer());
 %>
 <%@ include file="./layouts/header.jsp" %>
 <div class="container">
@@ -32,12 +32,12 @@
         </header>
         <main id="question-main">
             <h2 id="question-1">「？？」に入るものを選びなさい</h2>
-            <p id="question-2"><%=quiz.getQuiz() %></p>
+            <p id="question-2"><%=quiz.quiz() %></p>
             <div id="answers">
-	            <button name="answer" type="submit" value="<%=answer.getCorrect() %>"><%=answer.getCorrect() %></button>
-	            <button name="answer" type="submit" value="<%=answer.getIncorrect_1() %>"><%=answer.getIncorrect_1() %></button>
-	            <button name="answer" type="submit" value="<%=answer.getIncorrect_2() %>"><%=answer.getIncorrect_2() %></button>
-	            <button name="answer" type="submit" value="<%=answer.getIncorrect_3() %>"><%=answer.getIncorrect_3() %></button>
+	            <button name="answer" type="submit" value="<%=answer.correct() %>"><%=answer.correct() %></button>
+	            <button name="answer" type="submit" value="<%=answer.incorrect1() %>"><%=answer.incorrect1() %></button>
+	            <button name="answer" type="submit" value="<%=answer.incorrect2() %>"><%=answer.incorrect2() %></button>
+	            <button name="answer" type="submit" value="<%=answer.incorrect3() %>"><%=answer.incorrect3() %></button>
             </div>
         </main>
     </div>
