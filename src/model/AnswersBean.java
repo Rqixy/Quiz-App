@@ -5,59 +5,33 @@ package model;
 public class AnswersBean {
 
 	// フィールド
-	private int answers_id;		// 回答番号
 	private String correct;		// 正解
-	private String incorrect_1;	// 誤答1
-	private String incorrect_2;	// 誤答2
-	private String incorrect_3;	// 誤答3
+	private String incorrect1;	// 誤答1
+	private String incorrect2;	// 誤答2
+	private String incorrect3;	// 誤答3
 
 	// コンストラクタ
-	public AnswersBean() {
-		this.answers_id = 0;
-		this.correct = "";
-		this.incorrect_1 = "";
-		this.incorrect_2 = "";
-		this.incorrect_3 = "";
+	public AnswersBean(String correct, String incorrect1, String incorrect2, String incorrect3) {
+		this.correct = correct;
+		this.incorrect1 = incorrect1;
+		this.incorrect2 = incorrect2;
+		this.incorrect3 = incorrect3;
 	}
 
 	// アクセサメソッド
-	public int getAnswers_id() {
-		return answers_id;
-	}
-
-	public void setAnswers_id(int answers_id) {
-		this.answers_id = answers_id;
-	}
-
-	public String getCorrect() {
+	public String correct() {
 		return correct;
 	}
 
-	public void setCorrect(String correct) {
-		this.correct = correct;
+	public String incorrect1() {
+		return incorrect1;
 	}
 
-	public String getIncorrect_1() {
-		return incorrect_1;
+	public String incorrect2() {
+		return incorrect2;
 	}
 
-	public void setIncorrect_1(String incorrect_1) {
-		this.incorrect_1 = incorrect_1;
-	}
-
-	public String getIncorrect_2() {
-		return incorrect_2;
-	}
-
-	public void setIncorrect_2(String incorrect_2) {
-		this.incorrect_2 = incorrect_2;
-	}
-
-	public String getIncorrect_3() {
-		return incorrect_3;
-	}
-
-	public void setIncorrect_3(String incorrect_3) {
-		this.incorrect_3 = incorrect_3;
+	public String incorrect3() {
+		return incorrect3;
 	}
 }
