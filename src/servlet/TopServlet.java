@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import db.ClearStatusQuery;
 import db.Db;
 
 @WebServlet("/TopServlet")
@@ -24,62 +25,23 @@ public class TopServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			/* セッションスコープの準備 */
+			request.setCharacterEncoding("UTF-8");
+			// セッションスコープの準備
 			HttpSession session = request.getSession();
-			/* DB接続 */
-			Db db = new Db();
-			Connection con = db.DbConnection();
-			// 初期化
-			String sql ="";
-			PreparedStatement ps = null;
-			ResultSet rs = null;
-			ResultSetMetaData md = null;
+			
+			// クリア状況DBの処理するクラスの初期化
+			ClearStatusQuery clearStatusQuery = new ClearStatusQuery();
+			
+			// XXX 仮のユーザーID(ログイン処理実装後削除)
+			int userId = getUserId();
+			session.setAttribute("userId", userId);
 
-			// とりあえず仮でDB内のユーザーの取得する処理(実際はログイン時や会員登録時に取得しておく)
-			sql = "SELECT * FROM users WHERE id = 1";
-			ps = con.prepareStatement(sql);
-			rs = ps.executeQuery();
-			int user_id = 0;
-			if (rs.next()) {
-				user_id = rs.getInt("id");
-				session.setAttribute("userId", user_id);
-			}
+			// ユーザーIDからクリア状況のテーブルを参照し、参照したクリア状況を配列に格納
+			HashMap<Integer, Integer> clearStatus = clearStatusQuery.selectByUserId(userId);
 
-			/* ユーザーIDからクリア状況のテーブルを参照し、参照したクリア状況を配列に格納しておく */
-			// カラム名の配列の初期化
-			String[] clearStatusColumnNames = new String[17];
-			// クリア状況を格納するハッシュ配列の初期化
-			HashMap<Integer, Integer> clearStatus = new HashMap<Integer, Integer>();
-
-			sql = "SELECT * FROM clear_status WHERE user_id = ?";
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, user_id);
-			rs = ps.executeQuery();
-			md = rs.getMetaData();
-
-			// clear_statusテーブルのカラム数を取得する
-			int columnCount = md.getColumnCount();
-			// 配列にclear_statusテーブルのカラム名を格納する
-			for (int i = 2; i <= columnCount; i++) {
-				clearStatusColumnNames[i-2] = md.getColumnName(i);
-			}
-
-			/* クリア状況のハッシュ配列に目標番号とクリア状況の内容を格納する */
-			if (rs.next()) {
-				for (int i = 0; i < clearStatusColumnNames.length; i++) {
-					clearStatus.put(i+1, rs.getInt(clearStatusColumnNames[i]));
-				}
-			}
-
-			/* DBへの接続開放(クローズ処理) */
-			con.close();
-			ps.close();
-			rs.close();
-
-			/* クリア状況の内容をセッションに保存する */
+			// クリア状況の内容をセッションに保存
 			session.setAttribute("clearStatus", clearStatus);
 
-			// 転送処理(フォワード)
 			// Top画面へ表示
 			ServletContext s = request.getServletContext();
 			RequestDispatcher rd = s.getRequestDispatcher("/WEB-INF/view/top.jsp");
@@ -87,5 +49,44 @@ public class TopServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.getMessage();
 		}
+	}
+	
+	
+	// XXX 仮のユーザーID(ログイン処理実装後削除)
+	private int getUserId() {
+		/* DB接続 */
+		Db db = new Db();
+		Connection con = db.DbConnection();
+		// 初期化
+		String sql ="";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		int userId = 0;
+		
+		try {
+			// とりあえず仮でDB内のユーザーの取得する処理(実際はログイン時や会員登録時に取得しておく)
+			sql = "SELECT * FROM users WHERE id = 1";
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				userId = rs.getInt("id");
+				
+			}
+		} catch (SQLException e) {
+			e.getMessage();
+		} finally {
+			try {
+				if (con != null || ps != null || rs != null) {
+					con.close();
+					ps.close();
+					rs.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("SQLException : " + e.getMessage());
+			}
+		}
+		return userId;
 	}
 }
