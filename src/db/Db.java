@@ -22,16 +22,19 @@ public class Db {
 	protected ResultSet rs;
 	protected ResultSetMetaData rsmd;
 
-	// のちにプライベートに変更
-	public Connection DbConnection() {
-		Connection connection = null;
+	/**
+	 * DB接続処理
+	 * @return con
+	 */
+	private Connection DbConnection() {
+		Connection con = null;
 
-		if (connection == null) {
+		if (con == null) {
 			try {
 				// JDBCドライバのロード
 				Class.forName(MYSQL_DRIVER);
 				// DBへの接続
-				connection = DriverManager.getConnection(JDBC_CONNECTION, USER, PASS);
+				con = DriverManager.getConnection(JDBC_CONNECTION, USER, PASS);
 			} catch (ClassNotFoundException e) {
 				System.out.println("ClassNotFoundException : " + e.getMessage());
 			} catch (SQLException e) {
@@ -39,7 +42,7 @@ public class Db {
 			}
 		}
 
-		return connection;
+		return con;
 	}
 	
 	/**
