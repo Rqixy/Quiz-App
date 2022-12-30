@@ -22,10 +22,11 @@ public class AnswerServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			/* セッションスコープの準備 */
+			request.setCharacterEncoding("UTF-8");
+			// セッションスコープの準備
 			HttpSession session = request.getSession();
 			
-			/* 非同期で送られてきたJSONファイルから、ユーザーが選択した答えを取得する */
+			// 非同期で送られてきたJSONファイルから、ユーザーが選択した答えを取得
 		    BufferedReader br = new BufferedReader(request.getReader());
 		    ObjectMapper ob = new ObjectMapper();
 		    
@@ -47,22 +48,22 @@ public class AnswerServlet extends HttpServlet {
 			String quizAnswer = (String)session.getAttribute("quizAnswer");
 			int answerCount = (int)session.getAttribute("answerCount");
 
-			/* 問題の答えと選択した答えが一致しているか判定 */
-			// 回答を取得する
+			// 問題の答えと選択した答えが一致しているか判定
+			// 回答を取得
 			String selectedAnswer = ajaxAnswerInfo.getSelectedAnswer();
 			if(quizAnswer.equals(selectedAnswer)) {
 				// checkedAnswerをtrueにする
 				ajaxAnswerInfo.setCheckedAnswer(true);
-				// 正答数を+1してセッションに再保存する
+				// 正答数を+1してセッションに再保存
 				answerCount++;
 				session.setAttribute("answerCount", answerCount);
 			}
 			
-			/* 回答結果のオブジェクトをJSON形式に書き直して、表に返す */
-			String answerCheckJson = ob.writeValueAsString(ajaxAnswerInfo);
+			// 回答結果のオブジェクトをJSON形式に書き直して、表に返す
+			String ajaxAnswerJson = ob.writeValueAsString(ajaxAnswerInfo);
 			response.setContentType("application/json;charset=UTF-8");
 			PrintWriter pw = response.getWriter();
-			pw.print(answerCheckJson);
+			pw.print(ajaxAnswerJson);
 			pw.close();
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
