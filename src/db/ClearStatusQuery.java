@@ -8,6 +8,30 @@ import java.util.HashMap;
  */
 public class ClearStatusQuery extends Db {
 	/**
+	 * XXX ログイン機能実装後、削除する！！
+	 */
+	public int getUserId() throws SQLException {
+		dbInit();
+		int userId = 0;
+		
+		try {
+			rs = executeSelect("SELECT * FROM users WHERE id = 1");
+			if (rs.next()) {
+				userId = rs.getInt("id");
+			}
+		} catch (SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
+		} finally {
+			try {
+				dbClose();
+			} catch (SQLException e) {
+				System.out.println("SQLException : " + e.getMessage());
+			}
+		}
+		return userId;
+	}
+	
+	/**
 	 * ユーザーIDからクリア状況を取得
 	 * @param userId		ユーザーID
 	 * @return clearStatus	クリア状況のハッシュ配列(key:目標番号 value:クリア状況)

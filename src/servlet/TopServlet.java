@@ -1,10 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
@@ -17,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import db.ClearStatusQuery;
-import db.Db;
 
 @WebServlet("/TopServlet")
 public class TopServlet extends HttpServlet {
@@ -33,7 +28,7 @@ public class TopServlet extends HttpServlet {
 			ClearStatusQuery clearStatusQuery = new ClearStatusQuery();
 			
 			// XXX 仮のユーザーID(ログイン処理実装後削除)
-			int userId = getUserId();
+			int userId = clearStatusQuery.getUserId();
 			session.setAttribute("userId", userId);
 
 			// ユーザーIDからクリア状況のテーブルを参照し、参照したクリア状況を配列に格納
@@ -49,44 +44,5 @@ public class TopServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.getMessage();
 		}
-	}
-	
-	
-	// XXX 仮のユーザーID(ログイン処理実装後削除)
-	private int getUserId() {
-		/* DB接続 */
-		Db db = new Db();
-		Connection con = db.DbConnection();
-		// 初期化
-		String sql ="";
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		int userId = 0;
-		
-		try {
-			// とりあえず仮でDB内のユーザーの取得する処理(実際はログイン時や会員登録時に取得しておく)
-			sql = "SELECT * FROM users WHERE id = 1";
-			ps = con.prepareStatement(sql);
-			rs = ps.executeQuery();
-			
-			if (rs.next()) {
-				userId = rs.getInt("id");
-				
-			}
-		} catch (SQLException e) {
-			e.getMessage();
-		} finally {
-			try {
-				if (con != null || ps != null || rs != null) {
-					con.close();
-					ps.close();
-					rs.close();
-				}
-			} catch (SQLException e) {
-				System.out.println("SQLException : " + e.getMessage());
-			}
-		}
-		return userId;
 	}
 }
