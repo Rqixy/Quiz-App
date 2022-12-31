@@ -41,6 +41,12 @@ public class QuizQuery extends Db {
 		return quizList;
 	}
 	
+	/**
+	 * 渡された目標番号の回答一覧を取得
+	 * @param goalNumber	目標番号
+	 * @return answerList		クイズ情報
+	 * @throws SQLException
+	 */
 	public ArrayList<AnswersBean> getAnswerList(String goalNumber) throws SQLException {
 		dbInit();
 		ArrayList<AnswersBean> answerList = new ArrayList<>();
