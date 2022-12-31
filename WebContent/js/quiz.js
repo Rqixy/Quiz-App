@@ -1,33 +1,45 @@
 /**
- * 回答ボタンがクリックされた時に答えを表示し、次のページに遷移する処理
+ * 回答ボタンがクリックされた時に非同期で答えを表示し、次のページに遷移する処理
  */
 
-const answerBtn = document.querySelectorAll(`button[type='submit'][name='answer']`);
-for (let i = 0; i < answerBtn.length; i++) {
-	answerBtn[i].addEventListener('click', () => {
+const answerButtons = document.querySelectorAll(`button[type='submit'][name='answer']`);
+for (let answerButton of answerButtons) {
+	answerButton.addEventListener('click', () => {
+		// 連射防止
+		disabledButton(answerButtons);
+		
+		// 判定結果を取得
 		const requestUrl = 'http://localhost:8080/QuizApp/AnswerServlet';
-		postData(requestUrl, { selectedAnswer: answerBtn[i].value })
+		postData(requestUrl, { selectedAnswer: answerButton.value })
 		.then((data) => {
-			// 受け取った結果にtrueがあったら、攻撃の画像を表示する
-			if (data['checkedAnswer']) {
+			// 受け取った結果にtrueがあったら、攻撃の画像を表示
+			if (data['isCorrect']) {
 				const question2 = document.querySelector("#question-2");
 				createImageElement("./img/correct.png", 200, question2);
 			}
-	
-			// 結果が帰ってきたら、回答ボタンの上に○と×の画像を表示する
-			createImageElement("./img/mark_maru.png", 100, answerBtn[0]);
-			createImageElement("./img/mark_batsu.png", 100, answerBtn[1]);
-			createImageElement("./img/mark_batsu.png", 100, answerBtn[2]);
-			createImageElement("./img/mark_batsu.png", 100, answerBtn[3]);
 			
-			// 連射防止
-			disabledButton(answerBtn);
-			// 次も問題へ
-			nextQuestion(data['finished']);
+			// 結果が帰ってきたら、回答ボタンの上に○と×の画像を表示
+			for (let i = 0; i < answerButtons.length; i++) {
+				if (i === 0) {
+					createImageElement("./img/mark_maru.png", 100, answerButtons[i]);
+					continue;
+				}
+				createImageElement("./img/mark_batsu.png", 100, answerButtons[i]);
+			}
+			
+			// 次の問題へ
+			nextPage(data['isFinished']);
 		}).catch((error) => {
 			console.log('Fetch API Error : ', error);
 		});
 	}, false);
+}
+
+// ボタンを1度しか押させない処理
+const disabledButton = (buttons = null) => {
+	for (let i = 0; i < buttons.length; i++) {
+		buttons[i].disabled = true;
+	}
 }
 
 // 非同期通信でサーブレットに送る設定
@@ -56,15 +68,8 @@ const createImageElement = (imageUrl = '', width = 0, element = null) => {
 	element.appendChild(imageElement);
 }
 
-// ボタンを1度しか押させない処理
-const disabledButton = (buttons = null) => {
-	for (let i = 0; i < buttons.length; i++) {
-		buttons[i].disabled = true;
-	}
-}
-
 // 次の問題に遷移する処理
-const nextQuestion = (finishedQuiz = null) => {
+const nextPage = (finishedQuiz = false) => {
 	setTimeout(() => {
 		const form = document.createElement('form');
 		form.method = 'post';
