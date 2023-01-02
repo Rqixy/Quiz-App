@@ -19,18 +19,32 @@ import model.AnswersBean;
 import model.QuizInfoBean;
 
 /**
- * Servlet implementation class QuizServlet
+ * クイズを表示する準備処理
  */
 @WebServlet("/QuizServlet")
 public class QuizServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			// ログインしてなかったら、ログイン画面へリダイレクト
+			if (request.getSession().getAttribute("userId") == null) {
+				response.sendRedirect(request.getContextPath() + "/LoginServlet");
+				return;
+			}
+			// ログイン済ならホーム画面へリダイレクト
+			response.sendRedirect(request.getContextPath() + "/HomeServlet");
+		} catch (IOException e) {
+			System.out.println("IOException : " + e.getMessage());
+		}
+	}
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			request.setCharacterEncoding("UTF-8");
 			// セッションスコープの準備
 			HttpSession session = request.getSession();
-			// POSTで「goalNumber」を取得
+			// 目標番号を取得
 			String goalNumber = request.getParameter("goalNumber");
 			
 			if (goalNumber != null) {
@@ -60,7 +74,7 @@ public class QuizServlet extends HttpServlet {
 			// DB内のクイズ情報と回答情報を操作するクラスの初期化
 			QuizQuery quizQuery = new QuizQuery();
 			
-			// クイズ情報と回答情報をオブジェクトに格納
+			// 取得した目標番号からクイズ情報と回答情報をオブジェクトに格納
 			ArrayList<QuizInfoBean> quizList = quizQuery.getQuizList(goalNumber);
 			ArrayList<AnswersBean> answerList = quizQuery.getAnswerList(goalNumber);
 			
@@ -84,27 +98,27 @@ public class QuizServlet extends HttpServlet {
 	
 	// ２問目以降の問題準備処理
 	private void prepareNextQuiz(HttpSession session) {
-		/* 問題リストと回答リストを取得 */
+		// セッションから問題リストと回答リストを取得
 		ArrayList<QuizInfoBean> quizList = (ArrayList<QuizInfoBean>)session.getAttribute("quizList");
 		ArrayList<AnswersBean> answerList = (ArrayList<AnswersBean>)session.getAttribute("answerList");
 		
-		/* 問題番号を取得 */
+		// 問題番号を取得
 		int quizNumber = (int)session.getAttribute("quizNumber");
-		/* 現在の問題出現回数を取得 */
+		// 現在の問題出現回数を取得
 		int currentQuizCount = (int)session.getAttribute("currentQuizCount");
 		
-		/* 問題リストと回答リストから出題された問題番号の要素を削除する */
+		// 問題リストと回答リストから出題された問題番号の要素を削除
 		quizList.remove(quizNumber);
 		answerList.remove(quizNumber);
 		
-		// 次の問題をランダムで決定する
+		// 次の出題する問題をランダムで決定
 		Random random = new Random();
 		quizNumber = random.nextInt(quizList.size());
 		
-		// 現在の問題番号を１プラスする
+		// 現在の問題番号を１プラス
 		currentQuizCount++;
 		
-		/* セッションに更新した情報を再保存する */
+		// セッションに更新した情報を再保存
 		session.setAttribute("quizNumber", quizNumber);				// 問題番号
 		session.setAttribute("currentQuizCount", currentQuizCount);	// 問題出題回数
 	}

@@ -15,9 +15,26 @@ import javax.servlet.http.HttpSession;
 
 import db.ClearStatusQuery;
 
+/**
+ * 結果時にクリア状況の更新と結果画面表示の準備処理
+ */
 @WebServlet("/ResultServlet")
 public class ResultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			// ログインしてなかったら、ログイン画面へリダイレクト
+			if (request.getSession().getAttribute("userId") == null) {
+				response.sendRedirect(request.getContextPath() + "/LoginServlet");
+				return;
+			}
+			// ログイン済ならホーム画面へリダイレクト
+			response.sendRedirect(request.getContextPath() + "/HomeServlet");
+		} catch (IOException e) {
+			System.out.println("IOException : " + e.getMessage());
+		}
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
