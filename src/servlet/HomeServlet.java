@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
@@ -14,8 +15,11 @@ import javax.servlet.http.HttpSession;
 
 import db.ClearStatusQuery;
 
-@WebServlet("/TopServlet")
-public class TopServlet extends HttpServlet {
+/**
+ * ホーム画面を表示する際にログインしたユーザーのクリア状況を確認し準備する処理
+ */
+@WebServlet("/HomeServlet")
+public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,10 +43,14 @@ public class TopServlet extends HttpServlet {
 
 			// Top画面へ表示
 			ServletContext s = request.getServletContext();
-			RequestDispatcher rd = s.getRequestDispatcher("/WEB-INF/view/top.jsp");
+			RequestDispatcher rd = s.getRequestDispatcher("/WEB-INF/view/home.jsp");
 			rd.forward(request, response);
-		} catch (Exception e) {
-			e.getMessage();
+		} catch (ServletException e) {
+			System.out.println("ServletException : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("IOException : " + e.getMessage());
 		}
 	}
 }
