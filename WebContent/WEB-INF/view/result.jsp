@@ -15,7 +15,7 @@
             	<h2 id="result"><%=answerCount %>/<%=maxQuizCount %>問正解</h2>
             <% } %>
             <div id="menu">
-                <a href="TopServlet">TOPに戻る</a>
+                <a href="HomeServlet">ホームに戻る</a>
             </div>
 
             <a href="<%=goalUrl %>" target="_blank">今回の目標について学ぶ</a>

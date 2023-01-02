@@ -24,7 +24,7 @@
     <div class="wrapper">
         <header>
             <p class="question-num"><%=currentQuizCount %>問目</p>
-            <p><a href="TopServlet" class="back">TOPに戻る</a></p>
+            <p><a href="HomeServlet" class="back">ホームに戻る</a></p>
         </header>
         <main id="question-main">
             <h2 id="question-1">「？？」に入るものを選びなさい</h2>
