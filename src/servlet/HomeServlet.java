@@ -28,12 +28,15 @@ public class HomeServlet extends HttpServlet {
 			// セッションスコープの準備
 			HttpSession session = request.getSession();
 			
+			// ログインしてなかったら、ログイン画面へリダイレクト
+			if (session.getAttribute("userId") == null) {
+				response.sendRedirect(request.getContextPath() + "/LoginServlet");
+				return;
+			}
+			
+			int userId = (int)session.getAttribute("userId");
 			// クリア状況DBの処理するクラスの初期化
 			ClearStatusQuery clearStatusQuery = new ClearStatusQuery();
-			
-			// XXX 仮のユーザーID(ログイン処理実装後削除)
-			int userId = clearStatusQuery.getUserId();
-			session.setAttribute("userId", userId);
 
 			// ユーザーIDからクリア状況のテーブルを参照し、参照したクリア状況を配列に格納
 			HashMap<Integer, Integer> clearStatus = clearStatusQuery.selectByUserId(userId);
