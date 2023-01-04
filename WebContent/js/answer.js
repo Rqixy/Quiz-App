@@ -2,7 +2,7 @@
  * 回答ボタンがクリックされた時に非同期で答えを表示し、次のページに遷移する処理
  */
 
-const answerButtons = document.querySelectorAll(`button[type='submit'][name='answer']`);
+const answerButtons = document.querySelectorAll(`button[name='answer']`);
 for (let answerButton of answerButtons) {
 	answerButton.addEventListener('click', () => {
 		// 連射防止
@@ -10,7 +10,7 @@ for (let answerButton of answerButtons) {
 		
 		// 判定結果を取得
 		const requestUrl = 'http://localhost:8080/QuizApp/AnswerServlet';
-		postData(requestUrl, { selectedAnswer: answerButton.value })
+		postData(requestUrl, { selectedAnswer: answerButton.textContent })
 		.then((data) => {
 			// 受け取った結果にtrueがあったら、攻撃の画像を表示
 			if (data['isCorrect']) {
@@ -81,5 +81,5 @@ const nextPage = (finishedQuiz = false) => {
 		}
 		document.body.appendChild(form);
 		form.submit();
-	}, 1000);
+	}, 3000);
 }

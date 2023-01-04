@@ -31,10 +31,10 @@
             <h2 id="question-1">「？？」に入るものを選びなさい</h2>
             <p id="question-2"><%=quiz.quiz() %></p>
             <div id="answers">
-	            <button name="answer" type="submit" value="<%=answer.correct() %>"><%=answer.correct() %></button>
-	            <button name="answer" type="submit" value="<%=answer.incorrect1() %>"><%=answer.incorrect1() %></button>
-	            <button name="answer" type="submit" value="<%=answer.incorrect2() %>"><%=answer.incorrect2() %></button>
-	            <button name="answer" type="submit" value="<%=answer.incorrect3() %>"><%=answer.incorrect3() %></button>
+	            <button name="answer" type="submit"><%=answer.correct() %></button>
+	            <button name="answer" type="submit"><%=answer.incorrect1() %></button>
+	            <button name="answer" type="submit"><%=answer.incorrect2() %></button>
+	            <button name="answer" type="submit"><%=answer.incorrect3() %></button>
             </div>
         </main>
     </div>
