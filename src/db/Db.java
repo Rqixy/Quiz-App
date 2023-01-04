@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * DB操作関連をまとめたクラス
  * 継承して他のクラスで使う
  */
-public class Db {
+abstract class Db {
 	private static final String MYSQL_DRIVER = "com.mysql.cj.jdbc.Driver";	//ドライバー名
 	private static final String JDBC_CONNECTION = "jdbc:mysql://localhost:3306/tech_c_itpj?useSSL=false";	// JDBC接続先情報
 	private static final String USER = "root";	// ユーザー名
@@ -74,7 +74,7 @@ public class Db {
 	
 	
 	/**
-	 * クローズ処理
+	 * DB接続のクローズ処理
 	 * @throws SQLException
 	 */
 	protected void dbClose() throws SQLException {
