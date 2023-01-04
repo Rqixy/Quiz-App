@@ -51,7 +51,7 @@ public class ResultServlet extends HttpServlet {
 			ClearStatusQuery clearStatusQuery = new ClearStatusQuery();
 	
 			// DB内のクリア状況と更新するカラム名を取得
-			int clearStatusInDb = clearStatusQuery.selectOneClearStatus(userId, goalNumber);
+			int clearStatusInDb = clearStatusQuery.selectOne(userId, goalNumber);
 			String clearStatusColumnName = clearStatusQuery.selectOneColumnName(userId, goalNumber);
 			
 			// 正答数を確認して、正答数に応じたクリア状況を更新

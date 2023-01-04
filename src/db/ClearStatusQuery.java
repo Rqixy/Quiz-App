@@ -37,7 +37,7 @@ public class ClearStatusQuery extends Db {
 	 * @return clearStatus	クリア状況のハッシュ配列(key:目標番号 value:クリア状況)
 	 * @throws SQLException
 	 */
-	public HashMap<Integer, Integer> selectByUserId(int userId) throws SQLException {
+	public HashMap<Integer, Integer> select(int userId) throws SQLException {
 		dbInit();
 		// クリア状況を格納するハッシュ配列の初期化
 		HashMap<Integer, Integer> clearStatus = new HashMap<Integer, Integer>();
@@ -77,12 +77,68 @@ public class ClearStatusQuery extends Db {
 	}
 	
 	/**
+   	 * 目標番号のクリア状況を取得する
+   	 * @param userId		ユーザーID
+   	 * @param goalNumber	目標番号
+   	 * @return clearStatus	クリア状況
+   	 * @throws SQLException
+   	 */
+	public int selectOne(int userId, String goalNumber) throws SQLException {
+		dbInit();
+		int clearStatus = 0;
+		
+		try {
+			HashMap<String, String> columnNames = selectColumnNames(userId);
+			String columnName = selectOneColumnName(userId, goalNumber);
+
+			rs = executeSelect("SELECT " + columnName + " FROM clear_status WHERE user_id = ?", userId);
+	
+			// DB内のクリア状況の取得
+			if (rs.next()) {
+				clearStatus = rs.getInt(columnNames.get(goalNumber));
+			}
+		} catch (SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
+		} finally {
+			try {
+				dbClose();
+			} catch (SQLException e) {
+				System.out.println("SQLException : " + e.getMessage());
+			}
+		}
+		
+		return clearStatus;
+	}
+	
+	/**
+	 * 目標番号のクリアステータスのカラム名を取得する
+	 * @param userId		ユーザーID
+	 * @param goalNumber	目標番号
+	 * @return columnName	カラム名
+	 * @throws SQLException
+	 */
+   	public String selectOneColumnName(int userId, String goalNumber) throws SQLException {
+   		dbInit();
+   		String columnName = "";
+   		
+		try {
+			HashMap<String, String> columnNames = selectColumnNames(userId);
+			/* ユーザーが選択した目標番号のクイズのカラム名を取得 */
+			columnName = columnNames.get(goalNumber);
+		} catch (SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
+		}
+		
+		return columnName;
+	}
+	
+   	/**
 	 * ユーザーIDからクリア状況のカラム名を取得
 	 * @param userId		ユーザーID
 	 * @return columnNames	クリア状況のカラム名のハッシュ配列(Key: 目標番号 Value: 目標番号のカラム名)
 	 * @throws SQLException
 	 */
-	public HashMap<String, String> selectColumnNames(int userId) throws SQLException {
+	private HashMap<String, String> selectColumnNames(int userId) throws SQLException {
 		dbInit();
 		HashMap<String, String> columnNames = new HashMap<String, String>();
 		 
@@ -110,62 +166,6 @@ public class ClearStatusQuery extends Db {
 		}
 		 
 		return columnNames;
-	}
-	
-	/**
-	 * 目標番号のクリアステータスのカラム名を取得する
-	 * @param userId		ユーザーID
-	 * @param goalNumber	目標番号
-	 * @return columnName	カラム名
-	 * @throws SQLException
-	 */
-   	public String selectOneColumnName(int userId, String goalNumber) throws SQLException {
-   		dbInit();
-   		String columnName = "";
-   		
-		try {
-			HashMap<String, String> columnNames = selectColumnNames(userId);
-			/* ユーザーが選択した目標番号のクイズのカラム名を取得 */
-			columnName = columnNames.get(goalNumber);
-		} catch (SQLException e) {
-			System.out.println("SQLException : " + e.getMessage());
-		}
-		
-		return columnName;
-	}
-	
-   	/**
-   	 * 目標番号のクリア状況を取得する
-   	 * @param userId		ユーザーID
-   	 * @param goalNumber	目標番号
-   	 * @return clearStatus	クリア状況
-   	 * @throws SQLException
-   	 */
-	public int selectOneClearStatus(int userId, String goalNumber) throws SQLException {
-		dbInit();
-		int clearStatus = 0;
-		
-		try {
-			HashMap<String, String> columnNames = selectColumnNames(userId);
-			String columnName = selectOneColumnName(userId, goalNumber);
-
-			rs = executeSelect("SELECT " + columnName + " FROM clear_status WHERE user_id = ?", userId);
-	
-			// DB内のクリア状況の取得
-			if (rs.next()) {
-				clearStatus = rs.getInt(columnNames.get(goalNumber));
-			}
-		} catch (SQLException e) {
-			System.out.println("SQLException : " + e.getMessage());
-		} finally {
-			try {
-				dbClose();
-			} catch (SQLException e) {
-				System.out.println("SQLException : " + e.getMessage());
-			}
-		}
-		
-		return clearStatus;
 	}
 	
 	/**

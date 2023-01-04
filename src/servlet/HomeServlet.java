@@ -39,7 +39,7 @@ public class HomeServlet extends HttpServlet {
 			ClearStatusQuery clearStatusQuery = new ClearStatusQuery();
 
 			// ユーザーIDからクリア状況のテーブルを参照し、参照したクリア状況を配列に格納
-			HashMap<Integer, Integer> clearStatus = clearStatusQuery.selectByUserId(userId);
+			HashMap<Integer, Integer> clearStatus = clearStatusQuery.select(userId);
 
 			// クリア状況の内容をセッションに保存
 			session.setAttribute("clearStatus", clearStatus);
