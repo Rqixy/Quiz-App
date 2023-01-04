@@ -2,8 +2,8 @@
  * 回答ボタンの順番をランダムに表示させる
  */
 document.addEventListener('DOMContentLoaded', function() {
-	const answers = document.querySelectorAll("#answers");
-	const buttons = answers.querySelectorAll("button")
+	const answers = document.querySelector("#answers");
+	const buttons = answers.querySelectorAll(`button[type='submit'][name='answer']`);
 	const randomButtons = shuffle(buttons);
 
 	answers.innerHTML = '';
