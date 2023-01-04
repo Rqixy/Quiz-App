@@ -10,7 +10,7 @@
 <title>ログイン画面</title>
 </head>
 <body>
-	<h1>ログイン画面です</h1>
+	<h1>ログイン画面です(仮)</h1>
 	<a href="/QuizApp/HomeServlet">homeへ</a>
 </body>
 </html>
