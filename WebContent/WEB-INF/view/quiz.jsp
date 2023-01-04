@@ -20,6 +20,7 @@
 	session.setAttribute("quizAnswer", quiz.answer());
 %>
 <%@ include file="./layouts/header.jsp" %>
+
 <div class="container">
     <div class="wrapper">
         <header>
@@ -38,4 +39,7 @@
         </main>
     </div>
 </div>
+
+<script src="<%=request.getContextPath() %>/js/shuffle.js"></script>
+<script src="<%=request.getContextPath() %>/js/answer.js"></script>
 <%@ include file="./layouts/footer.jsp" %>
