@@ -89,9 +89,9 @@ public class ClearStatusQuery extends Db {
 		
 		try {
 			HashMap<String, String> columnNames = selectColumnNames(userId);
-			String columnName = selectOneColumnName(userId, goalNumber);
 
-			rs = executeSelect("SELECT " + columnName + " FROM clear_status WHERE user_id = ?", userId);
+			rs = executeSelect("SELECT * FROM clear_status WHERE user_id = ?", userId);
+			
 	
 			// DB内のクリア状況の取得
 			if (rs.next()) {
