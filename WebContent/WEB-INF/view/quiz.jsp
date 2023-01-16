@@ -20,16 +20,17 @@
 	session.setAttribute("quizAnswer", quiz.answer());
 %>
 <%@ include file="./layouts/header.jsp" %>
-
 <div class="container">
     <div class="wrapper">
-        <header>
-            <p class="question-num"><%=currentQuizCount %>問目</p>
-            <p><a href="HomeServlet" class="back">ホームに戻る</a></p>
+    	<header>
+            <p id="battle-num"><%=currentQuizCount %>問目</p>
+            <p class="back"><a href="HomeServlet">あきらめる</a></p>
         </header>
         <main id="question-main">
-            <h2 id="question-1">「？？」に入るものを選びなさい</h2>
-            <p id="question-2"><%=quiz.quiz() %></p>
+            <div id="monster">
+                <img src="./img/correct.png" alt="">
+            </div>
+            <p id="question"><%=quiz.quiz() %></p>
             <div id="answers">
 	            <button name="answer" type="submit"><%=answer.correct() %></button>
 	            <button name="answer" type="submit"><%=answer.incorrect1() %></button>

@@ -4,20 +4,30 @@
 /************************
 * General 全体的なCSSのデザイン部分
 ************************/
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+
+body {
+    background-image: url("../img/background.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
 .container {
     margin: 0 auto;
-    height: 100vh;
-    background-image: url("../img/sdgs_bg.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
 }
 
 .wrapper {
     position: relative;
-    max-width: 1000px;
+    max-width: 1200px;
     width: 100%;
     margin: 0 auto;
+    text-align: center;
+    font-weight: bold;
 }
 
 button:disabled {
@@ -26,44 +36,190 @@ button:disabled {
     opacity: 1;
 }
 
-/* top.html */
-#top-container {
-    background-image: url(../img/sdgs_title_bg.png);
-    background-size: 100% 100%;
-    padding-top: 120px;
-    background-position: center;
-    height: 100vh;
-    background-repeat: no-repeat;
-    /* padding-left: 23%; */
-    text-align: center; /* 追加：文字関係を中央寄せにする */
+main {
+    text-align: center;
 }
 
-/*img追加 */
-#img {
-    /* 横幅の最大値を指定 */
-    /* 1200px未満になったら、最大値がその横幅に合わせる */
-    max-width: 1200px;
-    /* 中央寄せ：0は縦幅を0pxという意味で、autoは画面のサイズに応じて横幅を中央に揃える */
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+.btn,
+a.btn,
+button.btn {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.5;
+    position: relative;
+    display: inline-block;
+    padding: 1rem 4rem;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    color: #212529;
+    border-radius: 0.5rem;
+}
+
+h1 {
+    font-size: 200px;
+    font-family: Impact;
+    color: rgb(224, 0, 0);
+    font-style: italic;
+    margin-bottom: 50px;
+}
+
+button.btn-flat {
+    overflow: hidden;
+    padding: 2rem 6rem;
+    color: #fff;
+    border-radius: 0;
+    background: #000;
+}
+
+button.btn-flat span {
+    position: relative;
+    z-index: 1;
+}
+
+button.btn-flat:before {
+    position: absolute;
+    top: 0;
+    left: calc(-150% + 50px);
+
+    width: 150%;
+    height: 500%;
+
+    content: '';
+    transition: all .5s ease-in-out;
+    transform: rotate(45deg) translateX(0) translateY(0);
+
+    background: #ffa600;
+}
+
+button.btn-flat:after {
+    position: absolute;
+    top: -400%;
+    right: calc(-150% + 50px);
+
+    width: 150%;
+    height: 500%;
+
+    content: '';
+    transition: all .5s ease-in-out;
+    transform: rotate(45deg) translateX(0) translateY(0);
+
+    background: #ff0000;
+}
+
+button.btn-flat:hover {
+    color: black;
+}
+
+button.btn-flat:hover:before {
+    transform: rotate(45deg) translateX(0) translateY(-50%);
+}
+
+button.btn-flat:hover:after {
+    transform: rotate(45deg) translateX(0) translateY(50%);
+}
+
+a {
+    color: white;
+    margin-top: 100px;
+    display: inline-block;
+    font-size: 20px;
+}
+
+/* login.html */
+#login-main h1 {
+    padding-top: 15%;
+}
+.login input {
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+.login button {
+    font-size: 20px;
+}
+
+/* register.html */
+.register-main h1 {
+    padding-top: 15%;
+    font-size: 150px;
+}
+
+.register-main .login button {
+    margin-top: 50px;
+}
+
+/* register_confirm.html */
+#register-confirm h1 {
+    margin: 0;
+    font-size: 100px;
+}
+
+#warning {
+    color: white;
+    font-size: 30px;
+    margin-bottom: 80px;
+}
+
+.confirm {
+    width: 40%;
     margin: 0 auto;
+    padding: 10px;
+    margin-bottom: 40px;
+    font-size: 20px;
+    color: black;
+    background: #fff;
 }
 
-#start {
-    padding-top: 10%;
+/* register_fin.html */
+#register-fin h1 {
+    font-size: 150px;
 }
 
-#start button {
-	background-color: transparent;
-	border: none;
-	cursor: pointer;
-	outline: none;
-	padding: 0;
-	appearance: none;
-	margin: 5px;
+#register-fin a {
+    font-size: 60px;
+}
+
+/* home.html */
+#home-main h1 {
+    margin-bottom: 0;
+}
+
+#home-main p {
+    color: white;
+    font-size: 20px;
+    margin-bottom: 40px;
+}
+
+#themes {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.theme {
+    width: 150px;
+    margin: 10px;
+    border: none;
+    padding: 0;
+    appearance: none;
+}
+
+.theme:hover {
+    cursor: pointer;
 }
 
 .ribon {
 	position: relative;
-	display: inline-block;
 	overflow: hidden;
 }
 
@@ -74,9 +230,9 @@ button:disabled {
 .ribon .upper {
     position: absolute;
     display: inline-block;
-    top: 30px;
+    top: 20px;
     right: -30px;
-    width: 100px;
+    width: 125px;
     padding: 10px 20px;
     text-align: center;
     transform: rotate(45deg);
@@ -85,9 +241,9 @@ button:disabled {
 .ribon .under {
     position: absolute;
     display: inline-block;
-    bottom: 30px;
+    bottom: 10px;
     left: -30px;
-    width: 100px;
+    width: 125px;
     padding: 10px 20px;
     text-align: center;
     transform: rotate(45deg);
@@ -101,57 +257,47 @@ button:disabled {
 	background: linear-gradient(45deg, #757575 0%, #9E9E9E 45%, #E8E8E8 70%, #9E9E9E 85%, #757575 90% 100%);
 }
 
-/************************
-* Header headerの部分に含まれるデザイン
-************************/
+/* question.html */
 header {
-    padding-top: 60px;
     display: flex;
     justify-content: space-between;
-    font-size: 16px;
+    padding-top: 40px;
 }
 
-header .question-num {
-    border: 1px solid black;
-    padding: 5px 70px;
-    background: white;
+header #battle-num {
+    color: red;
+    font-size: 80px;
 }
 
-header .back {
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 5px 70px;
-    background: white;
-    color: black;
+header .back  {
+    margin-top: 50px;
+}
+
+header .back a {
+    margin: 0;
     text-decoration: none;
+    color: red;
+    font-size: 30px;
 }
 
-
-/************************
-* Main mainの部分に含まれるデザイン
-************************/
-main {
-    text-align: center;
-}
-
-/* question.html */
 #question-main {
-    margin: 60px auto 0;
+    margin: 20px auto 0;
 }
 
-#question-1 {
-    font-size: 50px;
-    font-weight: normal;
-    margin-bottom: 30px;
-    border: 1px solid black;
-    background: white;
-    padding: 10px 50px;
+#monster {
+    margin-bottom: 50px;
 }
 
-#question-2 {
-    width: 90%;
-    margin: 40px auto;
-    padding: 30px 10px;
+#monster img {
+    margin: 0 auto;
+    width: 50%;
+}
+
+#question {
+    width: 75%;
+    margin: 15px auto;
+    margin-bottom: 60px;
+    padding: 15px 0;
     font-size: 30px;
     border: 1px solid black;
     background: white;
@@ -159,15 +305,15 @@ main {
 }
 
 #answers {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
 }
 
 #answers button {
     display: inline-block;
-    width: 45%;
+    width: 30%;
     padding: 15px 0;
-    font-size: 25px;
+    font-size: 30px;
     font-weight: bold;
     background: white;
     border-radius: 20px;
@@ -179,88 +325,45 @@ main {
 
 #answers button:first-child,
 #answers button:nth-child(3) {
-    margin-right: 30px;
+    margin-right: 50px;
 }
 
 #answers button:first-child,
 #answers button:nth-child(2) {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
-/* answer.html */
-#answer-img {
-    width: 60%;
-    margin: -40px auto 0;
-}
-
-#answer {
-    margin: 20px 0;
-    font-size: 60px;
-    border: 1px solid black;
-    border-radius: 10px;
-    background: white;
-}
-
-#commentary {
-    font-size: 20px;
-    border: 1px solid black;
-    border-radius: 10px;
-    background: white;
-    padding: 10px 20px;
-}
-
-#next {
-    margin-top: 40px;
-
-}
-
-#next button {
-    width: 30%;
-    padding: 5px 0;
-    font-size: 40px;
-    background: white;
-    border-radius: 10px;
-}
-
-#next button:hover {
-    cursor: pointer;
-}
 
 /* result.html */
 #result-main {
-    padding-top: 150px;
     text-align: center;
 }
 
-#bubble {
-    width: 45%;
-    margin: -100px 0 0 auto;
+#result-main h1 {
+    padding-top: 100px;
+    margin: 0;
 }
 
 #result {
-    width: 90%;
+    width: 50%;
     margin: 0 auto;
-    padding: 10px 10px;
-    font-size: 60px;
+    padding: 30px 0;
+    font-size: 50px;
     border: 1px solid black;
     background: white;
     border-radius: 20px;
-}
-
-#menu {
-    margin-top: 50px;
 }
 
 #menu a {
+    padding: 20px 70px;
     border: 1px solid black;
     border-radius: 20px;
-    padding: 20px 70px;
     background: white;
     color: black;
     text-decoration: none;
-    font-size: 50px;
+    font-size: 40px;
 }
 
-#menu a:first-child {
-    margin-right: 120px;
+#unicef-url {
+    margin-top: 40px;
 }

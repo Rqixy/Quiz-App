@@ -9,7 +9,8 @@
 <div class="container">
     <div class="wrapper">
         <main id="result-main">
-           	<% if(answerCount == maxQuizCount) { %>
+            <h1>Result</h1>
+            <% if(answerCount == maxQuizCount) { %>
             	<h2 id="result">全問正解！！</h2>
             <% } else { %>
             	<h2 id="result"><%=answerCount %>/<%=maxQuizCount %>問正解</h2>
@@ -17,8 +18,8 @@
             <div id="menu">
                 <a href="HomeServlet">ホームに戻る</a>
             </div>
-
-            <a href="<%=goalUrl %>" target="_blank">今回の目標について学ぶ</a>
+            
+			<a id="unicef-url" href="<%=goalUrl %>" target="_blank">今回の目標について学ぶ</a>
         </main>
     </div>
 </div>
