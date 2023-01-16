@@ -91,7 +91,7 @@ abstract class Db {
 	 * SELECT文の実行
 	 * @param sql
 	 * @param params
-	 * @return result
+	 * @return rs
 	 * @throws SQLException
 	 */
 	protected ResultSet executeSelect(String sql, Object... params) throws SQLException {
@@ -112,7 +112,7 @@ abstract class Db {
 	 * INSERTやUPDATE文の実行
 	 * @param sql
 	 * @param params
-	 * @return
+	 * @return result
 	 * @throws SQLException
 	 */
 	protected int executeUpdate(String sql, Object... params) throws SQLException {
