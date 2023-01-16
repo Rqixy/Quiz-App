@@ -52,20 +52,26 @@ public class ResultServlet extends HttpServlet {
 	
 			// DB内のクリア状況と更新するカラム名を取得
 			int clearStatusInDb = clearStatusQuery.selectOne(userId, goalNumber);
-			String clearStatusColumnName = clearStatusQuery.selectOneColumnName(userId, goalNumber);
 			
 			// 正答数を確認して、正答数に応じたクリア状況を更新
 			float answerCount = (int)session.getAttribute("answerCount");
 			float maxQuizCount = (int)session.getAttribute("maxQuizCount");
-	
 			// 正答率を求める
 			float correctAnswerRate = answerCount / maxQuizCount;
-			if (clearStatusInDb < 2 && correctAnswerRate == 1) {
-				// 全問正解したことがなく、初めて全問正解なら数字を2に更新する
-				clearStatusQuery.update(clearStatusColumnName, 2, userId);
-			} else if (clearStatusInDb == 0 && correctAnswerRate >= 0.6f) {
-				// もしまだ6割未満(数字が0)で、今回正答率が6割超えたら1に更新する
-				clearStatusQuery.update(clearStatusColumnName, 1, userId);
+			// クリアの正答率
+			float allClearRate = 1f;	// 100%クリア
+			float clearRate = 0.6f;		// 60%クリア
+			
+			// 1度も全問正解したことがなく、初めて全問正解なら数字を2に更新する
+			int allClear = 2;
+			if (clearStatusInDb < allClear && correctAnswerRate == allClearRate) {
+				clearStatusQuery.update(goalNumber, allClear, userId);
+			}
+			// もし1度もクリアしたことがなく(数字が0)で、初めて正答率が6割超えたら1に更新する
+			int notClear = 0;
+			if (clearStatusInDb == notClear && correctAnswerRate >= clearRate) {
+				int clear = 1;
+				clearStatusQuery.update(goalNumber, clear, userId);
 			}
 			
 	        // セッションに目標番号のユニセフサイトのURLを保存
