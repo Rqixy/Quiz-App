@@ -14,8 +14,8 @@ for (let answerButton of answerButtons) {
 		.then((data) => {
 			// 受け取った結果にtrueがあったら、攻撃の画像を表示
 			if (data['isCorrect']) {
-				const question2 = document.querySelector("#question-2");
-				createImageElement("./img/correct.png", 200, question2);
+				const question = document.querySelector("#question");
+				createImageElement("./img/correct.png", 200, question);
 			}
 			
 			// 結果が帰ってきたら、回答ボタンの上に○と×の画像を表示
