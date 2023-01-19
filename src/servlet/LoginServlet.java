@@ -76,7 +76,7 @@ public class LoginServlet extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/login.jsp");
 				dispatcher.forward(request, response);
 			}		
-		}else if(button == "logout") { // ログアウト
+		}else if(button.equals("logout")) { // ログアウト
 			// ユーザー情報を破棄
 			session.invalidate();
 			
