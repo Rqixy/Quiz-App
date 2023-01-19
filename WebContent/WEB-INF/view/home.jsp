@@ -7,6 +7,11 @@
 %>
 <div class="container">
     <div class="wrapper">
+    	<header>
+    		<form method="post" action="LoginServlet">
+    			<button type="submit" name="submit" value="logout" class="btn btn-flat">ログアウト</button>
+    		</form>
+    	</header>
         <main id="home-main">
             <h1>Stages</h1>
             <p>挑戦したいテーマを選ぼう‼<br>
