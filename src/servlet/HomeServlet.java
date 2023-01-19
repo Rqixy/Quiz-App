@@ -37,6 +37,10 @@ public class HomeServlet extends HttpServlet {
 			int userId = (int)session.getAttribute("userId");
 			// クリア状況DBの処理するクラスの初期化
 			ClearStatusQuery clearStatusQuery = new ClearStatusQuery();
+			// 送られてきたユーザーIDのクリア状況のデータが作成されているか確認し、クリア状況のデータが作成されていなかったら、新規に作成
+			if (!clearStatusQuery.exist(userId)) {
+				clearStatusQuery.insert(userId);
+			}
 
 			// ユーザーIDからクリア状況のテーブルを参照し、参照したクリア状況を配列に格納
 			HashMap<Integer, Integer> clearStatus = clearStatusQuery.select(userId);

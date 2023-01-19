@@ -68,7 +68,6 @@ public class ClearStatusQuery extends Db {
 
 			rs = executeSelect("SELECT * FROM clear_status WHERE user_id = ?", userId);
 			
-	
 			// DB内のクリア状況の取得
 			if (rs.next()) {
 				clearStatus = rs.getInt(columnNames.get(goalNumber));
@@ -86,7 +85,86 @@ public class ClearStatusQuery extends Db {
 		return clearStatus;
 	}
 	
+	/**
+	 * 受け取ったユーザーIDのデータが存在するかチェックする
+	 * @param userId
+	 * @return isExist
+	 * @throws SQLException
+	 */
+	public boolean exist(int userId) throws SQLException {
+		dbInit();
+		boolean isExist = false;
+		try {
+			rs = executeSelect("SELECT * FROM clear_status WHERE user_id = ?", userId);
+			if (rs.next()) {
+				isExist = true;
+			}
+		} catch (SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
+		} finally {
+			try {
+				dbClose();
+			} catch (SQLException e) {
+				System.out.println("SQLException : " + e.getMessage());
+			}
+		}
+		
+		return isExist;
+	}
+	
    	/**
+   	 * 新しいクリアステータスを作成する
+   	 * @param userId
+   	 * @return result
+   	 * @throws SQLException
+   	 */
+	public int insert(int userId) throws SQLException {
+		dbInit();
+		int result = 0;
+		
+		try {
+			result = executeUpdate("INSERT into clear_status (user_id) values (?)", userId);
+		} catch (SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
+		} finally {
+			try {
+				dbClose();
+			} catch (SQLException e) {
+				System.out.println("SQLException : " + e.getMessage());
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * クリア状況のUpdate文
+	 * @param goalNumber
+	 * @param updateStatus
+	 * @param userId
+	 * @return result
+	 * @throws SQLException
+	 */
+	public int update(String goalNumber, int updateStatus, int userId) throws SQLException {
+		dbInit();
+		int result = 0;
+		
+		try {
+			result = executeUpdate(clearStatusUpdateStatement(goalNumber), updateStatus, userId);
+		} catch (SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
+		} finally {
+			try {
+				dbClose();
+			} catch (SQLException e) {
+				System.out.println("SQLException : " + e.getMessage());
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
 	 * ユーザーIDからクリア状況のカラム名を取得
 	 * @param userId		ユーザーID
 	 * @return columnNames	クリア状況のカラム名のハッシュ配列(Key: 目標番号 Value: 目標番号のカラム名)
@@ -120,33 +198,6 @@ public class ClearStatusQuery extends Db {
 		}
 		 
 		return columnNames;
-	}
-	
-	/**
-	 * クリア状況のUpdate文
-	 * @param goalNumber
-	 * @param updateStatus
-	 * @param userId
-	 * @return result
-	 * @throws SQLException
-	 */
-	public int update(String goalNumber, int updateStatus, int userId) throws SQLException {
-		dbInit();
-		int result = 0;
-		
-		try {
-			result = executeUpdate(clearStatusUpdateStatement(goalNumber), updateStatus, userId);
-		} catch (SQLException e) {
-			System.out.println("SQLException : " + e.getMessage());
-		} finally {
-			try {
-				dbClose();
-			} catch (SQLException e) {
-				System.out.println("SQLException : " + e.getMessage());
-			}
-		}
-		
-		return result;
 	}
 	
 	/**
