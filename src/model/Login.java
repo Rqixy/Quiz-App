@@ -8,7 +8,7 @@ public class Login {
 	public int loginCheck(String name, String pass) throws Exception{
 		int loggedInUser = 0;
 		
-		String reqularPattern = "^[a-zA-Z0-9$_]{6,24}$";
+		String reqularPattern = "^[a-zA-Z0-9$_]{1,24}$";
 		Pattern p = Pattern.compile(reqularPattern);
 		
 		if(!(p.matcher(name).find())) {
