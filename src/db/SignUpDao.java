@@ -15,9 +15,8 @@ public class SignUpDao {
 		
 		try {
 			//SQLを書く
-			String sql = "INSERT into users VALUES(?, ?)";
+			String sql = "INSERT into users (name, pass) VALUES(?, ?)";
 			PreparedStatement ps = con.prepareStatement(sql);
-			
 			//名前を設定
 			ps.setString(1, name);
 		
