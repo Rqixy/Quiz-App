@@ -26,7 +26,7 @@ class Db {
 	 * DB接続処理
 	 * @return con
 	 */
-	protected Connection DbConnection() {
+	public Connection DbConnection() {
 		Connection con = null;
 
 		if (con == null) {
