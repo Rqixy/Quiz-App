@@ -27,6 +27,11 @@ public class LoginServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/login.jsp");
+		dispatcher.forward(request, response);
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -42,11 +47,11 @@ public class LoginServlet extends HttpServlet {
 		LoginUserBean User = new LoginUserBean();
 		HttpSession session = request.getSession();
 
-		if(button == "login") { // ログイン
+		if(button.equals("login")) { // ログイン
 			// フォームに来た内容を貰う
 			String name = request.getParameter("name");
 			String pass = request.getParameter("pass");
-					
+			
 			// ログイン処理
 			Login login = new Login();
 			int loggedInUser = 0;
@@ -62,14 +67,13 @@ public class LoginServlet extends HttpServlet {
 			// ログイン可否で分岐
 			if(loggedInUser != 0) { // 成功時
 				// ユーザーidをスコープに設定(ホームでユーザー判別するのに使う)
-				session.setAttribute("id", User);
+				session.setAttribute("userId", User.getId());
 				
 				// ホーム画面に移動
-				RequestDispatcher dispatcher = request.getRequestDispatcher(":ホーム画面");
-				dispatcher.forward(request, response);
+				response.sendRedirect(request.getContextPath() + "/HomeServlet");
 			}else { // 失敗時
 				// トップに帰す
-				RequestDispatcher dispatcher = request.getRequestDispatcher(":ログイン画面");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/login.jsp");
 				dispatcher.forward(request, response);
 			}		
 		}else if(button == "logout") { // ログアウト
@@ -77,7 +81,7 @@ public class LoginServlet extends HttpServlet {
 			session.invalidate();
 			
 			// トップに帰す
-			RequestDispatcher dispatcher = request.getRequestDispatcher(":ログイン画面");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/login.jsp");
 			dispatcher.forward(request, response);
 		}
 	}
