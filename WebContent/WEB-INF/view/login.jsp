@@ -20,7 +20,7 @@
                     <button type="submit" name="submit" value="login" class="btn btn-flat" ><span>START!</span></button>
                 </form>
             
-                <a href="register.html">新しく始める方はこちら</a>
+                <a href="SignUpServlet">新しく始める方はこちら</a>
             </main>
         </div>
     </div>
