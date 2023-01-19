@@ -16,7 +16,7 @@ public class LoginDao {
 	public int selectUser(String name, String pass){
 		try {
 			//SQLを書く
-			String sql = "select name from users where name = ? and pass = ?";
+			String sql = "select id, name from users where name = ? and pass = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			
 			//名前を設定
