@@ -27,6 +27,10 @@ public class SignUpServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/register.jsp");
+		dispatcher.forward(request, response);
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -44,23 +48,24 @@ public class SignUpServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String pass = request.getParameter("pass");
 		
-		if(button.equals(":確認")) {
+		if(button.equals("confirm")) {
 			//登録確認画面に情報を渡す
 			User user = new User(name, pass);
 			request.setAttribute("user", user);
 		
-			dispatcher = request.getRequestDispatcher(":登録確認画面");
+			dispatcher = request.getRequestDispatcher("/WEB-INF/view/register_confirm.jsp");
 			dispatcher.forward(request, response);
 		}
-		if(button.equals(":登録")) {
+		if(button.equals("regist")) {
 			//データベース処理を呼ぶ
 			SignUpDao sd = new SignUpDao();
 			try {
 				boolean flag = sd.UserAdd(name, pass);
+
 				if(flag == true) {
-					dispatcher = request.getRequestDispatcher(":登録完了画面");
+					dispatcher = request.getRequestDispatcher("/WEB-INF/view/register_fin.jsp");
 				}else {
-					dispatcher = request.getRequestDispatcher(":登録情報入力画面？");
+					dispatcher = request.getRequestDispatcher("/WEB-INF/view/register.jsp");
 				}
 			}catch(Exception e){
 				//例外処理
