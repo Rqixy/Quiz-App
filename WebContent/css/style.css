@@ -30,12 +30,6 @@ body {
     font-weight: bold;
 }
 
-button:disabled {
-	color: red;
-    background-color: none;
-    opacity: 1;
-}
-
 main {
     text-align: center;
 }
@@ -190,6 +184,16 @@ a {
 }
 
 /* home.html */
+#home-header {
+	display: flex;
+	justify-content: flex-end;
+}
+
+#home-header form {
+	margin-top: 40px;
+}
+
+
 #home-main h1 {
     margin-bottom: 0;
 }
@@ -216,6 +220,8 @@ a {
 
 .theme:hover {
     cursor: pointer;
+    transform: scale(1.2,1.2);
+    transition: .3s all;
 }
 
 .ribon {
@@ -258,22 +264,22 @@ a {
 }
 
 /* question.html */
-header {
+#quiz-header {
     display: flex;
     justify-content: space-between;
     padding-top: 40px;
 }
 
-header #battle-num {
+#quiz-header #battle-num {
     color: red;
     font-size: 80px;
 }
 
-header .back  {
+#quiz-header .back  {
     margin-top: 50px;
 }
 
-header .back a {
+#quiz-header .back a {
     margin: 0;
     text-decoration: none;
     color: red;
@@ -290,7 +296,7 @@ header .back a {
 
 #monster img {
     margin: 0 auto;
-    width: 50%;
+    height: 300px;
 }
 
 #question {
@@ -305,18 +311,19 @@ header .back a {
 }
 
 #answers {
-    width: 100%;
+    width: 90%;
     margin: 0 auto;
 }
 
 #answers button {
     display: inline-block;
-    width: 30%;
+    width: 40%;
     padding: 15px 0;
     font-size: 30px;
     font-weight: bold;
     background: white;
     border-radius: 20px;
+    position: relative;
 }
 
 #answers button:hover {
@@ -333,6 +340,19 @@ header .back a {
     margin-bottom: 15px;
 }
 
+#answers button:disabled {
+	color: red;
+    background-color: none;
+    opacity: 1;
+}
+
+#answers button img {
+	width: 100px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%)
+}
 
 /* result.html */
 #result-main {
