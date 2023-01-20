@@ -7,7 +7,7 @@
 %>
 <div class="container">
     <div class="wrapper">
-    	<header>
+    	<header id="home-header">
     		<form method="post" action="LoginServlet">
     			<button type="submit" name="submit" value="logout" class="btn btn-flat">ログアウト</button>
     		</form>
