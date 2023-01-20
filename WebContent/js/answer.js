@@ -15,16 +15,16 @@ for (let answerButton of answerButtons) {
 			// 受け取った結果にtrueがあったら、攻撃の画像を表示
 			if (data['isCorrect']) {
 				const question = document.querySelector("#question");
-				createImageElement("./img/correct.png", 200, question);
+				createImageElement("./img/correct.png", 'attack', question);
 			}
 			
 			// 結果が帰ってきたら、回答ボタンの上に○と×の画像を表示
 			for (let i = 0; i < answerButtons.length; i++) {
 				if (i === 0) {
-					createImageElement("./img/mark_maru.png", 100, answerButtons[i]);
+					createImageElement("./img/mark_maru.png", 'mark_maru', answerButtons[i]);
 					continue;
 				}
-				createImageElement("./img/mark_batsu.png", 100, answerButtons[i]);
+				createImageElement("./img/mark_batsu.png", 'mark-batsu', answerButtons[i]);
 			}
 			
 			// 次の問題へ
@@ -61,10 +61,10 @@ async function postData(url = '', data = {}) {
 }
 
 // imgエレメントを作成する処理
-const createImageElement = (imageUrl = '', width = 0, element = null) => {
+const createImageElement = (imageUrl = '', className = '', element = null) => {
 	const imageElement = document.createElement('img');
 	imageElement.src = imageUrl;
-	imageElement.width = width;
+	imageElement.className = className
 	element.appendChild(imageElement);
 }
 
