@@ -4,6 +4,8 @@
 <%@ page import="model.QuizInfoBean" %>
 <%@ page import="model.AnswersBean" %>
 <%
+	// 目標番号を取得
+	String goalNumber = (String)session.getAttribute("goalNumber");
 	// 現在の問題番号を取得
 	int currentQuizCount = (int)session.getAttribute("currentQuizCount");
 	// 問題と回答一覧のリストを取得
@@ -22,13 +24,13 @@
 <%@ include file="./layouts/header.jsp" %>
 <div class="container">
     <div class="wrapper">
-    	<header>
-            <p id="battle-num"><%=currentQuizCount %>問目</p>
+    	<header id="quiz-header">
+            <p id="battle-num">BATTLE <%=currentQuizCount %></p>
             <p class="back"><a href="HomeServlet">あきらめる</a></p>
         </header>
         <main id="question-main">
             <div id="monster">
-                <img src="./img/correct.png" alt="">
+                <img src="./img/enemy/enemy_<%=goalNumber %>.png" alt="">
             </div>
             <p id="question"><%=quiz.quiz() %></p>
             <div id="answers">
