@@ -12,19 +12,24 @@ for (let answerButton of answerButtons) {
 		const requestUrl = 'http://localhost:8080/QuizApp/AnswerServlet';
 		postData(requestUrl, { selectedAnswer: answerButton.textContent })
 		.then((data) => {
-			// 受け取った結果にtrueがあったら、攻撃の画像を表示
 			const question = document.querySelector("#question");
+			const field = document.querySelector("#field");
+			const enemy = document.querySelector("#enemy");
+			const player = document.querySelector("#quiz");
+			
+			// 正誤判定時の画像表示とアニメーション
 			if (data['isCorrect']) {
-				// 攻撃画像を追加する
+				// 正解画像を表示
 				createImageElement("./img/correct.png", 'correct-img', question);
-				// モンスターにダメージを与える
-				const monster = document.querySelector("#monster-img");
-				addDamageClass(monster);
+				// 敵に攻撃するアニメーションとダメージアニメーションを追加
+				createImageElement(`./img/weapons/${randomWeapons()}.png`, 'weapon', field);
+				addClass(enemy, "damage");
 			} else {
+				// 不正解画像を表示
 				createImageElement("./img/incorrect.png", 'correct-img', question);
-				// 間違えたらプレイヤーにダメージを与える
-				const player = document.querySelector("#quiz");
-				addDamageClass(player);
+				// 間違えたら、敵からの攻撃アニメーションとプレイヤーへのダメージアニメーションを追加
+				addClass(enemy, "enemy-attack");
+				addClass(player, "damage");
 			}
 			
 			// 結果が帰ってきたら、回答ボタンの上に○と×の画像を表示
@@ -70,16 +75,16 @@ async function postData(url = '', data = {}) {
 }
 
 // imgエレメントを作成する処理
-const createImageElement = (imageUrl = '', className = '', element = null) => {
+const createImageElement = (imageUrl = '', className = '', parentElement = null) => {
 	const imageElement = document.createElement('img');
 	imageElement.src = imageUrl;
 	imageElement.className = className
-	element.appendChild(imageElement);
+	parentElement.appendChild(imageElement);
 }
 
-// ダメージクラスを追加する処理
-const addDamageClass = (element = null) => {
-	element.classList.add("damage");
+// クラスを追加する処理
+const addClass = (element = null, className = '') => {
+	element.classList.add(className);
 }
 
 // 次の問題に遷移する処理
@@ -96,4 +101,11 @@ const nextPage = (finishedQuiz = false) => {
 		document.body.appendChild(form);
 		form.submit();
 	}, 2000);
+}
+
+// 武器をランダムに選ぶ処理
+const randomWeapons = () => {
+	const weapons = ['tsue', 'sword', 'ono'];
+	const random = Math.floor(Math.random() * weapons.length);
+	return weapons[random];
 }
