@@ -34,11 +34,15 @@
 	<jsp:param name="main">
 		<jsp:attribute name="value">
 			<main id="question-main">
-	            <div id="monster">
-	                <img id="monster-img" src="./img/enemy/enemy_<%=goalNumber %>.png" alt="">
+	            <div id="field">
+	                <img id="enemy" src="./img/enemy/enemy_<%=goalNumber %>.png" alt="">
 	            </div>
+	            
 	            <div id="quiz">
-		            <p id="question"><%=quiz.quiz() %></p>
+	            	<div id="question-box">
+	            		<span id="question-title">Question</span>
+	            		<p id="question"><%=quiz.quiz() %></p>
+	            	</div>
 		            <div id="answers">
 			            <button name="answer" type="submit"><%=answer.correct() %></button>
 			            <button name="answer" type="submit"><%=answer.incorrect1() %></button>
