@@ -30,14 +30,16 @@
         </header>
         <main id="question-main">
             <div id="monster">
-                <img src="./img/enemy/enemy_<%=goalNumber %>.png" alt="">
+                <img id="monster-img" src="./img/enemy/enemy_<%=goalNumber %>.png" alt="">
             </div>
-            <p id="question"><%=quiz.quiz() %></p>
-            <div id="answers">
-	            <button name="answer" type="submit"><%=answer.correct() %></button>
-	            <button name="answer" type="submit"><%=answer.incorrect1() %></button>
-	            <button name="answer" type="submit"><%=answer.incorrect2() %></button>
-	            <button name="answer" type="submit"><%=answer.incorrect3() %></button>
+            <div id="quiz">
+	            <p id="question"><%=quiz.quiz() %></p>
+	            <div id="answers">
+		            <button name="answer" type="submit"><%=answer.correct() %></button>
+		            <button name="answer" type="submit"><%=answer.incorrect1() %></button>
+		            <button name="answer" type="submit"><%=answer.incorrect2() %></button>
+		            <button name="answer" type="submit"><%=answer.incorrect3() %></button>
+	            </div>
             </div>
         </main>
     </div>
