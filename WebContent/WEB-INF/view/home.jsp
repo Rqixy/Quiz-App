@@ -9,7 +9,7 @@
 		<jsp:attribute name="value">
 			<header id="home-header">
 	    		<form method="post" action="LoginServlet">
-	    			<button type="submit" name="submit" value="logout" class="btn btn-flat">ログアウト</button>
+	    			<button type="submit" name="submit" value="logout" class="btn btn-flat"><span>ログアウト</span></button>
 	    		</form>
 	    	</header>
 		</jsp:attribute>
