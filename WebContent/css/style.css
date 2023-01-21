@@ -143,12 +143,12 @@ a {
 }
 
 /* register.html */
-.register-main h1 {
+#register-main h1 {
     padding-top: 15%;
     font-size: 150px;
 }
 
-.register-main .login button {
+#register-main .login button {
     margin-top: 50px;
 }
 
