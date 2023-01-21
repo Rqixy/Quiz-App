@@ -7,7 +7,7 @@
 	<jsp:param name="title" value="ユーザー登録確認" />
 	<jsp:param name="main">
 		<jsp:attribute name="value">
-			<main class="register-main" id="register-confirm">
+			<main class="register" id="register-confirm">
 	            <h1>ユーザー登録確認</h1>
 	            <p id="warning">※お間違いなければ登録へお進みください</p>
 	            <p class="confirm">ユーザー名：<%= user.getName() %></p>

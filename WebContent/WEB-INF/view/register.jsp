@@ -3,7 +3,7 @@
 	<jsp:param name="title" value="ユーザー登録" />
 	<jsp:param name="main">
 		<jsp:attribute name="value">
-			<main id="register-main">
+			<main class="register" id="register-main">
 	            <h1>ユーザー登録</h1>
 	            <form class="login" action="SignUpServlet" method="post">
 	                <input type="text" name="name" placeholder="ユーザー名" class="name"><br>
