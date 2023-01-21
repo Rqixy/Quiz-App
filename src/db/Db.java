@@ -106,16 +106,19 @@ class Db {
 	 */
 	protected int executeUpdate(String sql, Object... params) throws SQLException {
 		dbInit();
-		int result = 0;
+		con.setAutoCommit(false);
 		
+		int result = 0;
 		try {
 			ps = con.prepareStatement(sql);
 			setParams(ps, params);
 			result = ps.executeUpdate();
 		} catch (SQLException e) {
+			con.rollback();
 			System.out.println("SQLException : " + e.getMessage());
 		} finally {
 			try {
+				con.commit();
 				dbClose();
 			} catch (SQLException e) {
 				System.out.println("SQLException : " + e.getMessage());
