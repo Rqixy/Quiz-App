@@ -67,7 +67,7 @@ public class ResultServlet extends HttpServlet {
 			if (clearStatusInDb < allClear && correctAnswerRate == allClearRate) {
 				clearStatusQuery.update(goalNumber, allClear, userId);
 			}
-			// もし1度もクリアしたことがなく(数字が0)で、初めて正答率が6割超えたら1に更新する
+			// 1度もクリアしたことがなく(数字が0)で、初めて正答率が6割超えたら1に更新する
 			int notClear = 0;
 			if (clearStatusInDb == notClear && correctAnswerRate >= clearRate) {
 				int clear = 1;
