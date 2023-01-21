@@ -299,6 +299,19 @@ a {
     height: 300px;
 }
 
+.damage {
+	animation: damage .15s 2;
+	animation-delay: .5s;
+}
+
+@keyframes damage {
+	0% {transform: translate(0px, 0px)}
+    25% {transform: translate(20px, 0px)}
+    50% {transform: translate(0px, 0px)}
+    75% {transform: translate(20px, 0px)}
+    100% {transform: translate(0px, 0px)}
+}
+
 #question {
     width: 75%;
     margin: 15px auto;
@@ -308,6 +321,16 @@ a {
     border: 1px solid black;
     background: white;
     border-radius: 10px;
+    
+    position: relative;
+}
+
+#question img {
+	width: 500px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 #answers {
@@ -323,6 +346,7 @@ a {
     font-weight: bold;
     background: white;
     border-radius: 20px;
+    
     position: relative;
 }
 
@@ -341,7 +365,7 @@ a {
 }
 
 #answers button:disabled {
-	color: red;
+	color: black;
     background-color: none;
     opacity: 1;
 }
@@ -351,7 +375,7 @@ a {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%)
+	transform: translate(-50%, -50%);
 }
 
 /* result.html */
