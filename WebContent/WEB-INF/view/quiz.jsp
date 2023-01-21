@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.QuizInfoBean" %>
 <%@ page import="model.AnswersBean" %>
@@ -21,30 +20,40 @@
 	session.setAttribute("quizNumber", quizNumber);
 	session.setAttribute("quizAnswer", quiz.answer());
 %>
-<%@ include file="./layouts/header.jsp" %>
-<div class="container">
-    <div class="wrapper">
-    	<header id="quiz-header">
-            <p id="battle-num">BATTLE <%=currentQuizCount %></p>
-            <p class="back"><a href="HomeServlet">あきらめる</a></p>
-        </header>
-        <main id="question-main">
-            <div id="monster">
-                <img id="monster-img" src="./img/enemy/enemy_<%=goalNumber %>.png" alt="">
-            </div>
-            <div id="quiz">
-	            <p id="question"><%=quiz.quiz() %></p>
-	            <div id="answers">
-		            <button name="answer" type="submit"><%=answer.correct() %></button>
-		            <button name="answer" type="submit"><%=answer.incorrect1() %></button>
-		            <button name="answer" type="submit"><%=answer.incorrect2() %></button>
-		            <button name="answer" type="submit"><%=answer.incorrect3() %></button>
+<jsp:include page="./layouts/layout.jsp">
+	<jsp:param name="title" value="クエストなう" />
+	<jsp:param name="header">
+		<jsp:attribute name="value">
+			<header id="quiz-header">
+	            <p id="battle-num">BATTLE <%=currentQuizCount %></p>
+	            <p class="back"><a href="HomeServlet">あきらめる</a></p>
+	        </header>
+		</jsp:attribute>
+	</jsp:param>
+	
+	<jsp:param name="main">
+		<jsp:attribute name="value">
+			<main id="question-main">
+	            <div id="monster">
+	                <img id="monster-img" src="./img/enemy/enemy_<%=goalNumber %>.png" alt="">
 	            </div>
-            </div>
-        </main>
-    </div>
-</div>
-
-<script src="<%=request.getContextPath() %>/js/shuffle.js"></script>
-<script src="<%=request.getContextPath() %>/js/answer.js"></script>
-<%@ include file="./layouts/footer.jsp" %>
+	            <div id="quiz">
+		            <p id="question"><%=quiz.quiz() %></p>
+		            <div id="answers">
+			            <button name="answer" type="submit"><%=answer.correct() %></button>
+			            <button name="answer" type="submit"><%=answer.incorrect1() %></button>
+			            <button name="answer" type="submit"><%=answer.incorrect2() %></button>
+			            <button name="answer" type="submit"><%=answer.incorrect3() %></button>
+		            </div>
+	            </div>
+	        </main>
+		</jsp:attribute>
+	</jsp:param>
+	
+	<jsp:param name="js">
+		<jsp:attribute name="value">
+			<script src="<%=request.getContextPath() %>/js/shuffle.js"></script>
+			<script src="<%=request.getContextPath() %>/js/answer.js"></script>
+		</jsp:attribute>
+	</jsp:param>
+</jsp:include>
