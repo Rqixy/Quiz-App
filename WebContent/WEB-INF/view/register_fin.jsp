@@ -3,9 +3,9 @@
 	<jsp:param name="title" value="ユーザー登録完了" />
 	<jsp:param name="main">
 		<jsp:attribute name="value">
-			<main class="register-main" id="register-fin">
+			<main class="register" id="register-fin">
 	            <h1>ユーザー登録完了</h1>
-	            <a href="LoginServlet">ログインへ</a>
+	            <a href="LoginServlet" class="btn btn--orange btn-c">ログインへ</a>
 	        </main>
 		</jsp:attribute>
 	</jsp:param>
