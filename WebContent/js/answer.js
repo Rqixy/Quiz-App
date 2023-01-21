@@ -13,18 +13,27 @@ for (let answerButton of answerButtons) {
 		postData(requestUrl, { selectedAnswer: answerButton.textContent })
 		.then((data) => {
 			// 受け取った結果にtrueがあったら、攻撃の画像を表示
+			const question = document.querySelector("#question");
 			if (data['isCorrect']) {
-				const question = document.querySelector("#question");
-				createImageElement("./img/correct.png", 'attack', question);
+				// 攻撃画像を追加する
+				createImageElement("./img/correct.png", 'correct-img', question);
+				// モンスターにダメージを与える
+				const monster = document.querySelector("#monster-img");
+				addDamageClass(monster);
+			} else {
+				createImageElement("./img/incorrect.png", 'correct-img', question);
+				// 間違えたらプレイヤーにダメージを与える
+				const player = document.querySelector("#quiz");
+				addDamageClass(player);
 			}
 			
 			// 結果が帰ってきたら、回答ボタンの上に○と×の画像を表示
 			for (let i = 0; i < answerButtons.length; i++) {
 				if (i === 0) {
-					createImageElement("./img/mark_maru.png", 'mark_maru', answerButtons[i]);
+					createImageElement("./img/maru.png", 'mark-maru', answerButtons[i]);
 					continue;
 				}
-				createImageElement("./img/mark_batsu.png", 'mark-batsu', answerButtons[i]);
+				createImageElement("./img/batsu.png", 'mark-batsu', answerButtons[i]);
 			}
 			
 			// 次の問題へ
@@ -68,6 +77,11 @@ const createImageElement = (imageUrl = '', className = '', element = null) => {
 	element.appendChild(imageElement);
 }
 
+// ダメージクラスを追加する処理
+const addDamageClass = (element = null) => {
+	element.classList.add("damage");
+}
+
 // 次の問題に遷移する処理
 const nextPage = (finishedQuiz = false) => {
 	setTimeout(() => {
@@ -81,5 +95,5 @@ const nextPage = (finishedQuiz = false) => {
 		}
 		document.body.appendChild(form);
 		form.submit();
-	}, 3000);
+	}, 2000);
 }
