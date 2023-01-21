@@ -10,6 +10,8 @@ import java.sql.SQLException;
 /**
  * DB操作関連をまとめたクラス
  * 継承して他のクラスで使う
+ * 
+ * できれば、DbConnectionをprivateにして継承のみで扱えるようにしたい
  */
 class Db {
 	private static final String MYSQL_DRIVER = "com.mysql.cj.jdbc.Driver";	//ドライバー名
@@ -43,19 +45,6 @@ class Db {
 		}
 
 		return con;
-	}
-	
-	/**
-	 * プリペアードステートメントに値をセットする処理
-	 * @param ps
-	 * @param params
-	 * @throws SQLException
-	 */
-	private void setParams(PreparedStatement ps, Object... params) throws SQLException {
-		int paramNum = 1;
-		for (Object param : params) {
-			ps.setObject(paramNum++, param);
-		}
 	}
 	
 	/**
@@ -134,5 +123,18 @@ class Db {
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * プリペアードステートメントに値をセットする処理
+	 * @param ps
+	 * @param params
+	 * @throws SQLException
+	 */
+	private void setParams(PreparedStatement ps, Object... params) throws SQLException {
+		int paramNum = 1;
+		for (Object param : params) {
+			ps.setObject(paramNum++, param);
+		}
 	}
 }
