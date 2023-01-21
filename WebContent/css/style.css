@@ -143,7 +143,7 @@ a {
 }
 
 /* register.html */
-#register-main h1 {
+.register h1 {
     padding-top: 15%;
     font-size: 150px;
 }
@@ -180,7 +180,23 @@ a {
 }
 
 #register-fin a {
-    font-size: 60px;
+    font-size: 30px;
+}
+
+a.btn--orange {
+  	color: #fff;
+  	background-color: #eb6100;
+}
+  
+a.btn--orange:hover {
+    color: #fff;
+    background: #f56500;
+}
+  
+a.btn-c {
+    position: relative;
+    padding: 1.5rem 2rem 1.5rem 3rem;
+    border-radius: 100vh;
 }
 
 /* home.html */
@@ -201,7 +217,7 @@ a {
 #home-main p {
     color: white;
     font-size: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 #themes {
@@ -290,39 +306,44 @@ a {
     margin: 20px auto 0;
 }
 
-#monster {
+#field {
+	position: relative;
     margin-bottom: 50px;
 }
 
-#monster img {
+#field #enemy {
     margin: 0 auto;
     height: 300px;
 }
 
-.damage {
-	animation: damage .15s 2;
-	animation-delay: .5s;
+#question-box {
+	width: 90%;
+	position: relative;
+    margin: 2em auto;
+    margin-bottom: 70px;
+    padding: 25px 10px 7px;
+    border: solid 5px #FFC107;
+    background-color: rgb(255, 255, 255);
 }
 
-@keyframes damage {
-	0% {transform: translate(0px, 0px)}
-    25% {transform: translate(20px, 0px)}
-    50% {transform: translate(0px, 0px)}
-    75% {transform: translate(20px, 0px)}
-    100% {transform: translate(0px, 0px)}
+#question-box #question-title {
+	position: absolute;
+    display: inline-block;
+    top: -2px;
+    left: -2px;
+    padding: 0 9px;
+    height: 25px;
+    line-height: 25px;
+    font-size: 17px;
+    background: #FFC107;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 #question {
     width: 75%;
-    margin: 15px auto;
-    margin-bottom: 60px;
-    padding: 15px 0;
-    font-size: 30px;
-    border: 1px solid black;
-    background: white;
-    border-radius: 10px;
-    
-    position: relative;
+    margin: 0 auto;
+    font-size: 27px;
 }
 
 #question img {
@@ -339,13 +360,16 @@ a {
 }
 
 #answers button {
+    color: #606060;
+    background-color: #faf0e6;
+    border: 2px solid #deb887;
+    border-radius: 10px;
+	
     display: inline-block;
     width: 40%;
     padding: 15px 0;
     font-size: 30px;
     font-weight: bold;
-    background: white;
-    border-radius: 20px;
     
     position: relative;
 }
@@ -365,17 +389,66 @@ a {
 }
 
 #answers button:disabled {
-	color: black;
     background-color: none;
     opacity: 1;
 }
 
 #answers button img {
-	width: 100px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+}
+
+.mark-maru {
+	width: 125px
+}
+
+.mark-batsu {
+	width: 125px;
+}
+
+.weapon {
+	position: absolute;
+	height: 150px;
+	top: 25%;
+	right: 10%;
+	animation: weapon .3s 1;
+	animation-delay: .3s;
+}
+
+@keyframes weapon {
+	0% {transform: translate(0px, 0px) rotateZ(0deg)}
+    25% {transform: translate(0px, 0px) rotateZ(-20deg)}
+    50% {transform: translate(0px, 0px) rotateZ(-60deg)}
+    75% {transform: translate(0px, 0px) rotateZ(-20deg)}
+    100% {transform: translate(0px, 0px) rotateZ(0deg)}
+}
+
+.enemy-attack {
+	animation: enemy-attack .3s 1;
+	animation-delay: .3s;
+}
+
+@keyframes enemy-attack {
+	0% {transform: translate(0px, 0px)}
+    25% {transform: translate(0px, 20px)}
+    50% {transform: translate(0px, 60px)}
+    75% {transform: translate(0px, 20px)}
+    100% {transform: translate(0px, 0px)}
+}
+
+.damage {
+	animation: damage .15s 2;
+	animation-delay: .5s;
+}
+
+@keyframes damage {
+	0% {transform: translate(0px, 0px)}
+    25% {transform: translate(20px, 0px)}
+    50% {transform: translate(0px, 0px)}
+    75% {transform: translate(20px, 0px)}
+    100% {transform: translate(0px, 0px)}
 }
 
 /* result.html */
