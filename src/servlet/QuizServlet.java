@@ -45,10 +45,11 @@ public class QuizServlet extends HttpServlet {
 			// セッションスコープの準備
 			HttpSession session = request.getSession();
 			// 目標番号を取得
-			String goalNumber = request.getParameter("goalNumber");
+			String strGoalNumber = request.getParameter("goalNumber");
 			
-			if (goalNumber != null) {
+			if (strGoalNumber != null) {
 				// goalNumberのパラメータが存在していたら、送信された目標番号の問題を準備する
+				int goalNumber = Integer.parseInt(strGoalNumber);
 				prepareQuiz(session, goalNumber);
 			} else {
 				// goalNumberのパラメータが存在していなかったら、２問目以降なので、その処理を行う
@@ -69,7 +70,7 @@ public class QuizServlet extends HttpServlet {
 	}
 	
 	// 送信された目標番号の問題を準備する処理
-	private void prepareQuiz(HttpSession session, String goalNumber) {
+	private void prepareQuiz(HttpSession session, int goalNumber) {
 		try {
 			// DB内のクイズ情報と回答情報を操作するクラスの初期化
 			QuizQuery quizQuery = new QuizQuery();

@@ -59,12 +59,12 @@ public class ClearStatusQuery extends Db {
    	 * @return clearStatus	クリア状況
    	 * @throws SQLException
    	 */
-	public int selectOne(int userId, String goalNumber) throws SQLException {
+	public int selectOne(int userId, int goalNumber) throws SQLException {
 		dbInit();
 		int clearStatus = 0;
 		
 		try {
-			HashMap<String, String> columnNames = selectColumnNames(userId);
+			HashMap<Integer, String> columnNames = selectColumnNames(userId);
 
 			rs = executeSelect("SELECT * FROM clear_status WHERE user_id = ?", userId);
 			
@@ -145,7 +145,7 @@ public class ClearStatusQuery extends Db {
 	 * @return result
 	 * @throws SQLException
 	 */
-	public int update(String goalNumber, int updateStatus, int userId) throws SQLException {
+	public int update(int goalNumber, int updateStatus, int userId) throws SQLException {
 		dbInit();
 		int result = 0;
 		
@@ -170,9 +170,9 @@ public class ClearStatusQuery extends Db {
 	 * @return columnNames	クリア状況のカラム名のハッシュ配列(Key: 目標番号 Value: 目標番号のカラム名)
 	 * @throws SQLException
 	 */
-	private HashMap<String, String> selectColumnNames(int userId) throws SQLException {
+	private HashMap<Integer, String> selectColumnNames(int userId) throws SQLException {
 		dbInit();
-		HashMap<String, String> columnNames = new HashMap<String, String>();
+		HashMap<Integer, String> columnNames = new HashMap<Integer, String>();
 		 
 		try {
 			rs = executeSelect("SELECT * FROM clear_status WHERE user_id = ?", userId);
@@ -183,7 +183,7 @@ public class ClearStatusQuery extends Db {
 			// ハッシュ配列に目標番号とそのカラム名を格納
 			for (int i = 2; i <= columnCount; i++) {
 				//clear_statusテーブルの目標番号
-				String clearStatusGoalNumber = Integer.valueOf(i-1).toString();
+				int clearStatusGoalNumber = Integer.valueOf(i-1);
 				// ハッシュ配列に格納
 				columnNames.put(clearStatusGoalNumber, rsmd.getColumnName(i));
 			}
@@ -205,27 +205,27 @@ public class ClearStatusQuery extends Db {
 	 * @param goalNumber
 	 * @return clearStatusUpdateStatements.get(goalNumber)
 	 */
-	private String clearStatusUpdateStatement(String goalNumber) {
-		HashMap<String, String> clearStatusUpdateStatements = new HashMap<String, String>();
+	private String clearStatusUpdateStatement(int goalNumber) {
+		HashMap<Integer, String> clearStatusUpdateStatements = new HashMap<Integer, String>();
 		
 		// 17の目標の番号とそのクリア状況のUpdate文を格納
-		clearStatusUpdateStatements.put("1", "UPDATE clear_status SET 1_poverty = ? WHERE user_id = ?");
-		clearStatusUpdateStatements.put("2", "UPDATE clear_status SET 2_hunger = ? WHERE user_id = ?");
-		clearStatusUpdateStatements.put("3", "UPDATE clear_status SET 3_health = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("4", "UPDATE clear_status SET 4_education = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("5", "UPDATE clear_status SET 5_gender = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("6", "UPDATE clear_status SET 6_water = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("7", "UPDATE clear_status SET 7_energy = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("8", "UPDATE clear_status SET 8_economic_growth = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("9", "UPDATE clear_status SET 9_industry = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("10", "UPDATE clear_status SET 10_inequalities = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("11", "UPDATE clear_status SET 11_cities = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("12", "UPDATE clear_status SET 12_responsible = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("13", "UPDATE clear_status SET 13_climate_action = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("14", "UPDATE clear_status SET 14_sea = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("15", "UPDATE clear_status SET 15_land = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("16", "UPDATE clear_status SET 16_peace = ? WHERE user_id = ?");
-        clearStatusUpdateStatements.put("17", "UPDATE clear_status SET 17_partnerships = ? WHERE user_id = ?");
+		clearStatusUpdateStatements.put(1, "UPDATE clear_status SET 1_poverty = ? WHERE user_id = ?");
+		clearStatusUpdateStatements.put(2, "UPDATE clear_status SET 2_hunger = ? WHERE user_id = ?");
+		clearStatusUpdateStatements.put(3, "UPDATE clear_status SET 3_health = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(4, "UPDATE clear_status SET 4_education = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(5, "UPDATE clear_status SET 5_gender = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(6, "UPDATE clear_status SET 6_water = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(7, "UPDATE clear_status SET 7_energy = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(8, "UPDATE clear_status SET 8_economic_growth = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(9, "UPDATE clear_status SET 9_industry = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(10, "UPDATE clear_status SET 10_inequalities = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(11, "UPDATE clear_status SET 11_cities = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(12, "UPDATE clear_status SET 12_responsible = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(13, "UPDATE clear_status SET 13_climate_action = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(14, "UPDATE clear_status SET 14_sea = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(15, "UPDATE clear_status SET 15_land = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(16, "UPDATE clear_status SET 16_peace = ? WHERE user_id = ?");
+        clearStatusUpdateStatements.put(17, "UPDATE clear_status SET 17_partnerships = ? WHERE user_id = ?");
         
         return clearStatusUpdateStatements.get(goalNumber);
 	}

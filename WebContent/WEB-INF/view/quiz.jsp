@@ -4,7 +4,7 @@
 <%@ page import="model.AnswersBean" %>
 <%
 	// 目標番号を取得
-	String goalNumber = (String)session.getAttribute("goalNumber");
+	int goalNumber = (int)session.getAttribute("goalNumber");
 	// 現在の問題番号を取得
 	int currentQuizCount = (int)session.getAttribute("currentQuizCount");
 	// 問題と回答一覧のリストを取得

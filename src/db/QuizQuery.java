@@ -16,7 +16,7 @@ public class QuizQuery extends Db {
 	 * @return quizList		クイズ情報
 	 * @throws SQLException
 	 */
-	public ArrayList<QuizInfoBean> getQuizList(String goalNumber) throws SQLException {
+	public ArrayList<QuizInfoBean> getQuizList(int goalNumber) throws SQLException {
 		dbInit();
 		ArrayList<QuizInfoBean> quizList = new ArrayList<>();
 		
@@ -47,7 +47,7 @@ public class QuizQuery extends Db {
 	 * @return answerList		クイズ情報
 	 * @throws SQLException
 	 */
-	public ArrayList<AnswersBean> getAnswerList(String goalNumber) throws SQLException {
+	public ArrayList<AnswersBean> getAnswerList(int goalNumber) throws SQLException {
 		dbInit();
 		ArrayList<AnswersBean> answerList = new ArrayList<>();
 		
