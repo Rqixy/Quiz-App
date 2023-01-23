@@ -1,5 +1,6 @@
 package db;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,28 +19,21 @@ public class ClearStatusDao extends Db {
 	 * @return clearStatusList
 	 * @throws SQLException
 	 */
-	public ArrayList<GoalBean> goalList(LoginUserBean loginUserBean) throws SQLException {
+	public ArrayList<GoalBean> goalList(final LoginUserBean loginUser) throws SQLException {
 		dbInit();
-		ArrayList<GoalBean> goalList = new ArrayList<GoalBean>();
+		final ArrayList<GoalBean> goalList = new ArrayList<GoalBean>();
 		
 		try {
-			int userId = loginUserBean.getId();
-			
-			rs = executeSelect("SELECT "
-								+ "1_poverty, 2_hunger, 3_health, 4_education, 5_gender, 6_water, "
-								+ "7_energy, 8_economic_growth, 9_industry, 10_inequalities, 11_cities, 12_responsible, "
-								+ "13_climate_action, 14_sea, 15_land, 16_peace, 17_partnerships "
-							 + "FROM clear_status WHERE user_id = ?", userId);
+			rs = select(loginUser);
 			rsmd = rs.getMetaData();
 			
 			// clear_statusテーブルのカラム数を取得する
-			int columnCount = rsmd.getColumnCount();
-			
+			final int columnCount = rsmd.getColumnCount();
 			if (rs.next()) {
 				for (int goalNumber = 1; goalNumber <= columnCount; goalNumber++) {
-					String columnName = rsmd.getColumnName(goalNumber);
+					final String columnName = columnName(rs, goalNumber);
 					
-					GoalBean clearStatusBean = new GoalBean(userId, columnName, goalNumber, rs.getInt(columnName));
+					final GoalBean clearStatusBean = new GoalBean(loginUser.getId(), columnName, goalNumber, rs.getInt(columnName));
 					goalList.add(clearStatusBean);
 				}
 			}
@@ -65,19 +59,13 @@ public class ClearStatusDao extends Db {
 	public GoalBean goal(final LoginUserBean loginUser, final Quiz quiz) {
 		dbInit();
 		GoalBean goal = null;
-		int userId = loginUser.getId();
-		int goalNumber = quiz.goalNumber();
+		
+		final int userId = loginUser.getId();
+		final int goalNumber = quiz.goalNumber();
 		
 		try {
-			rs = executeSelect("SELECT "
-								+ "1_poverty, 2_hunger, 3_health, 4_education, 5_gender, 6_water, "
-								+ "7_energy, 8_economic_growth, 9_industry, 10_inequalities, 11_cities, 12_responsible, "
-								+ "13_climate_action, 14_sea, 15_land, 16_peace, 17_partnerships "
-							 + "FROM clear_status WHERE user_id = ?", userId);
-			rsmd = rs.getMetaData();
-			
-			String columnName = rsmd.getColumnName(goalNumber);
-			
+			rs = select(loginUser);
+			final String columnName = columnName(rs, goalNumber);
 			// DB内のクリア状況の取得
 			if (rs.next()) {
 				goal = new GoalBean(userId, columnName, goalNumber, rs.getInt(columnName));
@@ -101,7 +89,7 @@ public class ClearStatusDao extends Db {
 	 * @return isExist
 	 * @throws SQLException
 	 */
-	public boolean exist(LoginUserBean loginUser) throws SQLException {
+	public boolean exist(final LoginUserBean loginUser) throws SQLException {
 		dbInit();
 		boolean isExist = false;
 		try {
@@ -128,7 +116,7 @@ public class ClearStatusDao extends Db {
    	 * @return result
    	 * @throws SQLException
    	 */
-	public int insert(LoginUserBean loginUser) throws SQLException {
+	public int insert(final LoginUserBean loginUser) throws SQLException {
 		dbInit();
 		int result = 0;
 		
@@ -172,6 +160,38 @@ public class ClearStatusDao extends Db {
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * DBからクリア状況のデータを取得する処理
+	 * @param loginUserBean
+	 * @return
+	 * @throws SQLException
+	 */
+	private ResultSet select(final LoginUserBean loginUserBean) throws SQLException {
+		final int userId = loginUserBean.getId();
+		final String sql = "SELECT "
+							+ "1_poverty, 2_hunger, 3_health, 4_education, 5_gender, 6_water, "
+							+ "7_energy, 8_economic_growth, 9_industry, 10_inequalities, 11_cities, 12_responsible, "
+							+ "13_climate_action, 14_sea, 15_land, 16_peace, 17_partnerships "
+						 + "FROM clear_status WHERE user_id = ?";
+		 return executeSelect(sql, userId);
+	}
+	
+	/**
+	 * clear_statusテーブルのカラム名を取得する処理
+	 * @param rs
+	 * @param goalNumber
+	 * @return
+	 * @throws SQLException
+	 */
+	private String columnName(final ResultSet rs, final int goalNumber) throws SQLException {
+		String columnName = "";
+		
+		rsmd = rs.getMetaData();
+		columnName = rsmd.getColumnName(goalNumber);
+		
+		return columnName;
 	}
 	
 	/**
