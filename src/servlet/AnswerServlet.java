@@ -16,6 +16,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import json.Json;
+import model.Login;
+import model.Quiz;
+import model.QuizInfoBean;
+import model.ScreenTransition;
 
 /**
  * 選択した答えが合っているかどうか確認する処理
@@ -27,12 +31,12 @@ public class AnswerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			// ログインしてなかったら、ログイン画面へリダイレクト
-			if (request.getSession().getAttribute("userId") == null) {
-				response.sendRedirect(request.getContextPath() + "/LoginServlet");
+			if (Login.loggedInUser(request)) {
+				ScreenTransition.redirectLogin(request, response);
 				return;
 			}
 			// ログイン済ならホーム画面へリダイレクト
-			response.sendRedirect(request.getContextPath() + "/HomeServlet");
+			ScreenTransition.redirectHome(request, response);
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
 		}
@@ -55,22 +59,20 @@ public class AnswerServlet extends HttpServlet {
 		    flag.put("isFinished", false);
 
 			// 問題の答えと正解数を取得
-			String quizAnswer = (String)session.getAttribute("quizAnswer");
-			int answerCount = (int)session.getAttribute("answerCount");
+		    Quiz quiz = (Quiz)session.getAttribute("quiz");
+		    QuizInfoBean quizInfoBean = quiz.quizInfoBean();
+			String quizAnswer = quizInfoBean.answer();
+			
 			// 問題の答えと選択した答えが一致しているか判定
 			if(quizAnswer.equals(selectedAnswer)) {
 				// isCorrectをtrueにする
 				flag.put("isCorrect", true);
-				// 正答数を+1してセッションに再保存
-				answerCount++;
-				session.setAttribute("answerCount", answerCount);
+				// 正答数を+1
+				quiz.addAnswerCount();
 			}
 			
-			// 現在の問題番号とクイズの最大問題数を取得する
-			int currentQuizCount = (int)session.getAttribute("currentQuizCount");
-			int maxQuizCount = (int)session.getAttribute("maxQuizCount");
 			// 出力した問題数が最大値に達したら、isFinishedをtrueに変更する
-			if (currentQuizCount >= maxQuizCount) {
+			if (quiz.currentQuizCount() >= quiz.maxQuizCount()) {
 				flag.put("isFinished", true);
 			}
 			
