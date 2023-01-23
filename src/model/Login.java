@@ -2,6 +2,8 @@ package model;
 
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
+
 import db.LoginDao;
 
 public class Login {
@@ -22,6 +24,20 @@ public class Login {
 		LoginDao dao = new LoginDao();
 		
 		loggedInUser = dao.selectUser(name, pass);
+		
+		return loggedInUser;
+	}
+	
+	/**
+	 * ユーザーがログイン済みかどうかのチェック
+	 * @param request
+	 * @return loggedInUser
+	 */
+	public static boolean loggedInUser(HttpServletRequest request) {
+		boolean loggedInUser = false;
+		if (request.getSession().getAttribute("user") != null) {
+			loggedInUser = true;
+		}
 		
 		return loggedInUser;
 	}
