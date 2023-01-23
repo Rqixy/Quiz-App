@@ -1,42 +1,46 @@
 package db;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import bean.GoalBean;
+import model.LoginUserBean;
+import model.Quiz;
 
 /**
  * DBのclear_statusテーブルの処理するクラス
  */
-public class ClearStatusQuery extends Db {
+public class ClearStatusDao extends Db {
 	/**
-	 * ユーザーIDからクリア状況を取得
-	 * @param userId		ユーザーID
-	 * @return clearStatus	クリア状況のハッシュ配列(key:目標番号 value:クリア状況)
+	 * 17の目情のオブジェクトリストを取得
+	 * @param loginUserBean
+	 * @return clearStatusList
 	 * @throws SQLException
 	 */
-	public HashMap<Integer, Integer> select(int userId) throws SQLException {
+	public ArrayList<GoalBean> goalList(LoginUserBean loginUserBean) throws SQLException {
 		dbInit();
-		// クリア状況を格納するハッシュ配列の初期化
-		HashMap<Integer, Integer> clearStatus = new HashMap<Integer, Integer>();
+		ArrayList<GoalBean> goalList = new ArrayList<GoalBean>();
 		
 		try {
-			/* ユーザーIDからクリア状況のテーブルを参照し、参照したクリア状況を配列に格納しておく */
-			// カラム名の配列の初期化
-			String[] columnNames = new String[17];
+			int userId = loginUserBean.getId();
 			
-			rs = executeSelect("SELECT * FROM clear_status WHERE user_id = ?", userId);
+			rs = executeSelect("SELECT "
+								+ "1_poverty, 2_hunger, 3_health, 4_education, 5_gender, 6_water, "
+								+ "7_energy, 8_economic_growth, 9_industry, 10_inequalities, 11_cities, 12_responsible, "
+								+ "13_climate_action, 14_sea, 15_land, 16_peace, 17_partnerships "
+							 + "FROM clear_status WHERE user_id = ?", userId);
 			rsmd = rs.getMetaData();
-	
+			
 			// clear_statusテーブルのカラム数を取得する
 			int columnCount = rsmd.getColumnCount();
-			// 配列にclear_statusテーブルのカラム名を格納する
-			for (int i = 2; i <= columnCount; i++) {
-				columnNames[i-2] = rsmd.getColumnName(i);
-			}
-	
-			/* クリア状況のハッシュ配列に目標番号とクリア状況の内容を格納する */
+			
 			if (rs.next()) {
-				for (int i = 0; i < columnNames.length; i++) {
-					clearStatus.put(i+1, rs.getInt(columnNames[i]));
+				for (int goalNumber = 1; goalNumber <= columnCount; goalNumber++) {
+					String columnName = rsmd.getColumnName(goalNumber);
+					
+					GoalBean clearStatusBean = new GoalBean(userId, columnName, goalNumber, rs.getInt(columnName));
+					goalList.add(clearStatusBean);
 				}
 			}
 		} catch (SQLException e) {
@@ -49,28 +53,34 @@ public class ClearStatusQuery extends Db {
 			}
 		}
 		
-		return clearStatus;
+		return goalList;
 	}
 	
 	/**
-   	 * 目標番号のクリア状況を取得する
-   	 * @param userId		ユーザーID
-   	 * @param goalNumber	目標番号
-   	 * @return clearStatus	クリア状況
-   	 * @throws SQLException
-   	 */
-	public int selectOne(int userId, int goalNumber) throws SQLException {
+	 * 1つの目標のオブジェクトを取得する処理
+	 * @param loginUser
+	 * @param quiz
+	 * @return  goal
+	 */
+	public GoalBean goal(final LoginUserBean loginUser, final Quiz quiz) {
 		dbInit();
-		int clearStatus = 0;
+		GoalBean goal = null;
+		int userId = loginUser.getId();
+		int goalNumber = quiz.goalNumber();
 		
 		try {
-			HashMap<Integer, String> columnNames = selectColumnNames(userId);
-
-			rs = executeSelect("SELECT * FROM clear_status WHERE user_id = ?", userId);
+			rs = executeSelect("SELECT "
+								+ "1_poverty, 2_hunger, 3_health, 4_education, 5_gender, 6_water, "
+								+ "7_energy, 8_economic_growth, 9_industry, 10_inequalities, 11_cities, 12_responsible, "
+								+ "13_climate_action, 14_sea, 15_land, 16_peace, 17_partnerships "
+							 + "FROM clear_status WHERE user_id = ?", userId);
+			rsmd = rs.getMetaData();
+			
+			String columnName = rsmd.getColumnName(goalNumber);
 			
 			// DB内のクリア状況の取得
 			if (rs.next()) {
-				clearStatus = rs.getInt(columnNames.get(goalNumber));
+				goal = new GoalBean(userId, columnName, goalNumber, rs.getInt(columnName));
 			}
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
@@ -82,7 +92,7 @@ public class ClearStatusQuery extends Db {
 			}
 		}
 		
-		return clearStatus;
+		return goal;
 	}
 	
 	/**
@@ -91,11 +101,11 @@ public class ClearStatusQuery extends Db {
 	 * @return isExist
 	 * @throws SQLException
 	 */
-	public boolean exist(int userId) throws SQLException {
+	public boolean exist(LoginUserBean loginUser) throws SQLException {
 		dbInit();
 		boolean isExist = false;
 		try {
-			rs = executeSelect("SELECT * FROM clear_status WHERE user_id = ?", userId);
+			rs = executeSelect("SELECT * FROM clear_status WHERE user_id = ?", loginUser.getId());
 			if (rs.next()) {
 				isExist = true;
 			}
@@ -118,12 +128,12 @@ public class ClearStatusQuery extends Db {
    	 * @return result
    	 * @throws SQLException
    	 */
-	public int insert(int userId) throws SQLException {
+	public int insert(LoginUserBean loginUser) throws SQLException {
 		dbInit();
 		int result = 0;
 		
 		try {
-			result = executeUpdate("INSERT into clear_status (user_id) values (?)", userId);
+			result = executeUpdate("INSERT into clear_status (user_id) values (?)", loginUser.getId());
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		} finally {
@@ -145,12 +155,12 @@ public class ClearStatusQuery extends Db {
 	 * @return result
 	 * @throws SQLException
 	 */
-	public int update(int goalNumber, int updateStatus, int userId) throws SQLException {
+	public int update(final LoginUserBean loginUser, final Quiz quiz, final int updateStatus) throws SQLException {
 		dbInit();
 		int result = 0;
 		
 		try {
-			result = executeUpdate(clearStatusUpdateStatement(goalNumber), updateStatus, userId);
+			result = executeUpdate(clearStatusUpdateStatement(quiz.goalNumber()), updateStatus, loginUser.getId());
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		} finally {
@@ -165,47 +175,11 @@ public class ClearStatusQuery extends Db {
 	}
 	
 	/**
-	 * ユーザーIDからクリア状況のカラム名を取得
-	 * @param userId		ユーザーID
-	 * @return columnNames	クリア状況のカラム名のハッシュ配列(Key: 目標番号 Value: 目標番号のカラム名)
-	 * @throws SQLException
-	 */
-	private HashMap<Integer, String> selectColumnNames(int userId) throws SQLException {
-		dbInit();
-		HashMap<Integer, String> columnNames = new HashMap<Integer, String>();
-		 
-		try {
-			rs = executeSelect("SELECT * FROM clear_status WHERE user_id = ?", userId);
-			rsmd = ps.getMetaData();
-			
-			// clear_statusテーブルのカラム数を取得
-			int columnCount = rsmd.getColumnCount();
-			// ハッシュ配列に目標番号とそのカラム名を格納
-			for (int i = 2; i <= columnCount; i++) {
-				//clear_statusテーブルの目標番号
-				int clearStatusGoalNumber = Integer.valueOf(i-1);
-				// ハッシュ配列に格納
-				columnNames.put(clearStatusGoalNumber, rsmd.getColumnName(i));
-			}
-		} catch (SQLException e) {
-			System.out.println("SQLException : " + e.getMessage());
-		} finally {
-			try {
-				dbClose();
-			} catch (SQLException e) {
-				System.out.println("SQLException : " + e.getMessage());
-			}
-		}
-		 
-		return columnNames;
-	}
-	
-	/**
 	 * クリア状況の目標番号のUpdate文を取得する
 	 * @param goalNumber
 	 * @return clearStatusUpdateStatements.get(goalNumber)
 	 */
-	private String clearStatusUpdateStatement(int goalNumber) {
+	private String clearStatusUpdateStatement(final int goalNumber) {
 		HashMap<Integer, String> clearStatusUpdateStatements = new HashMap<Integer, String>();
 		
 		// 17の目標の番号とそのクリア状況のUpdate文を格納
