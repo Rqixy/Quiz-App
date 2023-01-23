@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="bean.GoalBean" %>
 <%
-	HashMap<Integer, Integer> clearStatus = (HashMap<Integer, Integer>)session.getAttribute("clearStatus");
+	ArrayList<GoalBean> goalList = (ArrayList<GoalBean>)session.getAttribute("goalList");
 %>
 <jsp:include page="./layouts/layout.jsp">
 	<jsp:param name="title" value="ホーム画面" />
@@ -22,17 +23,17 @@
 	            <p>挑戦したいテーマを選ぼう‼<br>
 	            テーマごとに敵が待ち受けているぞ‼</p>
 	            <form id="themes" method="post" action="QuizServlet">
-		           <% for(HashMap.Entry<Integer, Integer> cs : clearStatus.entrySet()) { %>
-			      		<button class="theme" type="submit" name="goalNumber" value="<%= cs.getKey() %>">
+		           <% for (GoalBean goal : goalList) { %>
+			      		<button class="theme" type="submit" name="goalNumber" value="<%= goal.goalNumber() %>">
 			      			<div class="ribon">
-			       			<img alt="" src="<%=request.getContextPath() %>/img/sdgs_icon/sdg_icon_<%= cs.getKey() %>.png" style="width: 200px;">
-			      				<% if (cs.getValue() == 2) { %>
-			       				<div class="caption"><span class="upper gold"></span></div>
-			       				<div class="caption"><span class="under gold"></span></div>
-			       			<% } else if (cs.getValue() == 1) { %>
-								<div class="caption"><span class="upper silver"></span></div>
-			       				<div class="caption"><span class="under silver"></span></div>
-			       			<% } %>
+			       			<img alt="" src="<%=request.getContextPath() %>/img/sdgs_icon/sdg_icon_<%= goal.goalNumber() %>.png">
+			      				<% if (goal.clearStatus() == 2) { %>
+				       				<div class="caption"><span class="upper gold"></span></div>
+				       				<div class="caption"><span class="under gold"></span></div>
+				       			<% } else if (goal.clearStatus() == 1) { %>
+									<div class="caption"><span class="upper silver"></span></div>
+				       				<div class="caption"><span class="under silver"></span></div>
+				       			<% } %>
 			      			</div>
 			      		</button>
 					<% } %>
