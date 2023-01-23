@@ -1,5 +1,4 @@
-/db/
-/filter/
-/json/
 /model/
+/db/
+/bean/
 /servlet/
