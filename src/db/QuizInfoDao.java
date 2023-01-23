@@ -15,7 +15,7 @@ public class QuizInfoDao extends Db {
 	 * @return quizList		クイズ情報
 	 * @throws SQLException
 	 */
-	public ArrayList<QuizInfoBean> quizInfoList(int goalNumber) throws SQLException {
+	public ArrayList<QuizInfoBean> quizInfoList(final int goalNumber) throws SQLException {
 		dbInit();
 		ArrayList<QuizInfoBean> quizInfoList = new ArrayList<>();
 		

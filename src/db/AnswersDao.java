@@ -12,7 +12,7 @@ public class AnswersDao extends Db {
 	 * @return answerList		クイズ情報
 	 * @throws SQLException
 	 */
-	public ArrayList<AnswersBean> answerList(int goalNumber) throws SQLException {
+	public ArrayList<AnswersBean> answerList(final int goalNumber) throws SQLException {
 		dbInit();
 		ArrayList<AnswersBean> answerList = new ArrayList<>();
 		

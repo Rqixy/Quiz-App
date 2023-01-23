@@ -33,7 +33,7 @@ public class Result {
 	 * @param sessionInfo
 	 * @throws SQLException
 	 */
-	public static void clear(LoginUserBean loginUser, Quiz quiz) throws SQLException {
+	public static void clear(final LoginUserBean loginUser, final Quiz quiz) throws SQLException {
 		try {
 			// ユーザーIDと目標番号の取得
 			int goalNumber = quiz.goalNumber();
@@ -74,7 +74,7 @@ public class Result {
 	 * 目標番号からユニセフのURLを取得する処理
 	 * @param goalNumber
 	 */
-	private static String unicefUrlByGoalNumber(int goalNumber) {
+	private static String unicefUrlByGoalNumber(final int goalNumber) {
 		// ハッシュ配列で目標番号とSDGsの17の目標のユニセフサイトのURLを格納
 		HashMap<Integer, String> goals = new HashMap<Integer, String>();
 

@@ -54,7 +54,7 @@ public class Json {
 	 * @return strJsonFlag	文字列型のJSONフラグ
 	 * @throws JsonProcessingException
 	 */
-	public static String flagMapToString(HashMap<String, Boolean> flagMap) throws JsonProcessingException {
+	public static String flagMapToString(final HashMap<String, Boolean> flagMap) throws JsonProcessingException {
 		String strJsonFlag = "";
 		try {
 			strJsonFlag = ob.writeValueAsString(flagMap);

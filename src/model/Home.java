@@ -7,12 +7,12 @@ import bean.GoalBean;
 import db.ClearStatusDao;
 
 public class Home {
-	public static ArrayList<GoalBean> goalList(LoginUserBean loginUser) {
+	public static ArrayList<GoalBean> goalList(final LoginUserBean loginUser) {
 		ArrayList<GoalBean> goalList = new ArrayList<GoalBean>();
 		
 		try {
 			// クリア状況DBの処理するクラスの初期化
-			ClearStatusDao clearStatusDao = new ClearStatusDao();
+			final ClearStatusDao clearStatusDao = new ClearStatusDao();
 			// 送られてきたユーザーIDのクリア状況のデータが作成されているか確認し、
 			// クリア状況のデータが作成されていなかったら、新規に作成
 			if (!clearStatusDao.exist(loginUser)) {

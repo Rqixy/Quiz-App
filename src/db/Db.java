@@ -83,7 +83,7 @@ class Db {
 	 * @return rs
 	 * @throws SQLException
 	 */
-	protected ResultSet executeSelect(String sql, Object... params) throws SQLException {
+	protected ResultSet executeSelect(final String sql, final Object... params) throws SQLException {
 		dbInit();
 		
 		try {
@@ -104,7 +104,7 @@ class Db {
 	 * @return result
 	 * @throws SQLException
 	 */
-	protected int executeUpdate(String sql, Object... params) throws SQLException {
+	protected int executeUpdate(final String sql, final Object... params) throws SQLException {
 		dbInit();
 		con.setAutoCommit(false);
 		
@@ -134,7 +134,7 @@ class Db {
 	 * @param params
 	 * @throws SQLException
 	 */
-	private void setParams(PreparedStatement ps, Object... params) throws SQLException {
+	private void setParams(final PreparedStatement ps, final Object... params) throws SQLException {
 		int paramNum = 1;
 		for (Object param : params) {
 			ps.setObject(paramNum++, param);
