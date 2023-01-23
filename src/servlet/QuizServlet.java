@@ -44,7 +44,7 @@ public class QuizServlet extends HttpServlet {
 			
 			if (requestGoalNumber != null) {
 				// goalNumberのパラメータが存在していたら、送信された目標番号の問題を準備する
-				Quiz quiz = new Quiz(requestGoalNumber);
+				Quiz quiz = Quiz.prepareQuiz(requestGoalNumber);
 				// セッションへ使いまわす情報を保存
 				session.setMaxInactiveInterval(600);					// セッションの保存期間の設定(10分)
 				session.setAttribute("quiz", quiz);
