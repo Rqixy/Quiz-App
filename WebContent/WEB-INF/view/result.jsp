@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="model.Quiz" %>
 <%
-	int answerCount = (int)session.getAttribute("answerCount");
-	int maxQuizCount = (int)session.getAttribute("maxQuizCount");
+	Quiz quiz = (Quiz)session.getAttribute("quiz");
 	String goalUrl = (String)session.getAttribute("goalUrl");
 %>
 <jsp:include page="./layouts/layout.jsp">
@@ -10,10 +10,10 @@
 		<jsp:attribute name="value">
 			<main id="result-main">
 	            <h1>Result</h1>
-	            <% if(answerCount == maxQuizCount) { %>
+	            <% if(quiz.answerCount() == quiz.maxQuizCount()) { %>
 	            	<h2 id="result">全問正解！！</h2>
 	            <% } else { %>
-	            	<h2 id="result"><%=answerCount %>/<%=maxQuizCount %>問正解</h2>
+	            	<h2 id="result"><%=quiz.answerCount() %>/<%=quiz.maxQuizCount() %>問正解</h2>
 	            <% } %>
 	            <div id="menu">
 	                <a href="HomeServlet">ホームに戻る</a>
