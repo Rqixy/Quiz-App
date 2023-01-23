@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * JSON関連の操作をまとめたクラス
  */
 public class Json {
-	private ObjectMapper ob = new ObjectMapper();
+	private static final ObjectMapper ob = new ObjectMapper();
 	
 	/**
 	 * サーブレットのレスポンスから、渡ってきたJSONを取得する
@@ -27,7 +27,7 @@ public class Json {
 	 * @return json		JSON
 	 * @throws IOException
 	 */
-	public JsonNode jsonByServletRequest(HttpServletRequest request) throws JsonMappingException, JsonProcessingException, UnsupportedEncodingException, IOException {
+	public static JsonNode jsonByServletRequest(HttpServletRequest request) throws JsonMappingException, JsonProcessingException, UnsupportedEncodingException, IOException {
 		JsonNode json = null;
 		try {
 		    BufferedReader br = new BufferedReader(request.getReader());
@@ -54,7 +54,7 @@ public class Json {
 	 * @return strJsonFlag	文字列型のJSONフラグ
 	 * @throws JsonProcessingException
 	 */
-	public String flagMapToString(HashMap<String, Boolean> flagMap) throws JsonProcessingException {
+	public static String flagMapToString(HashMap<String, Boolean> flagMap) throws JsonProcessingException {
 		String strJsonFlag = "";
 		try {
 			strJsonFlag = ob.writeValueAsString(flagMap);
@@ -71,7 +71,7 @@ public class Json {
 	 * @param  response
 	 * @throws IOException
 	 */
-	public void ResponseStringJson(HttpServletResponse response, String strJson) throws IOException {
+	public static void ResponseStringJson(HttpServletResponse response, String strJson) throws IOException {
 		try {
 			response.setContentType("application/json;charset=UTF-8");
 			PrintWriter pw = response.getWriter();
