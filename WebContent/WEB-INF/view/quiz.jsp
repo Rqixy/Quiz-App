@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.Quiz" %>
-<%@ page import="model.QuizInfoBean" %>
-<%@ page import="model.AnswersBean" %>
+<%@ page import="bean.QuizInfoBean" %>
+<%@ page import="bean.AnswersBean" %>
 <%
 	Quiz quiz = (Quiz)session.getAttribute("quiz");
 	QuizInfoBean quizInfoBean = quiz.quizInfoBean();
