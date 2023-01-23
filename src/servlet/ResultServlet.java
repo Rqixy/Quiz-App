@@ -48,7 +48,7 @@ public class ResultServlet extends HttpServlet {
 			Result.clear(loginUserBean, quiz);
 			
 	        // セッションに目標番号のユニセフサイトのURLを保存
-	        session.setAttribute("goalUrl", Result.getUnicefUrl(quiz));
+	        session.setAttribute("goalUrl", Result.unicefUrl());
 
 			// 結果画面へ表示
 	        ScreenTransition.forward(request, response, "result.jsp");
