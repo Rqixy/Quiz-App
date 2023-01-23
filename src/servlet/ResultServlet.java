@@ -42,6 +42,7 @@ public class ResultServlet extends HttpServlet {
 			request.setCharacterEncoding("UTF-8");
 			// セッションスコープの準備
 			HttpSession session = request.getSession();
+			
 			LoginUserBean loginUserBean = (LoginUserBean)session.getAttribute("user");
 			Quiz quiz = (Quiz)session.getAttribute("quiz");
 			
