@@ -27,7 +27,7 @@ public class Answer {
 	 */
 	public static String correctAndFinishedFlagToText(final Quiz quiz, final JsonNode selectedAnswerJson) throws JsonProcessingException {
 	    // 問題の答えと選択した答えを取得
-	    Answer answer = new Answer(quiz.quizInfoBean().answer(), selectedAnswerJson.get("selectedAnswer").textValue());
+	    Answer answer = new Answer(quiz.quizInfo().answer(), selectedAnswerJson.get("selectedAnswer").textValue());
 	    
 	    // 答えの判定と全問終了した判定のハッシュ配列
 	    flag.put("isCorrect", false);
