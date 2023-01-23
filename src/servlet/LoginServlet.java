@@ -67,7 +67,7 @@ public class LoginServlet extends HttpServlet {
 			// ログイン可否で分岐
 			if(loggedInUser != 0) { // 成功時
 				// ユーザーidをスコープに設定(ホームでユーザー判別するのに使う)
-				session.setAttribute("userId", User.getId());
+				session.setAttribute("user", User);
 				
 				// ホーム画面に移動
 				response.sendRedirect(request.getContextPath() + "/HomeServlet");
