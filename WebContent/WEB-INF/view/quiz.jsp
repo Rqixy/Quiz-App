@@ -4,8 +4,8 @@
 <%@ page import="bean.AnswersBean" %>
 <%
 	Quiz quiz = (Quiz)session.getAttribute("quiz");
-	QuizInfoBean quizInfoBean = quiz.quizInfoBean();
-	AnswersBean answersBean = quiz.answersBean();
+	QuizInfoBean quizInfo = quiz.quizInfo();
+	AnswersBean answers = quiz.answers();
 %>
 <jsp:include page="./layouts/layout.jsp">
 	<jsp:param name="title" value="クエストなう" />
@@ -28,13 +28,13 @@
 	            <div id="quiz">
 	            	<div id="question-box">
 	            		<span id="question-title">Question</span>
-	            		<p id="question"><%=quizInfoBean.quiz() %></p>
+	            		<p id="question"><%=quizInfo.quiz() %></p>
 	            	</div>
 		            <div id="answers">
-			            <button name="answer" type="submit"><%=answersBean.correct() %></button>
-			            <button name="answer" type="submit"><%=answersBean.incorrect1() %></button>
-			            <button name="answer" type="submit"><%=answersBean.incorrect2() %></button>
-			            <button name="answer" type="submit"><%=answersBean.incorrect3() %></button>
+			            <button name="answer" type="submit"><%=answers.correct() %></button>
+			            <button name="answer" type="submit"><%=answers.incorrect1() %></button>
+			            <button name="answer" type="submit"><%=answers.incorrect2() %></button>
+			            <button name="answer" type="submit"><%=answers.incorrect3() %></button>
 		            </div>
 	            </div>
 	        </main>
