@@ -1,4 +1,4 @@
-package model;
+package transition;
 
 import java.io.IOException;
 
