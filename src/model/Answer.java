@@ -12,14 +12,14 @@ public class Answer {
 	private final String quizAnswer;
 	private final String selectedAnswer;
 	
-	Answer(final String quizAnswer, final String selectedAnswer) {
+	private Answer(final String quizAnswer, final String selectedAnswer) {
 		Answer.flag = new HashMap<String, Boolean>();
 		this.quizAnswer = quizAnswer;
 		this.selectedAnswer = selectedAnswer;
 	}
 	
 	/**
-	 * 
+	 * 答えの判定と全問終了した判定を行い、その結果を返す処理
 	 * @param quiz
 	 * @param selectedAnswerJson
 	 * @return Json.flagMapToString(flag)
@@ -27,7 +27,9 @@ public class Answer {
 	 */
 	public static String correctAndFinishedFlagToText(final Quiz quiz, final JsonNode selectedAnswerJson) throws JsonProcessingException {
 	    // 問題の答えと選択した答えを取得
-		final Answer answer = new Answer(quiz.quizInfo().answer(), selectedAnswerJson.get("selectedAnswer").textValue());
+		final String quizAnswer = quiz.quizInfo().answer();
+		final String selectedAnswer = selectedAnswerJson.get("selectedAnswer").textValue();
+		final Answer answer = new Answer(quizAnswer, selectedAnswer);
 	    
 	    // 答えの判定と全問終了した判定のハッシュ配列
 	    flag.put("isCorrect", false);
