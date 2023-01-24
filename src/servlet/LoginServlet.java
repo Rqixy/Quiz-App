@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import csrf.Csrf;
 import model.Login;
 import model.LoginUserBean;
+import transition.ScreenTransition;
 
 /**
  * Servlet implementation class LoginServlet
@@ -29,6 +31,8 @@ public class LoginServlet extends HttpServlet {
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	Csrf.make(request);
+    	
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/login.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -39,6 +43,11 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 文字コードを指定（あとで置き換えてもいい）
 		request.setCharacterEncoding("UTF-8");
+		
+		if(!Csrf.check(request)) {
+			ScreenTransition.redirectLogin(request, response);
+			return;
+		}
 
 		// ボタンで要件を確認
 		String button = request.getParameter("submit");
@@ -80,6 +89,7 @@ public class LoginServlet extends HttpServlet {
 			// ユーザー情報を破棄
 			session.invalidate();
 			
+			Csrf.make(request);
 			// トップに帰す
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/login.jsp");
 			dispatcher.forward(request, response);

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.User" %>
 <%
+	String csrfToken = (String)session.getAttribute("csrfToken");
 	User user = (User)request.getAttribute("user");
 %>
 <jsp:include page="./layouts/layout.jsp">
@@ -13,6 +14,7 @@
 	            <p class="confirm">ユーザー名：<%= user.getName() %></p>
 	            <p class="confirm">パスワード：・・・・・・・・</p>
 	            <form class="login" action="SignUpServlet" method="post">
+	            	<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
 	            	<input type="hidden" name="name" value="<%= user.getName() %>" class="name">
 	                <input type="hidden" name="pass" value="<%= user.getPass() %>" class="">
 	                <button type="submit" name="submit" value="regist" class="btn btn-flat"><span>登録する‼</span></button>

@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import csrf.Csrf;
 import db.SignUpDao;
 import model.User;
+import transition.ScreenTransition;
 
 /**
  * Servlet implementation class SignUpServlet
@@ -28,6 +30,7 @@ public class SignUpServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	Csrf.make(request);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/register.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -37,6 +40,10 @@ public class SignUpServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//文字コードを設定する。
 		request.setCharacterEncoding("UTF-8");
+		if(!Csrf.check(request)) {
+			ScreenTransition.redirectLogin(request, response);
+			return;
+		}
 		
 		//遷移準備
 		RequestDispatcher dispatcher = null;
@@ -52,7 +59,8 @@ public class SignUpServlet extends HttpServlet {
 			//登録確認画面に情報を渡す
 			User user = new User(name, pass);
 			request.setAttribute("user", user);
-		
+			
+			Csrf.make(request);
 			dispatcher = request.getRequestDispatcher("/WEB-INF/view/register_confirm.jsp");
 			dispatcher.forward(request, response);
 		}
@@ -61,7 +69,7 @@ public class SignUpServlet extends HttpServlet {
 			SignUpDao sd = new SignUpDao();
 			try {
 				boolean flag = sd.UserAdd(name, pass);
-
+				
 				if(flag == true) {
 					dispatcher = request.getRequestDispatcher("/WEB-INF/view/register_fin.jsp");
 				}else {

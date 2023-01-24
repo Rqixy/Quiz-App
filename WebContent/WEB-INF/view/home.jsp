@@ -2,6 +2,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="bean.GoalBean" %>
 <%
+	String csrfToken = (String)session.getAttribute("csrfToken");
 	ArrayList<GoalBean> goalList = (ArrayList<GoalBean>)session.getAttribute("goalList");
 %>
 <jsp:include page="./layouts/layout.jsp">
@@ -11,6 +12,7 @@
 			<header id="home-header">
 				<p>ようこそ！testさん！</p>
 	    		<form method="post" action="LoginServlet">
+	    			<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
 	    			<button type="submit" name="submit" value="logout" class="btn btn-flat"><span>ログアウト</span></button>
 	    		</form>
 	    	</header>
@@ -24,7 +26,8 @@
 	            <p>挑戦したいテーマを選ぼう‼<br>
 	            テーマごとに敵が待ち受けているぞ‼</p>
 	            <form id="themes" method="post" action="QuizServlet">
-		           <% for (GoalBean goal : goalList) { %>
+	            <input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
+		           	<% for (GoalBean goal : goalList) { %>
 			      		<button class="theme" type="submit" name="goalNumber" value="<%= goal.goalNumber() %>">
 			      			<div class="ribon">
 			       			<img alt="" src="<%=request.getContextPath() %>/img/sdgs_icon/sdg_icon_<%= goal.goalNumber() %>.png">

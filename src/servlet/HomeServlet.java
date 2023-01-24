@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import csrf.Csrf;
 import model.Home;
 import model.Login;
 import model.LoginUserBean;
@@ -23,6 +24,7 @@ public class HomeServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			Csrf.make(request);
 			request.setCharacterEncoding("UTF-8");
 			
 			// ログインしてなかったら、ログイン画面へリダイレクト
