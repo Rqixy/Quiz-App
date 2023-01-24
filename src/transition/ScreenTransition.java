@@ -20,7 +20,7 @@ public class ScreenTransition {
 	 * @throws IOException
 	 * @throws ServletException
 	 */
-	public static void forward(HttpServletRequest request, HttpServletResponse response, String jsp) throws IOException, ServletException {
+	public static void forward(final HttpServletRequest request, final HttpServletResponse response, final String jsp) throws IOException, ServletException {
 		try {
 			if (!jsp.endsWith(".jsp")) {
 				throw new IOException("jspファイルを指定してください");
@@ -41,7 +41,7 @@ public class ScreenTransition {
 	 * @param response
 	 * @throws IOException
 	 */
-	public static void redirectLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public static void redirectLogin(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		try {
 			response.sendRedirect(request.getContextPath() + "/LoginServlet");
 		} catch (IOException e) {
@@ -55,7 +55,7 @@ public class ScreenTransition {
 	 * @param response
 	 * @throws IOException
 	 */
-	public static void redirectHome(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public static void redirectHome(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		try {
 			response.sendRedirect(request.getContextPath() + "/HomeServlet");
 		} catch (IOException e) {
