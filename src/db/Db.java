@@ -13,7 +13,63 @@ import java.sql.SQLException;
  * 
  * できれば、DbConnectionをprivateにして継承のみで扱えるようにしたい
  */
-class Db {
+
+/*
+ * // 使い方
+ *class TestDao extends Db {
+ *	public TestBean select(final int id) throws SQLException {
+ *		// 初期化
+ *		dbInit();
+ *	    TestBean test = null;
+ *	    
+ *	   	try {
+ *	   		// SELECT文の実行
+ *	   		// 引数にSQL文と必要な値を入力する
+ *	   		rs = executeSelect("SELECT * FROM test WHERE id = ?", id);
+ *	   		// 実行結果
+ *	   		if (rs.next()) {
+ *	   			test = new Test(rs.getString("name"), rs.getInt("age"));
+ *	   		}
+ *	   	} catch (SQLException e) {
+ *	   		System.out.println("SQLException : " + e.getMessage());
+ *		} finally {
+ *			// クローズ処理
+ *			try {
+ *				dbClose();
+ *			} catch (SQLException e) {
+ *				System.out.println("SQLException : " + e.getMessage());
+ *			}
+ *		}
+ *			
+ *		return test;
+ *   }
+ *	
+ *	public int insertOrUpdate(final TestBean test) {
+ *		// 初期化
+ *		dbInit();
+ *		int result = 0;
+ *		
+ *		try {
+ *			// INSERT文かUPDATE文の実行
+ *	   		// 引数にSQL文と必要な値を入力する
+ *	   		result = executeUpdate("INSERT INTO (name, age) VALUES (?, ?)", test.name, test.age);
+ *	   	} catch (SQLException e) {
+ *	   		System.out.println("SQLException : " + e.getMessage());
+ *		} finally {
+ *			// クローズ処理ｓ
+ *			try {
+ *				dbClose();
+ *			} catch (SQLException e) {
+ *				System.out.println("SQLException : " + e.getMessage());
+ *			}
+ *	 	}
+ *	 	
+ *	 	return result;
+ *	 }
+ *}
+ */
+
+ abstract class Db {
 	private static final String MYSQL_DRIVER = "com.mysql.cj.jdbc.Driver";	//ドライバー名
 	private static final String JDBC_CONNECTION = "jdbc:mysql://localhost:3306/tech_c_itpj?useSSL=false";	// JDBC接続先情報
 	private static final String USER = "root";	// ユーザー名
@@ -28,7 +84,7 @@ class Db {
 	 * DB接続処理
 	 * @return con
 	 */
-	public Connection DbConnection() {
+	private Connection DbConnection() {
 		Connection con = null;
 
 		if (con == null) {
