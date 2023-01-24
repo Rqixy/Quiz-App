@@ -72,7 +72,7 @@ button.btn {
 h1 {
     font-size: 15rem;
     color: rgb(224, 0, 0);
-    margin-bottom: 50px;
+    margin-bottom: 5rem;
 }
 
 button.btn-flat {
@@ -139,8 +139,16 @@ a {
 
 /* login.html */
 #login-main h1 {
-    padding-top: 15%;
+    padding-top: 10%;
+    margin-bottom: 1rem;
 }
+
+#login-main p {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 6rem;
+}
+
 .login input {
     margin-bottom: 3rem;
     font-size: 2rem;

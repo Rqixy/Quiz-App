@@ -6,6 +6,7 @@
 		<jsp:attribute name="value">
 			<main id="login-main">
 			    <h1>SDGs Quest</h1>
+			    <p>楽しく気軽にSDGｓを学べる教育的Webアプリケーション</p>
 			    <form class="login" action="LoginServlet" method="POST">
 			    	<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
 			        <input type="text" name="name" placeholder="ユーザー名" class="name"><br>
