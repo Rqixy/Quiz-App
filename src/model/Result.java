@@ -18,6 +18,40 @@ public class Result {
 	private final int clear;
 	private static String unicefUrl;
 	
+	/**
+	 * 初期化
+	 */
+	private Result() {
+		this.clearStatusInDb = 0;
+		this.correctAnswerRate = 0f;
+		this.allClearRate = 1f;
+		this.clearRate = 0.6f;
+		this.allClear = 2;
+		this.clear = 1;
+	}
+	
+	/**
+	 * クリアの基準に達していない時のコンストラクタ
+	 * @param clearStatusInDb
+	 * @param correctAnswerRate
+	 * @param unicefUrl
+	 */
+	private Result(final String unicefUrl) {
+		this.clearStatusInDb = 0;
+		this.correctAnswerRate = 0;
+		this.allClearRate = 1f;
+		this.clearRate = 0.6f;
+		this.allClear = 2;
+		this.clear = 1;
+		Result.unicefUrl = unicefUrl;
+	}
+	
+	/**
+	 * クリアの基準に達していた時のコンストラクタ
+	 * @param clearStatusInDb
+	 * @param correctAnswerRate
+	 * @param unicefUrl
+	 */
 	private Result(final int clearStatusInDb, final float correctAnswerRate, final String unicefUrl) {
 		this.clearStatusInDb = clearStatusInDb;
 		this.correctAnswerRate = correctAnswerRate;
@@ -33,10 +67,24 @@ public class Result {
 	 * @param sessionInfo
 	 * @throws SQLException
 	 */
-	public static void clear(final LoginUserBean loginUser, final Quiz quiz) throws SQLException {
+	public static boolean clear(final LoginUserBean loginUser, final Quiz quiz) throws SQLException {
 		try {
-			// ユーザーIDと目標番号の取得
+			Result result = new Result();
+			
+			// 目標番号とユニセフのURLを取得
 			int goalNumber = quiz.goalNumber();
+			String unicefUrl = unicefUrlByGoalNumber(goalNumber);
+			
+			// 正答率を求める
+			float answerCount = (float)quiz.answerCount();
+			float maxQuizCount = (float)quiz.maxQuizCount();
+			float correctAnswerRate = answerCount / maxQuizCount;
+			
+			// クリア基準にすら達していなかったら、ユニセフのURLだけ渡して返す
+			if (correctAnswerRate < result.clearRate) {
+				result = new Result(unicefUrl);
+				return false;
+			}
 			
 			// クリア状況の更新処理
 			// クリア状況DBの処理するクラスの初期化
@@ -44,13 +92,8 @@ public class Result {
 			// DB内のクリア状況を取得
 			GoalBean goal = clearStatusDao.goal(loginUser, quiz);
 			int clearStatusInDb = goal.clearStatus();
-			// 正答率を求める
-			float answerCount = (float)quiz.answerCount();
-			float maxQuizCount = (float)quiz.maxQuizCount();
-			float correctAnswerRate = answerCount / maxQuizCount;
 			
-			String unicefUrl = unicefUrlByGoalNumber(goalNumber);
-			Result result = new Result(clearStatusInDb, correctAnswerRate, unicefUrl);
+			result = new Result(clearStatusInDb, correctAnswerRate, unicefUrl);
 			
 			// 正答数を確認して、正答数に応じたクリア状況を更新
 			// 1度も全問正解したことがなく、初めて全問正解なら数字を2に更新する
@@ -64,6 +107,8 @@ public class Result {
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		}
+		
+		return true;
 	}
 	
 	public static String unicefUrl() {
