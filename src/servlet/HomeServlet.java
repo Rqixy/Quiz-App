@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bean.GoalBean;
 import model.Home;
 import model.Login;
 import model.LoginUserBean;
@@ -35,11 +33,16 @@ public class HomeServlet extends HttpServlet {
 			
 			// セッションスコープの準備
 			HttpSession session = request.getSession();
-			LoginUserBean loginUserBean = (LoginUserBean)session.getAttribute("user");
-
-			ArrayList<GoalBean> goalList = Home.goalList(loginUserBean);
+			
+			// クリア状況の内容のセッションが存在していたら、何もせずhome.jspに移動
+			if(session.getAttribute("goalList") != null) {
+				ScreenTransition.forward(request, response, "home.jsp");
+				return;
+			}
+			
 			// クリア状況の内容をセッションに保存
-			session.setAttribute("goalList", goalList);
+			LoginUserBean loginUserBean = (LoginUserBean)session.getAttribute("user");
+			session.setAttribute("goalList", Home.goalList(loginUserBean));
 
 			// Top画面へ表示
 			ScreenTransition.forward(request, response, "home.jsp");
