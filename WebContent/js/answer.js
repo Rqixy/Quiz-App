@@ -7,18 +7,19 @@ for (let answerButton of answerButtons) {
 	answerButton.addEventListener('click', () => {
 		// 連射防止
 		disabledButton(answerButtons);
-		
+				
 		// 判定結果を取得
 		const requestUrl = 'http://localhost:8080/QuizApp/AnswerServlet';
-		postData(requestUrl, { selectedAnswer: answerButton.textContent })
-		.then((data) => {
+		const requestData = { selectedAnswer: answerButton.textContent };
+
+		postData(requestUrl, requestData).then((responseData) => {
 			const question = document.querySelector("#question");
 			const field = document.querySelector("#field");
 			const enemy = document.querySelector("#enemy");
 			const player = document.querySelector("#quiz");
 			
 			// 正誤判定時の画像表示とアニメーション
-			if (data['isCorrect']) {
+			if (responseData['isCorrect']) {
 				// 正解画像を表示
 				createImageElement("./img/correct.png", 'correct-img', question);
 				// 敵に攻撃するアニメーションとダメージアニメーションを追加
@@ -42,7 +43,7 @@ for (let answerButton of answerButtons) {
 			}
 			
 			// 次の問題へ
-			nextPage(data['isFinished']);
+			nextPage(responseData['isFinished']);
 		}).catch((error) => {
 			console.log('Fetch API Error : ', error);
 		});
