@@ -46,7 +46,11 @@ public class ResultServlet extends HttpServlet {
 			LoginUserBean loginUserBean = (LoginUserBean)session.getAttribute("user");
 			Quiz quiz = (Quiz)session.getAttribute("quiz");
 			
-			Result.clear(loginUserBean, quiz);
+			boolean clear = Result.clear(loginUserBean, quiz);
+			// クリアしていたら、クリア状況を更新するため、現在のセッションを削除する
+			if (clear) {
+				session.removeAttribute("goalList");
+			}
 			
 	        // セッションに目標番号のユニセフサイトのURLを保存
 	        session.setAttribute("goalUrl", Result.unicefUrl());
