@@ -39,17 +39,17 @@ public class QuizServlet extends HttpServlet {
 		try {
 			request.setCharacterEncoding("UTF-8");
 			
-			if(!Csrf.check(request)) {
-				ScreenTransition.redirectHome(request, response);
-				return;
-			}
-			
 			// セッションスコープの準備
 			HttpSession session = request.getSession();
 			// 目標番号を取得
 			String requestGoalNumber = request.getParameter("goalNumber");
 			
 			if (requestGoalNumber != null) {
+				if(!Csrf.check(request)) {
+					ScreenTransition.redirectHome(request, response);
+					return;
+				}
+				
 				// goalNumberのパラメータが存在していたら、送信された目標番号の問題を準備する
 				Quiz quiz = Quiz.prepareQuiz(requestGoalNumber);
 				// セッションへ使いまわす情報を保存
