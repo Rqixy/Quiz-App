@@ -14,7 +14,7 @@ import model.Login;
 import model.LoginUserBean;
 import model.Quiz;
 import model.Result;
-import model.ScreenTransition;
+import transition.ScreenTransition;
 
 /**
  * 結果時にクリア状況の更新と結果画面表示の準備処理

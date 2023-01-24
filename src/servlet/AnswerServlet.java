@@ -18,7 +18,7 @@ import json.Json;
 import model.Answer;
 import model.Login;
 import model.Quiz;
-import model.ScreenTransition;
+import transition.ScreenTransition;
 
 /**
  * 選択した答えが合っているかどうか確認する処理

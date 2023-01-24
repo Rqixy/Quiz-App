@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import model.Login;
 import model.Quiz;
-import model.ScreenTransition;
+import transition.ScreenTransition;
 
 /**
  * クイズを表示する準備処理

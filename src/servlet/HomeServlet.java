@@ -14,7 +14,7 @@ import bean.GoalBean;
 import model.Home;
 import model.Login;
 import model.LoginUserBean;
-import model.ScreenTransition;
+import transition.ScreenTransition;
 
 /**
  * ホーム画面を表示する際にログインしたユーザーのクリア状況を確認し準備する処理
