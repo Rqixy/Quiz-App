@@ -18,7 +18,7 @@ import transition.ScreenTransition;
 /**
  * ホーム画面を表示する際にログインしたユーザーのクリア状況を確認し準備する処理
  */
-@WebServlet("/HomeServlet")
+@WebServlet("/home")
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

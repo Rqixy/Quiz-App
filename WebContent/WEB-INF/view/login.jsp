@@ -7,14 +7,14 @@
 			<main id="login-main">
 			    <h1>SDGs Quest</h1>
 			    <p>楽しく気軽にSDGｓを学べる教育的Webアプリケーション</p>
-			    <form class="login" action="LoginServlet" method="POST">
+			    <form class="login" action="login" method="POST">
 			    	<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
 			        <input type="text" name="name" placeholder="ユーザー名" class="name"><br>
 			        <input type="password" name="pass" placeholder="パスワード" class=""><br>
 			        <button type="submit" name="submit" value="login" class="btn btn-flat" ><span>START!</span></button>
 			    </form>
 			
-			    <a href="SignUpServlet">新しく始める方はこちら</a>
+			    <a href="signup">新しく始める方はこちら</a>
 			</main>
 		</jsp:attribute>
 	</jsp:param>

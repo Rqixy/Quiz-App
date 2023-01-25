@@ -18,7 +18,7 @@ import transition.ScreenTransition;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/LoginServlet")
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -79,7 +79,7 @@ public class LoginServlet extends HttpServlet {
 				session.setAttribute("user", User);
 				
 				// ホーム画面に移動
-				response.sendRedirect(request.getContextPath() + "/HomeServlet");
+				response.sendRedirect(request.getContextPath() + "/home");
 			}else { // 失敗時
 				// トップに帰す
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/login.jsp");

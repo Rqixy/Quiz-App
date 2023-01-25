@@ -43,7 +43,7 @@ public class ScreenTransition {
 	 */
 	public static void redirectLogin(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		try {
-			response.sendRedirect(request.getContextPath() + "/LoginServlet");
+			response.sendRedirect(request.getContextPath() + "/login");
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
 		}
@@ -57,7 +57,7 @@ public class ScreenTransition {
 	 */
 	public static void redirectHome(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		try {
-			response.sendRedirect(request.getContextPath() + "/HomeServlet");
+			response.sendRedirect(request.getContextPath() + "/home");
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
 		}

@@ -6,7 +6,7 @@
 		<jsp:attribute name="value">
 			<main class="register" id="register-main">
 	            <h1>ユーザー登録</h1>
-	            <form class="login" action="SignUpServlet" method="post">
+	            <form class="login" action="signup" method="post">
 	            	<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
 	                <input type="text" name="name" placeholder="ユーザー名" class="name"><br>
 	                <input type="password" name="pass" placeholder="パスワード" class=""><br>

@@ -11,7 +11,7 @@
 		<jsp:attribute name="value">
 			<header id="home-header">
 				<p>ようこそ！testさん！</p>
-	    		<form method="post" action="LoginServlet">
+	    		<form method="post" action="login">
 	    			<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
 	    			<button type="submit" name="submit" value="logout" class="btn btn-flat"><span>ログアウト</span></button>
 	    		</form>
@@ -25,7 +25,7 @@
 	            <h1>Stages</h1>
 	            <p>挑戦したいテーマを選ぼう‼<br>
 	            テーマごとに敵が待ち受けているぞ‼</p>
-	            <form id="themes" method="post" action="QuizServlet">
+	            <form id="themes" method="post" action="quiz">
 	            <input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
 		           	<% for (GoalBean goal : goalList) { %>
 			      		<button class="theme" type="submit" name="goalNumber" value="<%= goal.goalNumber() %>">

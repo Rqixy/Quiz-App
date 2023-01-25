@@ -17,7 +17,7 @@ import transition.ScreenTransition;
 /**
  * クイズを表示する準備処理
  */
-@WebServlet("/QuizServlet")
+@WebServlet("/quiz")
 public class QuizServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

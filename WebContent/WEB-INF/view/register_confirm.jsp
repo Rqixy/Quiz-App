@@ -13,7 +13,7 @@
 	            <p id="warning">※お間違いなければ登録へお進みください</p>
 	            <p class="confirm">ユーザー名：<%= user.getName() %></p>
 	            <p class="confirm">パスワード：・・・・・・・・</p>
-	            <form class="login" action="SignUpServlet" method="post">
+	            <form class="login" action="signup" method="post">
 	            	<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
 	            	<input type="hidden" name="name" value="<%= user.getName() %>" class="name">
 	                <input type="hidden" name="pass" value="<%= user.getPass() %>" class="">

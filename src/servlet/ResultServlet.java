@@ -20,7 +20,7 @@ import transition.ScreenTransition;
 /**
  * 結果時にクリア状況の更新と結果画面表示の準備処理
  */
-@WebServlet("/ResultServlet")
+@WebServlet("/result")
 public class ResultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

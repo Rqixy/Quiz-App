@@ -16,7 +16,7 @@
 	            	<h2 id="result"><%=quiz.answerCount() %>/<%=quiz.maxQuizCount() %>問正解</h2>
 	            <% } %>
 	            <div id="menu">
-	                <a href="HomeServlet">ホームに戻る</a>
+	                <a href="home">ホームに戻る</a>
 	            </div>
 	            
 				<a id="unicef-url" href="<%=goalUrl %>" target="_blank">今回の目標について学ぶ</a>
