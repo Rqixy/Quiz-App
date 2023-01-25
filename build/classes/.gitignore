@@ -1,8 +1,2 @@
-/model/
-/db/
-/bean/
 /servlet/
-/dao/
-/json/
-/transition/
 /csrf/
