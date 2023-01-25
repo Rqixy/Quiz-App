@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import csrf.Csrf;
 import model.Login;
 import model.LoginUserBean;
 import model.Quiz;
@@ -40,6 +41,11 @@ public class ResultServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			request.setCharacterEncoding("UTF-8");
+			if(!Csrf.check(request)) {
+				ScreenTransition.redirectHome(request, response);
+				return;
+			}
+			
 			// セッションスコープの準備
 			HttpSession session = request.getSession();
 			

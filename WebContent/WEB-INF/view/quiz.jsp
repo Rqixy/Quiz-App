@@ -3,6 +3,7 @@
 <%@ page import="bean.QuizInfoBean" %>
 <%@ page import="bean.AnswersBean" %>
 <%
+	String csrfToken = (String)session.getAttribute("csrfToken");
 	Quiz quiz = (Quiz)session.getAttribute("quiz");
 	QuizInfoBean quizInfo = quiz.quizInfo();
 	AnswersBean answers = quiz.answers();
@@ -30,6 +31,7 @@
 	            		<span id="question-title">Question</span>
 	            		<p id="question"><%=quizInfo.quiz() %></p>
 	            	</div>
+	            	<input type="hidden" name="csrf_token" value="<%=csrfToken %>">
 		            <div id="answers">
 			            <button name="answer" type="submit"><%=answers.correct() %></button>
 			            <button name="answer" type="submit"><%=answers.incorrect1() %></button>

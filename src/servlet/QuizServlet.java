@@ -28,6 +28,7 @@ public class QuizServlet extends HttpServlet {
 				ScreenTransition.redirectLogin(request, response);
 				return;
 			}
+			
 			// ログイン済ならホーム画面へリダイレクト
 			ScreenTransition.redirectHome(request, response);
 		} catch (IOException e) {
@@ -38,6 +39,10 @@ public class QuizServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			request.setCharacterEncoding("UTF-8");
+			if(!Csrf.check(request)) {
+				ScreenTransition.redirectHome(request, response);
+				return;
+			}
 			
 			// セッションスコープの準備
 			HttpSession session = request.getSession();
@@ -45,11 +50,6 @@ public class QuizServlet extends HttpServlet {
 			String requestGoalNumber = request.getParameter("goalNumber");
 			
 			if (requestGoalNumber != null) {
-				if(!Csrf.check(request)) {
-					ScreenTransition.redirectHome(request, response);
-					return;
-				}
-				
 				// goalNumberのパラメータが存在していたら、送信された目標番号の問題を準備する
 				Quiz quiz = Quiz.prepareQuiz(requestGoalNumber);
 				// セッションへ使いまわす情報を保存
@@ -61,6 +61,8 @@ public class QuizServlet extends HttpServlet {
 				quiz.nextQuiz();
 				session.setAttribute("quiz", quiz);
 			}
+			
+			Csrf.make(request);
 			// 問題画面へ表示
 			ScreenTransition.forward(request, response, "quiz.jsp");
 		} catch (ServletException e) {

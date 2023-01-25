@@ -24,7 +24,6 @@ public class HomeServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			Csrf.make(request);
 			request.setCharacterEncoding("UTF-8");
 			
 			// ログインしてなかったら、ログイン画面へリダイレクト
@@ -33,6 +32,7 @@ public class HomeServlet extends HttpServlet {
 				return;
 			}
 			
+			Csrf.make(request);
 			// セッションスコープの準備
 			HttpSession session = request.getSession();
 			
