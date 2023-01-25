@@ -47,7 +47,7 @@ for (let answerButton of answerButtons) {
 		}).catch((error) => {
 			console.log('Fetch API Error : ', error);
 			// エラーが出たら、ホームに突き返す
-			createFormElement('GET', 'HomeServlet');
+			createFormElement('GET', 'home');
 		});
 	}, false);
 }
@@ -77,6 +77,30 @@ async function postData(url = '', data = {}) {
 	return response.json();
 }
 
+// 武器をランダムに選ぶ処理
+const randomWeapons = () => {
+	const weapons = ['tsue', 'sword', 'ono'];
+	const random = Math.floor(Math.random() * weapons.length);
+	return weapons[random];
+}
+
+// 次の問題に遷移する処理
+const nextPage = (finishedQuiz = false) => {
+	setTimeout(() => {
+		let action = '';
+		if (finishedQuiz) {
+			action = 'result';
+		} else {
+			action = 'quiz';
+		}
+		
+		// CSRFトークン取得
+		const inputCsrfTokenElement = document.querySelector(`input[name='csrf_token']`);
+		// 遷移するform要素作成
+		createFormElement('POST', action, inputCsrfTokenElement);
+	}, 2000);
+}
+
 // imgエレメントを作成する処理
 const createImageElement = (imageUrl = '', className = '', parentElement = null) => {
 	const imageElement = document.createElement('img');
@@ -85,23 +109,7 @@ const createImageElement = (imageUrl = '', className = '', parentElement = null)
 	parentElement.appendChild(imageElement);
 }
 
-// 次の問題に遷移する処理
-const nextPage = (finishedQuiz = false) => {
-	setTimeout(() => {
-		let action = '';
-		if (finishedQuiz) {
-			action = 'ResultServlet';
-		} else {
-			action = 'QuizServlet';
-		}
-		
-		// CSRFトークン取得
-		const inputCsrfTokenElement = document.querySelector(`input[name='csrf_token']`);
-		createFormElement('POST', action, inputCsrfTokenElement);
-	}, 2000);
-}
-
-// formエレメントを作成する処理
+// form要素を作成する処理
 const createFormElement = (method = '', action = '', element = null) => {
 	const form = document.createElement('form');
 	form.method = method;
@@ -112,9 +120,3 @@ const createFormElement = (method = '', action = '', element = null) => {
 	form.submit();
 }
 
-// 武器をランダムに選ぶ処理
-const randomWeapons = () => {
-	const weapons = ['tsue', 'sword', 'ono'];
-	const random = Math.floor(Math.random() * weapons.length);
-	return weapons[random];
-}
