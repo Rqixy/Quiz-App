@@ -24,13 +24,13 @@ for (let answerButton of answerButtons) {
 				createImageElement("./img/correct.png", 'correct-img', question);
 				// 敵に攻撃するアニメーションとダメージアニメーションを追加
 				createImageElement(`./img/weapons/${randomWeapons()}.png`, 'weapon', field);
-				addClass(enemy, "damage");
+				enemy.classList.add("damage");
 			} else {
 				// 不正解画像を表示
 				createImageElement("./img/incorrect.png", 'correct-img', question);
 				// 間違えたら、敵からの攻撃アニメーションとプレイヤーへのダメージアニメーションを追加
-				addClass(enemy, "enemy-attack");
-				addClass(player, "damage");
+				enemy.classList.add("enemy-attack");
+				player.classList.add("damage");
 			}
 			
 			// 結果が帰ってきたら、回答ボタンの上に○と×の画像を表示
@@ -46,6 +46,8 @@ for (let answerButton of answerButtons) {
 			nextPage(responseData['isFinished']);
 		}).catch((error) => {
 			console.log('Fetch API Error : ', error);
+			// エラーが出たら、ホームに突き返す
+			createFormElement('GET', 'HomeServlet');
 		});
 	}, false);
 }
@@ -83,25 +85,31 @@ const createImageElement = (imageUrl = '', className = '', parentElement = null)
 	parentElement.appendChild(imageElement);
 }
 
-// クラスを追加する処理
-const addClass = (element = null, className = '') => {
-	element.classList.add(className);
-}
-
 // 次の問題に遷移する処理
 const nextPage = (finishedQuiz = false) => {
 	setTimeout(() => {
-		const form = document.createElement('form');
-		form.method = 'post';
-		form.action = 'http://localhost:8080/QuizApp/';
+		let action = '';
 		if (finishedQuiz) {
-			form.action += 'ResultServlet';
+			action = 'ResultServlet';
 		} else {
-			form.action += 'QuizServlet';
+			action = 'QuizServlet';
 		}
-		document.body.appendChild(form);
-		form.submit();
+		
+		// CSRFトークン取得
+		const inputCsrfTokenElement = document.querySelector(`input[name='csrf_token']`);
+		createFormElement('POST', action, inputCsrfTokenElement);
 	}, 2000);
+}
+
+// formエレメントを作成する処理
+const createFormElement = (method = '', action = '', element = null) => {
+	const form = document.createElement('form');
+	form.method = method;
+	form.action = 'http://localhost:8080/QuizApp/' + action;
+	
+	form.appendChild(element);
+	document.body.appendChild(form);
+	form.submit();
 }
 
 // 武器をランダムに選ぶ処理
