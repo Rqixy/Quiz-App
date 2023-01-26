@@ -1,2 +1,7 @@
 /servlet/
+/transition/
+/model/
+/db/
 /csrf/
+/bean/
+/json/
