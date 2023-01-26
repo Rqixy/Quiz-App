@@ -69,6 +69,7 @@ public class Result {
 	 */
 	public static boolean clear(final LoginUserBean loginUser, final Quiz quiz) throws SQLException {
 		try {
+			// 初期化
 			Result result = new Result();
 			
 			// 目標番号とユニセフのURLを取得
@@ -87,22 +88,21 @@ public class Result {
 			}
 			
 			// クリア状況の更新処理
-			// クリア状況DBの処理するクラスの初期化
-			ClearStatusDao clearStatusDao = new ClearStatusDao();
 			// DB内のクリア状況を取得
-			GoalBean goal = clearStatusDao.goal(loginUser, quiz);
-			int clearStatusInDb = goal.clearStatus();
+			GoalBean goalInDb = ClearStatusDao.goal(loginUser, quiz);
+			int clearStatusInDb = goalInDb.clearStatus();
 			
+			// コンストラクタを上書きする
 			result = new Result(clearStatusInDb, correctAnswerRate, unicefUrl);
 			
 			// 正答数を確認して、正答数に応じたクリア状況を更新
 			// 1度も全問正解したことがなく、初めて全問正解なら数字を2に更新する
 			if (result.isAllClear()) {
-				clearStatusDao.update(loginUser, quiz, result.allClear);
+				ClearStatusDao.update(loginUser, quiz, result.allClear);
 			}
 			// 1度もクリアしたことがなく(数字が0)で、初めて正答率が6割超えたら1に更新する
 			if (result.isClear()) {
-				clearStatusDao.update(loginUser, quiz, result.clear);
+				ClearStatusDao.update(loginUser, quiz, result.clear);
 			}
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
