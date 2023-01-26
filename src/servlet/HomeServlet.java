@@ -13,6 +13,7 @@ import csrf.Csrf;
 import model.Home;
 import model.Login;
 import model.LoginUserBean;
+import transition.Redirect;
 import transition.ScreenTransition;
 
 /**
@@ -28,7 +29,7 @@ public class HomeServlet extends HttpServlet {
 			
 			// ログインしてなかったら、ログイン画面へリダイレクト
 			if (!Login.loggedInUser(request)) {
-				ScreenTransition.redirectLogin(request, response);
+				Redirect.login(request, response);
 				return;
 			}
 			

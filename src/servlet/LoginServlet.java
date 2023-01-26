@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import csrf.Csrf;
 import model.Login;
 import model.LoginUserBean;
-import transition.ScreenTransition;
+import transition.Redirect;
 
 /**
  * Servlet implementation class LoginServlet
@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		if(!Csrf.check(request)) {
-			ScreenTransition.redirectLogin(request, response);
+			Redirect.login(request, response);
 			return;
 		}
 

@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import csrf.Csrf;
-import model.Login;
 import model.LoginUserBean;
 import model.Quiz;
 import model.Result;
+import transition.Redirect;
 import transition.ScreenTransition;
 
 /**
@@ -26,13 +26,8 @@ public class ResultServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			// ログインしてなかったら、ログイン画面へリダイレクト
-			if (!Login.loggedInUser(request)) {
-				ScreenTransition.redirectLogin(request, response);
-				return;
-			}
-			// ログイン済ならホーム画面へリダイレクト
-			ScreenTransition.redirectHome(request, response);
+			// ホーム画面へリダイレクト
+			Redirect.home(request, response);
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
 		}
@@ -42,7 +37,7 @@ public class ResultServlet extends HttpServlet {
 		try {
 			request.setCharacterEncoding("UTF-8");
 			if(!Csrf.check(request)) {
-				ScreenTransition.redirectHome(request, response);
+				Redirect.home(request, response);
 				return;
 			}
 			
@@ -52,9 +47,8 @@ public class ResultServlet extends HttpServlet {
 			LoginUserBean loginUserBean = (LoginUserBean)session.getAttribute("user");
 			Quiz quiz = (Quiz)session.getAttribute("quiz");
 			
-			boolean clear = Result.clear(loginUserBean, quiz);
 			// クリアしていたら、クリア状況を更新するため、現在のセッションを削除する
-			if (clear) {
+			if (Result.clear(loginUserBean, quiz)) {
 				session.removeAttribute("goalList");
 			}
 			

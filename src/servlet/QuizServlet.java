@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import csrf.Csrf;
-import model.Login;
 import model.Quiz;
+import transition.Redirect;
 import transition.ScreenTransition;
 
 /**
@@ -23,14 +23,8 @@ public class QuizServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			// ログインしてなかったら、ログイン画面へリダイレクト
-			if (Login.loggedInUser(request)) {
-				ScreenTransition.redirectLogin(request, response);
-				return;
-			}
-			
-			// ログイン済ならホーム画面へリダイレクト
-			ScreenTransition.redirectHome(request, response);
+			// ホーム画面へリダイレクト
+			Redirect.home(request, response);
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
 		}
@@ -40,7 +34,7 @@ public class QuizServlet extends HttpServlet {
 		try {
 			request.setCharacterEncoding("UTF-8");
 			if(!Csrf.check(request)) {
-				ScreenTransition.redirectHome(request, response);
+				Redirect.home(request, response);
 				return;
 			}
 			
@@ -56,7 +50,7 @@ public class QuizServlet extends HttpServlet {
 				session.setMaxInactiveInterval(600);					// セッションの保存期間の設定(10分)
 				session.setAttribute("quiz", quiz);
 			} else {
-				// goalNumberのパラメータが存在していなかったら、２問目以降なので、その処理を行う
+				// goalNumberのパラメータが存在していなかったら、２問目以降なので次の問題の準備する
 				Quiz quiz = (Quiz)session.getAttribute("quiz");
 				quiz.nextQuiz();
 				session.setAttribute("quiz", quiz);

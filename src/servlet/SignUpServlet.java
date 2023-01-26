@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import csrf.Csrf;
 import db.SignUpDao;
 import model.User;
-import transition.ScreenTransition;
+import transition.Redirect;
 
 /**
  * Servlet implementation class SignUpServlet
@@ -41,7 +41,7 @@ public class SignUpServlet extends HttpServlet {
 		//文字コードを設定する。
 		request.setCharacterEncoding("UTF-8");
 		if(!Csrf.check(request)) {
-			ScreenTransition.redirectLogin(request, response);
+			Redirect.login(request, response);
 			return;
 		}
 		
