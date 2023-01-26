@@ -13,13 +13,15 @@ import model.Quiz;
  * DBのclear_statusテーブルの処理するクラス
  */
 public class ClearStatusDao extends Db {
+	private ClearStatusDao() {}
+	
 	/**
 	 * 17の目情のオブジェクトリストを取得
 	 * @param loginUserBean
 	 * @return clearStatusList
 	 * @throws SQLException
 	 */
-	public ArrayList<GoalBean> goalList(final LoginUserBean loginUser) throws SQLException {
+	public static ArrayList<GoalBean> goalList(final LoginUserBean loginUser) throws SQLException {
 		dbInit();
 		final ArrayList<GoalBean> goalList = new ArrayList<GoalBean>();
 		
@@ -33,18 +35,14 @@ public class ClearStatusDao extends Db {
 				for (int goalNumber = 1; goalNumber <= columnCount; goalNumber++) {
 					final String columnName = columnName(rs, goalNumber);
 					
-					final GoalBean clearStatusBean = new GoalBean(loginUser.getId(), columnName, goalNumber, rs.getInt(columnName));
+					final GoalBean clearStatusBean = new GoalBean(goalNumber, rs.getInt(columnName));
 					goalList.add(clearStatusBean);
 				}
 			}
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		} finally {
-			try {
-				dbClose();
-			} catch (SQLException e) {
-				System.out.println("SQLException : " + e.getMessage());
-			}
+			dbClose();
 		}
 		
 		return goalList;
@@ -55,12 +53,12 @@ public class ClearStatusDao extends Db {
 	 * @param loginUser
 	 * @param quiz
 	 * @return  goal
+	 * @throws SQLException
 	 */
-	public GoalBean goal(final LoginUserBean loginUser, final Quiz quiz) {
+	public static GoalBean goal(final LoginUserBean loginUser, final Quiz quiz) throws SQLException {
 		dbInit();
 		GoalBean goal = null;
 		
-		final int userId = loginUser.getId();
 		final int goalNumber = quiz.goalNumber();
 		
 		try {
@@ -68,16 +66,12 @@ public class ClearStatusDao extends Db {
 			final String columnName = columnName(rs, goalNumber);
 			// DB内のクリア状況の取得
 			if (rs.next()) {
-				goal = new GoalBean(userId, columnName, goalNumber, rs.getInt(columnName));
+				goal = new GoalBean(goalNumber, rs.getInt(columnName));
 			}
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		} finally {
-			try {
-				dbClose();
-			} catch (SQLException e) {
-				System.out.println("SQLException : " + e.getMessage());
-			}
+			dbClose();
 		}
 		
 		return goal;
@@ -89,7 +83,7 @@ public class ClearStatusDao extends Db {
 	 * @return isExist
 	 * @throws SQLException
 	 */
-	public boolean exist(final LoginUserBean loginUser) throws SQLException {
+	public static boolean exist(final LoginUserBean loginUser) throws SQLException {
 		dbInit();
 		boolean isExist = false;
 		try {
@@ -100,11 +94,7 @@ public class ClearStatusDao extends Db {
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		} finally {
-			try {
-				dbClose();
-			} catch (SQLException e) {
-				System.out.println("SQLException : " + e.getMessage());
-			}
+			dbClose();
 		}
 		
 		return isExist;
@@ -116,7 +106,7 @@ public class ClearStatusDao extends Db {
    	 * @return result
    	 * @throws SQLException
    	 */
-	public int insert(final LoginUserBean loginUser) throws SQLException {
+	public static int insert(final LoginUserBean loginUser) throws SQLException {
 		dbInit();
 		int result = 0;
 		
@@ -125,11 +115,7 @@ public class ClearStatusDao extends Db {
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		} finally {
-			try {
-				dbClose();
-			} catch (SQLException e) {
-				System.out.println("SQLException : " + e.getMessage());
-			}
+			dbClose();
 		}
 		
 		return result;
@@ -143,20 +129,17 @@ public class ClearStatusDao extends Db {
 	 * @return result
 	 * @throws SQLException
 	 */
-	public int update(final LoginUserBean loginUser, final Quiz quiz, final int updateStatus) throws SQLException {
+	public static int update(final LoginUserBean loginUser, final Quiz quiz, final int updateStatus) throws SQLException {
 		dbInit();
 		int result = 0;
 		
 		try {
-			result = executeUpdate(clearStatusUpdateStatement(quiz.goalNumber()), updateStatus, loginUser.getId());
+			String sql = clearStatusUpdateStatement(quiz.goalNumber());
+			result = executeUpdate(sql, updateStatus, loginUser.getId());
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		} finally {
-			try {
-				dbClose();
-			} catch (SQLException e) {
-				System.out.println("SQLException : " + e.getMessage());
-			}
+			dbClose();
 		}
 		
 		return result;
@@ -165,33 +148,28 @@ public class ClearStatusDao extends Db {
 	/**
 	 * DBからクリア状況のデータを取得する処理
 	 * @param loginUserBean
-	 * @return
+	 * @return executeSelect(sql, userId)
 	 * @throws SQLException
 	 */
-	private ResultSet select(final LoginUserBean loginUserBean) throws SQLException {
-		final int userId = loginUserBean.getId();
+	private static ResultSet select(final LoginUserBean loginUserBean) throws SQLException {
 		final String sql = "SELECT "
 							+ "1_poverty, 2_hunger, 3_health, 4_education, 5_gender, 6_water, "
 							+ "7_energy, 8_economic_growth, 9_industry, 10_inequalities, 11_cities, 12_responsible, "
 							+ "13_climate_action, 14_sea, 15_land, 16_peace, 17_partnerships "
 						 + "FROM clear_status WHERE user_id = ?";
-		 return executeSelect(sql, userId);
+		return executeSelect(sql, loginUserBean.getId());
 	}
 	
 	/**
 	 * clear_statusテーブルのカラム名を取得する処理
 	 * @param rs
 	 * @param goalNumber
-	 * @return
+	 * @return rsmd.getColumnName(goalNumber)
 	 * @throws SQLException
 	 */
-	private String columnName(final ResultSet rs, final int goalNumber) throws SQLException {
-		String columnName = "";
-		
+	private static String columnName(final ResultSet rs, final int goalNumber) throws SQLException {
 		rsmd = rs.getMetaData();
-		columnName = rsmd.getColumnName(goalNumber);
-		
-		return columnName;
+		return rsmd.getColumnName(goalNumber);
 	}
 	
 	/**
@@ -199,7 +177,7 @@ public class ClearStatusDao extends Db {
 	 * @param goalNumber
 	 * @return clearStatusUpdateStatements.get(goalNumber)
 	 */
-	private String clearStatusUpdateStatement(final int goalNumber) {
+	private static String clearStatusUpdateStatement(final int goalNumber) {
 		HashMap<Integer, String> clearStatusUpdateStatements = new HashMap<Integer, String>();
 		
 		// 17の目標の番号とそのクリア状況のUpdate文を格納
