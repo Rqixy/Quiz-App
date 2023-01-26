@@ -19,15 +19,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * JSON関連の操作をまとめたクラス
  */
 public class Json {
-	private static final ObjectMapper ob = new ObjectMapper();
+	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 	
 	/**
 	 * サーブレットのレスポンスから、渡ってきたJSONを取得する
 	 * @param request	リクエスト
 	 * @return json		JSON
+	 * @throws JsonMappingException
+	 * @throws JsonProcessingException
+	 * @throws UnsupportedEncodingException
 	 * @throws IOException
 	 */
-	public static JsonNode jsonByServletRequest(HttpServletRequest request) throws JsonMappingException, JsonProcessingException, UnsupportedEncodingException, IOException {
+	public static JsonNode jsonByRequest(HttpServletRequest request) throws JsonMappingException, JsonProcessingException, UnsupportedEncodingException, IOException {
 		JsonNode json = null;
 		try {
 		    BufferedReader br = new BufferedReader(request.getReader());
@@ -35,7 +38,7 @@ public class Json {
 		    String jsonText = br.readLine();
 		    jsonText = URLDecoder.decode(jsonText, "UTF-8");
 		    
-		    json = ob.readTree(jsonText);
+		    json = OBJECT_MAPPER.readTree(jsonText);
 		} catch (JsonMappingException e) {
 			System.out.println("JsonMappingException : " + e.getMessage());
 		} catch (JsonProcessingException e) {
@@ -50,19 +53,20 @@ public class Json {
 	
 	/**
 	 * フラグハッシュ配列を文字列型のJSONに変える処理
-	 * @param  flag		フラグ
-	 * @return strJsonFlag	文字列型のJSONフラグ
+	 * @param hashMap
+	 * @return strJson
 	 * @throws JsonProcessingException
 	 */
-	public static String flagMapToString(final HashMap<String, Boolean> flagMap) throws JsonProcessingException {
-		String strJsonFlag = "";
+	public static String HashMapToString(final HashMap<?, ?> hashMap) throws JsonProcessingException {
+		String strJson = "";
+		
 		try {
-			strJsonFlag = ob.writeValueAsString(flagMap);
+			strJson = OBJECT_MAPPER.writeValueAsString(hashMap);
 		} catch (JsonProcessingException e) {
 			System.out.println("JsonProcessingException : " + e.getMessage());
 		}
 		
-		return strJsonFlag;
+		return strJson;
 	}
 	
 	/**
@@ -71,7 +75,7 @@ public class Json {
 	 * @param  response
 	 * @throws IOException
 	 */
-	public static void ResponseStringJson(HttpServletResponse response, String strJson) throws IOException {
+	public static void ResponseStringJson(HttpServletResponse response, final String strJson) throws IOException {
 		try {
 			response.setContentType("application/json;charset=UTF-8");
 			PrintWriter pw = response.getWriter();
