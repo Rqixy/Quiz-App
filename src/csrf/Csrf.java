@@ -11,6 +11,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 public class Csrf {
+	private static final int BYTE = 24;
+	
+	private Csrf() {}
+	
 	/**
 	 * Csrfトークン発行処理
 	 * @param request
@@ -65,11 +69,11 @@ public class Csrf {
 	 */
 	private static String getToken() {
 		SecureRandom secureRandom;
-		byte[] buf = new byte[24];
+		byte[] buf = new byte[BYTE];
 		
 		try {
 			secureRandom = SecureRandom.getInstance("SHA1PRNG");
-			byte[] seed = secureRandom.generateSeed(24);
+			byte[] seed = secureRandom.generateSeed(BYTE);
 			secureRandom.setSeed(seed);
 			
 			secureRandom.nextBytes(buf);
