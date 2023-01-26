@@ -11,13 +11,9 @@ import java.sql.SQLException;
  * DB操作関連をまとめたクラス
  * 継承して他のクラスで使う
  * 
- * できれば、DbConnectionをprivateにして継承のみで扱えるようにしたい
- */
-
-/*
  * // 使い方
  *class TestDao extends Db {
- *	public TestBean select(final int id) throws SQLException {
+ *	public static TestBean select(final int id) throws SQLException {
  *		// 初期化
  *		dbInit();
  *	    TestBean test = null;
@@ -34,17 +30,13 @@ import java.sql.SQLException;
  *	   		System.out.println("SQLException : " + e.getMessage());
  *		} finally {
  *			// クローズ処理
- *			try {
- *				dbClose();
- *			} catch (SQLException e) {
- *				System.out.println("SQLException : " + e.getMessage());
- *			}
+ *			dbClose();
  *		}
  *			
  *		return test;
  *   }
  *	
- *	public int insertOrUpdate(final TestBean test) {
+ *	public static int insertOrUpdate(final TestBean test) {
  *		// 初期化
  *		dbInit();
  *		int result = 0;
@@ -57,11 +49,7 @@ import java.sql.SQLException;
  *	   		System.out.println("SQLException : " + e.getMessage());
  *		} finally {
  *			// クローズ処理ｓ
- *			try {
- *				dbClose();
- *			} catch (SQLException e) {
- *				System.out.println("SQLException : " + e.getMessage());
- *			}
+ *			dbClose();
  *	 	}
  *	 	
  *	 	return result;
@@ -75,16 +63,18 @@ import java.sql.SQLException;
 	private static final String USER = "root";	// ユーザー名
 	private static final String PASS = "";	// パスワード
 	
-	private Connection con;
-	protected PreparedStatement ps;
-	protected ResultSet rs;
-	protected ResultSetMetaData rsmd;
+	private static Connection con;
+	protected static PreparedStatement ps;
+	protected static ResultSet rs;
+	protected static ResultSetMetaData rsmd;
+	
+	protected Db() {}
 
 	/**
 	 * DB接続処理
 	 * @return con
 	 */
-	private Connection DbConnection() {
+	protected static Connection DbConnection() {
 		Connection con = null;
 
 		if (con == null) {
@@ -106,15 +96,15 @@ import java.sql.SQLException;
 	/**
 	 * データベース処理するための初期化処理
 	 */
-	protected void dbInit() {
+	protected static void dbInit() {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ResultSetMetaData rsmd = null;
 		
-		this.con = DbConnection();
-		this.ps = ps;
-		this.rs = rs;
-		this.rsmd = rsmd;
+		Db.con = DbConnection();
+		Db.ps = ps;
+		Db.rs = rs;
+		Db.rsmd = rsmd;
 	}
 	
 	
@@ -122,13 +112,17 @@ import java.sql.SQLException;
 	 * DB接続のクローズ処理
 	 * @throws SQLException
 	 */
-	protected void dbClose() throws SQLException {
-		if (con != null || ps != null) {
-			con.close();
-			ps.close();
-		}
-		if (rs != null) {
-			rs.close();
+	protected static void dbClose() {
+		try {
+			if (con != null || ps != null) {
+				con.close();
+				ps.close();
+			}
+			if (rs != null) {
+				rs.close();
+			}	
+		} catch (SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
 		}
 	}
 	
@@ -136,21 +130,16 @@ import java.sql.SQLException;
 	 * SELECT文の実行
 	 * @param sql
 	 * @param params
-	 * @return rs
+	 * @return ps.executeQuery()
 	 * @throws SQLException
 	 */
-	protected ResultSet executeSelect(final String sql, final Object... params) throws SQLException {
+	protected static ResultSet executeSelect(final String sql, final Object... params) throws SQLException {
 		dbInit();
 		
-		try {
-			ps = con.prepareStatement(sql);
-			setParams(ps, params);
-			rs = ps.executeQuery();
-		} catch (SQLException e) {
-			System.out.println("SQLException : " + e.getMessage());
-		}
+		ps = con.prepareStatement(sql);
+		setParams(ps, params);
 		
-		return rs;
+		return ps.executeQuery();
 	}
 	
 	/**
@@ -160,7 +149,7 @@ import java.sql.SQLException;
 	 * @return result
 	 * @throws SQLException
 	 */
-	protected int executeUpdate(final String sql, final Object... params) throws SQLException {
+	protected static int executeUpdate(final String sql, final Object... params) throws SQLException {
 		dbInit();
 		con.setAutoCommit(false);
 		
@@ -173,12 +162,8 @@ import java.sql.SQLException;
 			con.rollback();
 			System.out.println("SQLException : " + e.getMessage());
 		} finally {
-			try {
-				con.commit();
-				dbClose();
-			} catch (SQLException e) {
-				System.out.println("SQLException : " + e.getMessage());
-			}
+			con.commit();
+			dbClose();
 		}
 		
 		return result;
@@ -190,7 +175,7 @@ import java.sql.SQLException;
 	 * @param params
 	 * @throws SQLException
 	 */
-	private void setParams(final PreparedStatement ps, final Object... params) throws SQLException {
+	private static void setParams(final PreparedStatement ps, final Object... params) throws SQLException {
 		int paramNum = 1;
 		for (Object param : params) {
 			ps.setObject(paramNum++, param);
