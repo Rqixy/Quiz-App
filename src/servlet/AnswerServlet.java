@@ -16,9 +16,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import json.Json;
 import model.Answer;
-import model.Login;
 import model.Quiz;
-import transition.ScreenTransition;
+import transition.Redirect;
 
 /**
  * 選択した答えが合っているかどうか確認する処理
@@ -29,13 +28,8 @@ public class AnswerServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			// ログインしてなかったら、ログイン画面へリダイレクト
-			if (Login.loggedInUser(request)) {
-				ScreenTransition.redirectLogin(request, response);
-				return;
-			}
-			// ログイン済ならホーム画面へリダイレクト
-			ScreenTransition.redirectHome(request, response);
+			// ホーム画面へリダイレクト
+			Redirect.home(request, response);
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
 		}
@@ -48,11 +42,11 @@ public class AnswerServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			
 			Quiz quiz = (Quiz)session.getAttribute("quiz");
-			JsonNode selectedAnswerJson = Json.jsonByServletRequest(request);
+			JsonNode selectedAnswerJson = Json.jsonByRequest(request);
 		    
-			// フロントに答えと全問終了かどうかを返す
-			String strFlag = Answer.correctAndFinishedFlagToText(quiz, selectedAnswerJson);
-			Json.ResponseStringJson(response, strFlag);
+			// フロントに答えと全問終了かどうかの結果を返す
+			String answerFlag = Answer.flag(quiz, selectedAnswerJson);
+			Json.ResponseStringJson(response, answerFlag);
 		} catch (JsonMappingException e) {
 			System.out.println("JsonMappingException : " + e.getMessage());
 		} catch (JsonProcessingException e) {
