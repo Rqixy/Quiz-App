@@ -12,6 +12,8 @@ import db.AnswersDao;
 import db.QuizInfoDao;
 
 public class Quiz {
+	private static final Random RANDOM = new Random();
+	
 	private ArrayList<QuizInfoBean> quizInfoList;
 	private ArrayList<AnswersBean> answerList;
 	private QuizInfoBean quizInfo;
@@ -43,9 +45,10 @@ public class Quiz {
 	 * @throws Exception
 	 */
 	public static Quiz prepareQuiz(final String requestGoalNumber) throws Exception {
-		Pattern goalNumberPattern = Pattern.compile("[0-9]{1,2}");
+		// 目標番号のみを取得する正規表現
+		Pattern goalNumberPattern = Pattern.compile("^[1-9]$|^1[0-7]$");
 		Matcher matchGoalNumber = goalNumberPattern.matcher(requestGoalNumber);
-		
+
 		if(!matchGoalNumber.find()) {
 			throw new Exception("SDGsの目標番号を入力してください");
 		}
@@ -56,17 +59,13 @@ public class Quiz {
 		ArrayList<AnswersBean> answerList = new ArrayList<AnswersBean>();
 		
 		try {
-			QuizInfoDao quizDao = new QuizInfoDao();
-			AnswersDao answerDao = new AnswersDao();
-		
-			quizInfoList = quizDao.quizInfoList(goalNumber);
-			answerList = answerDao.answerList(goalNumber);
+			quizInfoList = QuizInfoDao.quizInfoList(goalNumber);
+			answerList = AnswersDao.answerList(goalNumber);
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		}
 		
-		Random random = new Random();
-		int askToQuiz = random.nextInt(quizInfoList.size());
+		int askToQuiz = RANDOM.nextInt(quizInfoList.size());
 		
 		QuizInfoBean quizInfo = quizInfoList.get(askToQuiz);
 		AnswersBean answers = answerList.get(askToQuiz);
@@ -81,8 +80,7 @@ public class Quiz {
 		quizInfoList.remove(askToQuiz);
 		answerList.remove(askToQuiz);
 		
-		Random random = new Random();
-		askToQuiz = random.nextInt(quizInfoList.size());
+		askToQuiz = RANDOM.nextInt(quizInfoList.size());
 		
 		quizInfo = quizInfoList.get(askToQuiz);
 		answers = answerList.get(askToQuiz);
