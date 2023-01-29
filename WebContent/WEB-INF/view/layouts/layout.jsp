@@ -15,6 +15,7 @@
 	    	${ param.main }
 	    </div>
 	</div>
+	${ param.terms }
 	<script src="<%=request.getContextPath() %>/js/sound.js"></script>
 	${ param.js }
 </body>

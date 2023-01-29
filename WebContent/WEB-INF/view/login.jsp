@@ -18,4 +18,13 @@
 			</main>
 		</jsp:attribute>
 	</jsp:param>
+	
+	<jsp:param name="terms">
+		<jsp:attribute name="value">
+			<div id="terms">
+		    	<p>音楽:イワシロ音楽素材 URL:https://iwashiro-sounds.work/</p>
+				<p>音楽:seadendenのファミコン風フリーBGMのサイト URL:https://seadenden-8bit.com/</p>
+		    </div>
+		</jsp:attribute>
+	</jsp:param>
 </jsp:include>
