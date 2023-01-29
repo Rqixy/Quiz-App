@@ -19,7 +19,7 @@
 	                <a href="home" class="button-stage">ホームに戻る</a>
 	            </div>
 	            
-				<a id="unicef-url" href="<%=goalUrl %>" target="_blank">今回の目標について学ぶ</a>
+				<a id="unicef-url" class="button-se" href="<%=goalUrl %>" target="_blank">今回の目標について学ぶ</a>
 	        </main>
 		</jsp:attribute>
 	</jsp:param>
