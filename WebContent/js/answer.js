@@ -23,14 +23,17 @@ for (let answerButton of answerButtons) {
 				// 正解画像を表示
 				createImageElement("./img/correct.png", 'correct-img', question);
 				// 敵に攻撃するアニメーションとダメージアニメーションを追加
-				createImageElement(`./img/weapons/${randomWeapons()}.png`, 'weapon', field);
+				const weapon =  randomWeapons()
+				createImageElement(`./img/weapons/${weapon}.png`, 'weapon', field);
 				enemy.classList.add("damage");
+				attackSoundEffect(weapon);
 			} else {
 				// 不正解画像を表示
 				createImageElement("./img/incorrect.png", 'correct-img', question);
 				// 間違えたら、敵からの攻撃アニメーションとプレイヤーへのダメージアニメーションを追加
 				enemy.classList.add("enemy-attack");
 				player.classList.add("damage");
+				attackSoundEffect("damage");
 			}
 			
 			// 結果が帰ってきたら、回答ボタンの上に○と×の画像を表示
@@ -82,6 +85,16 @@ const randomWeapons = () => {
 	const weapons = ['tsue', 'sword', 'ono'];
 	const random = Math.floor(Math.random() * weapons.length);
 	return weapons[random];
+}
+
+const attackSoundEffect = (sound = '') => {
+	const soundEffect = new Audio(`/QuizApp/sounds/attack_sound/${sound}.mp3`);
+	
+	setTimeout(() => {
+		soundEffect.currentTime = 0;
+		soundEffect.volume = 0.1;
+		soundEffect.play();
+	}, 500);
 }
 
 // 次の問題に遷移する処理
