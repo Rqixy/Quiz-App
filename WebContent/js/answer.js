@@ -26,6 +26,7 @@ for (let answerButton of answerButtons) {
 				const weapon =  randomWeapons()
 				createImageElement(`./img/weapons/${weapon}.png`, 'weapon', field);
 				enemy.classList.add("damage");
+				// SEを鳴らす
 				attackSoundEffect(weapon);
 			} else {
 				// 不正解画像を表示
@@ -33,6 +34,7 @@ for (let answerButton of answerButtons) {
 				// 間違えたら、敵からの攻撃アニメーションとプレイヤーへのダメージアニメーションを追加
 				enemy.classList.add("enemy-attack");
 				player.classList.add("damage");
+				// SEを鳴らす
 				attackSoundEffect("damage");
 			}
 			
@@ -87,6 +89,7 @@ const randomWeapons = () => {
 	return weapons[random];
 }
 
+// 攻撃時やダメージ時にSEを鳴らす処理
 const attackSoundEffect = (sound = '') => {
 	const soundEffect = new Audio(`/QuizApp/sounds/attack_sound/${sound}.mp3`);
 	
