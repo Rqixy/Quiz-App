@@ -17,7 +17,7 @@
 	            	<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
 	            	<input type="hidden" name="name" value="<%= user.getName() %>" class="name">
 	                <input type="hidden" name="pass" value="<%= user.getPass() %>" class="">
-	                <button type="submit" name="submit" value="regist" class="btn btn-flat"><span>登録する‼</span></button>
+	                <button type="submit" name="submit" value="regist" class="btn btn-flat button-se"><span>登録する‼</span></button>
 	            </form>
 	        </main>
 		</jsp:attribute>

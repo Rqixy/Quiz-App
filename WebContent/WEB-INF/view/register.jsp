@@ -6,11 +6,11 @@
 		<jsp:attribute name="value">
 			<main class="register" id="register-main">
 	            <h1>ユーザー登録</h1>
-	            <form class="login" action="signup" method="post">
+	            <form class="login" action="signup" method="post" autocomplete="off">
 	            	<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
 	                <input type="text" name="name" placeholder="ユーザー名" class="name"><br>
 	                <input type="password" name="pass" placeholder="パスワード" class=""><br>
-	                <button type="submit" name="submit" value="confirm" class="btn btn-flat"><span>次へ</span></button>
+	                <button type="submit" name="submit" value="confirm" class="btn btn-flat button-se"><span>次へ</span></button>
 	            </form>
 	        </main>
 		</jsp:attribute>

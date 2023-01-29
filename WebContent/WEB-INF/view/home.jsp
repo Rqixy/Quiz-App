@@ -13,7 +13,7 @@
 				<p>ようこそ！testさん！</p>
 	    		<form method="post" action="login">
 	    			<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
-	    			<button type="submit" name="submit" value="logout" class="btn btn-flat"><span>ログアウト</span></button>
+	    			<button type="submit" name="submit" value="logout" class="btn btn-flat button-logout"><span>ログアウト</span></button>
 	    		</form>
 	    	</header>
 		</jsp:attribute>
@@ -23,23 +23,25 @@
 		<jsp:attribute name="value">
 			<main id="home-main">
 	            <h1>Stages</h1>
-	            <p>挑戦したいテーマを選ぼう‼<br>
-	            テーマごとに敵が待ち受けているぞ‼</p>
+	            <p>
+	            	挑戦したいテーマを選ぼう‼<br>
+	            	テーマごとに敵が待ち受けているぞ‼
+	            </p>
 	            <form id="themes" method="post" action="quiz">
-	            <input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
+	            	<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
 		           	<% for (GoalBean goal : goalList) { %>
-			      		<button class="theme" type="submit" name="goalNumber" value="<%= goal.goalNumber() %>">
-			      			<div class="ribon">
-			       			<img alt="" src="<%=request.getContextPath() %>/img/sdgs_icon/sdg_icon_<%= goal.goalNumber() %>.png">
-			      				<% if (goal.clearStatus() == 2) { %>
-				       				<div class="caption"><span class="upper gold"></span></div>
-				       				<div class="caption"><span class="under gold"></span></div>
-				       			<% } else if (goal.clearStatus() == 1) { %>
-									<div class="caption"><span class="upper silver"></span></div>
-				       				<div class="caption"><span class="under silver"></span></div>
-				       			<% } %>
-			      			</div>
-			      		</button>
+		      		<button class="theme button-stage" type="submit" name="goalNumber" value="<%= goal.goalNumber() %>">
+		      			<div class="ribon">
+		       			<img alt="" src="<%=request.getContextPath() %>/img/sdgs_icon/sdg_icon_<%= goal.goalNumber() %>.png">
+		      				<% if (goal.clearStatus() == 2) { %>
+			       				<div class="caption"><span class="upper gold"></span></div>
+			       				<div class="caption"><span class="under gold"></span></div>
+			       			<% } else if (goal.clearStatus() == 1) { %>
+								<div class="caption"><span class="upper silver"></span></div>
+			       				<div class="caption"><span class="under silver"></span></div>
+			       			<% } %>
+		      			</div>
+		      		</button>
 					<% } %>
 	            </form>
 	        </main>

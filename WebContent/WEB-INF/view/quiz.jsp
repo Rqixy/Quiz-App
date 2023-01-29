@@ -14,7 +14,7 @@
 		<jsp:attribute name="value">
 			<header id="quiz-header">
 	            <p id="battle-num">BATTLE <%=quiz.currentQuizCount() %></p>
-	            <p class="back"><a href="home">あきらめる</a></p>
+	            <p class="back"><a href="home" class="button-escape">あきらめる</a></p>
 	        </header>
 		</jsp:attribute>
 	</jsp:param>
