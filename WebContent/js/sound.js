@@ -15,6 +15,15 @@ function soundEffectButton(buttonClass = '', sound = '', clickDelay = 0) {
 	const buttons = document.querySelectorAll(buttonClass);
 	for (let button of buttons) {
 		button.addEventListener('click', (e) => {
+			// 別タブに開くボタンはSEだけ鳴らす
+			if(button.target == "_blank") {
+				const soundEffect = new Audio(`/QuizApp/sounds/${sound}.mp3`);
+				soundEffect.currentTime = 0;
+				soundEffect.volume = 0.1;
+				soundEffect.play();
+				return;
+			} 
+			
 			// クリックしたらSEなり終わるまで1度処理を止める
 			if(preventEvent) {
 				button.disabled = true;
