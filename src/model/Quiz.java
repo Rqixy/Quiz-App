@@ -20,20 +20,19 @@ public class Quiz {
 	private AnswersBean answers;
 	private final int goalNumber;
 	private final int maxQuizCount;
-	private int askToQuiz;
+	private int selectQuiz;
 	private int currentQuizCount;
 	private int answerCount;
 	
 	private Quiz(ArrayList<QuizInfoBean> quizInfoList, ArrayList<AnswersBean> answerList, 
-				QuizInfoBean quizInfo, AnswersBean answers, 
-				final int goalNumber, final int maxQuizCount, int askToQuiz) {
+				QuizInfoBean quizInfo, AnswersBean answers, final int goalNumber, final int maxQuizCount, int selectQuiz) {
 		this.quizInfoList = quizInfoList;
 		this.answerList = answerList;
 		this.quizInfo = quizInfo;
 		this.answers = answers;
 		this.goalNumber = goalNumber;
 		this.maxQuizCount = maxQuizCount;
-		this.askToQuiz = askToQuiz;
+		this.selectQuiz = selectQuiz;
 		this.currentQuizCount = 1;
 		this.answerCount = 0;
 	}
@@ -65,25 +64,26 @@ public class Quiz {
 			System.out.println("SQLException : " + e.getMessage());
 		}
 		
-		int askToQuiz = RANDOM.nextInt(quizInfoList.size());
+		int maxQuizCount = quizInfoList.size();
+		int selectQuiz = RANDOM.nextInt(quizInfoList.size());
 		
-		QuizInfoBean quizInfo = quizInfoList.get(askToQuiz);
-		AnswersBean answers = answerList.get(askToQuiz);
+		QuizInfoBean quizInfo = quizInfoList.get(selectQuiz);
+		AnswersBean answers = answerList.get(selectQuiz);
 		
-		return new Quiz(quizInfoList, answerList, quizInfo, answers, goalNumber, quizInfoList.size(), askToQuiz);
+		return new Quiz(quizInfoList, answerList, quizInfo, answers, goalNumber, maxQuizCount, selectQuiz);
 	}
 	
 	/**
 	 * 次の問題へ準備する処理
 	 */
 	public void nextQuiz() {
-		quizInfoList.remove(askToQuiz);
-		answerList.remove(askToQuiz);
+		quizInfoList.remove(selectQuiz);
+		answerList.remove(selectQuiz);
 		
-		askToQuiz = RANDOM.nextInt(quizInfoList.size());
+		selectQuiz = RANDOM.nextInt(quizInfoList.size());
 		
-		quizInfo = quizInfoList.get(askToQuiz);
-		answers = answerList.get(askToQuiz);
+		quizInfo = quizInfoList.get(selectQuiz);
+		answers = answerList.get(selectQuiz);
 		
 		currentQuizCount++;
 	}
@@ -111,10 +111,6 @@ public class Quiz {
 		return maxQuizCount;
 	}
 	
-	public int askToQuiz() {
-		return askToQuiz;
-	}
-	
 	public int currentQuizCount() {
 		return currentQuizCount;
 	}
@@ -122,6 +118,4 @@ public class Quiz {
 	public int answerCount() {
 		return answerCount;
 	}
-	
-	
 }
