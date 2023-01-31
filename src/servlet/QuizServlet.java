@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import csrf.Csrf;
+import exception.NoMatchGoalNumberException;
+import exception.NoMatchJspFileException;
 import model.Quiz;
 import transition.Redirect;
 import transition.ScreenTransition;
@@ -59,12 +61,14 @@ public class QuizServlet extends HttpServlet {
 			Csrf.make(request);
 			// 問題画面へ表示
 			ScreenTransition.forward(request, response, "quiz.jsp");
+		} catch (NoMatchGoalNumberException e) {
+			System.out.println("NoMatchGoalNumberException : " + e.getMessage());
+		} catch (NoMatchJspFileException e) {
+			System.out.println("NoMatchJspFileException : " + e.getMessage());
 		} catch (ServletException e) {
 			System.out.println("ServletException : " + e.getMessage());
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
-		} catch (Exception e) {
-			System.out.println("Exception : " + e.getMessage());
 		}
 	}
 }

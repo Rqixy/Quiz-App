@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import csrf.Csrf;
+import exception.NoMatchJspFileException;
 import model.Home;
 import model.Login;
 import model.LoginUserBean;
@@ -49,6 +50,9 @@ public class HomeServlet extends HttpServlet {
 
 			// Top画面へ表示
 			ScreenTransition.forward(request, response, "home.jsp");
+		} catch (NoMatchJspFileException e) {
+			System.out.println("NoMatchJspFileException : " + e.getMessage());
+			e.printStackTrace();
 		} catch (ServletException e) {
 			System.out.println("ServletException : " + e.getMessage());
 		} catch (IOException e) {

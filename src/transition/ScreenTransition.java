@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import exception.NoMatchJspFileException;
+
 /**
  * 画面遷移処理
  */
@@ -22,9 +24,9 @@ public class ScreenTransition {
 	 * @throws IOException
 	 * @throws ServletException
 	 */
-	public static void forward(final HttpServletRequest request, final HttpServletResponse response, final String jsp) throws IOException, ServletException {
+	public static void forward(final HttpServletRequest request, final HttpServletResponse response, final String jsp) throws IOException, ServletException, NoMatchJspFileException {
 		if (!jsp.endsWith(".jsp")) {
-			throw new IOException("jspファイルを指定してください");
+			throw new NoMatchJspFileException("jspファイルを指定してください");
 		}
 		
 		ServletContext s = request.getServletContext();

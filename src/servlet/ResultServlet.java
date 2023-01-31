@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import csrf.Csrf;
+import exception.NoMatchJspFileException;
 import model.LoginUserBean;
 import model.Quiz;
 import model.Result;
@@ -57,6 +58,8 @@ public class ResultServlet extends HttpServlet {
 
 			// 結果画面へ表示
 	        ScreenTransition.forward(request, response, "result.jsp");
+		} catch (NoMatchJspFileException e) {
+			System.out.println("NoMatchJspFileException : " + e.getMessage());
 		} catch (ServletException e) {
 			System.out.println("ServletException : " + e.getMessage());
 		} catch (IOException e) {

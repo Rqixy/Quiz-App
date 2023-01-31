@@ -10,6 +10,7 @@ import bean.AnswersBean;
 import bean.QuizInfoBean;
 import db.AnswersDao;
 import db.QuizInfoDao;
+import exception.NoMatchGoalNumberException;
 
 public class Quiz {
 	private static final Random RANDOM = new Random();
@@ -43,13 +44,13 @@ public class Quiz {
 	 * @return new Quiz(quizInfoList, answerList, quizInfo, answers, goalNumber, quizInfoList.size(), askToQuiz)
 	 * @throws Exception
 	 */
-	public static Quiz prepareQuiz(final String requestGoalNumber) throws Exception {
+	public static Quiz prepareQuiz(final String requestGoalNumber) throws NoMatchGoalNumberException {
 		// 目標番号のみを取得する正規表現
 		Pattern goalNumberPattern = Pattern.compile("^[1-9]$|^1[0-7]$");
 		Matcher matchGoalNumber = goalNumberPattern.matcher(requestGoalNumber);
 
 		if(!matchGoalNumber.find()) {
-			throw new Exception("SDGsの目標番号を入力してください");
+			throw new NoMatchGoalNumberException("SDGsの目標番号を入力してください");
 		}
 		
 		int goalNumber = Integer.parseInt(requestGoalNumber);
