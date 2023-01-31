@@ -36,12 +36,12 @@ public class LoginServlet extends HttpServlet {
 			Redirect.login(request, response);
 			return;
 		}
-
-		// ボタンで要件を確認
-		String button = request.getParameter("submit");
 		
 		//セッションスコープの準備
 		HttpSession session = request.getSession();
+
+		// ボタンで要件を確認
+		String button = request.getParameter("submit");
 
 		if(button.equals("login")) { // ログイン
 			LoginUserBean loginUser = null;
