@@ -35,7 +35,7 @@ public class Login {
 	 */
 	public static boolean loggedInUser(HttpServletRequest request) {
 		boolean loggedInUser = false;
-		if (request.getSession().getAttribute("user") != null) {
+		if (request.getSession().getAttribute("loginUser") != null) {
 			loggedInUser = true;
 		}
 		
