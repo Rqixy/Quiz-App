@@ -5,7 +5,7 @@
 		<jsp:attribute name="value">
 			<main class="register" id="register-fin">
 	            <h1>ユーザー登録完了</h1>
-	            <a href="login" class="btn btn--orange btn-c button-se">ログインへ</a>
+	            <a href="login" class="btn btn-flat button-se">ログインへ</a>
 	        </main>
 		</jsp:attribute>
 	</jsp:param>
