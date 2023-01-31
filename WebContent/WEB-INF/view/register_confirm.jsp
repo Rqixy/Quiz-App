@@ -2,7 +2,7 @@
 <%@ page import="model.User" %>
 <%
 	String csrfToken = (String)session.getAttribute("csrfToken");
-	User user = (User)request.getAttribute("user");
+	RegisterUserBean registerUser = (RegisterUserBean)request.getAttribute("registerUser");
 %>
 <jsp:include page="./layouts/layout.jsp">
 	<jsp:param name="title" value="ユーザー登録確認" />
@@ -11,12 +11,10 @@
 			<main class="register" id="register-confirm">
 	            <h1>ユーザー登録確認</h1>
 	            <p id="warning">※お間違いなければ登録へお進みください</p>
-	            <p class="confirm">ユーザー名：<%= user.getName() %></p>
+	            <p class="confirm">ユーザー名：<%= registerUser.name() %></p>
 	            <p class="confirm">パスワード：・・・・・・・・</p>
 	            <form class="login" action="signup" method="post">
 	            	<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
-	            	<input type="hidden" name="name" value="<%= user.getName() %>" class="name">
-	                <input type="hidden" name="pass" value="<%= user.getPass() %>" class="">
 	                <button type="submit" name="submit" value="regist" class="btn btn-flat button-se"><span>登録する‼</span></button>
 	            </form>
 	        </main>
