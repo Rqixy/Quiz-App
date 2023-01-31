@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import bean.GoalBean;
-import model.LoginUserBean;
+import bean.LoginUserBean;
 import model.Quiz;
 
 /**
@@ -87,7 +87,7 @@ public class ClearStatusDao extends Db {
 		dbInit();
 		boolean isExist = false;
 		try {
-			rs = executeSelect("SELECT * FROM clear_status WHERE user_id = ?", loginUser.getId());
+			rs = executeSelect("SELECT * FROM clear_status WHERE user_id = ?", loginUser.id());
 			if (rs.next()) {
 				isExist = true;
 			}
@@ -111,7 +111,7 @@ public class ClearStatusDao extends Db {
 		int result = 0;
 		
 		try {
-			result = executeUpdate("INSERT into clear_status (user_id) values (?)", loginUser.getId());
+			result = executeUpdate("INSERT into clear_status (user_id) values (?)", loginUser.id());
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		} finally {
@@ -135,7 +135,7 @@ public class ClearStatusDao extends Db {
 		
 		try {
 			String sql = clearStatusUpdateStatement(quiz.goalNumber());
-			result = executeUpdate(sql, updateStatus, loginUser.getId());
+			result = executeUpdate(sql, updateStatus, loginUser.id());
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		} finally {
@@ -157,7 +157,7 @@ public class ClearStatusDao extends Db {
 							+ "7_energy, 8_economic_growth, 9_industry, 10_inequalities, 11_cities, 12_responsible, "
 							+ "13_climate_action, 14_sea, 15_land, 16_peace, 17_partnerships "
 						 + "FROM clear_status WHERE user_id = ?";
-		return executeSelect(sql, loginUserBean.getId());
+		return executeSelect(sql, loginUserBean.id());
 	}
 	
 	/**
