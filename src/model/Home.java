@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bean.GoalBean;
+import bean.LoginUserBean;
 import db.ClearStatusDao;
 
 public class Home {

@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bean.LoginUserBean;
 import csrf.Csrf;
 import exception.NoMatchJspFileException;
 import model.Home;
 import model.Login;
-import model.LoginUserBean;
 import transition.Redirect;
 import transition.ScreenTransition;
 

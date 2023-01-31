@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import bean.GoalBean;
+import bean.LoginUserBean;
 import db.ClearStatusDao;
 
 /**

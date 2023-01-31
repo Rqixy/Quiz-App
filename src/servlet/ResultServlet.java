@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bean.LoginUserBean;
 import csrf.Csrf;
 import exception.NoMatchJspFileException;
-import model.LoginUserBean;
 import model.Quiz;
 import model.Result;
 import transition.Redirect;
