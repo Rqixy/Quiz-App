@@ -3,6 +3,7 @@
 <%@ page import="bean.GoalBean" %>
 <%
 	String csrfToken = (String)session.getAttribute("csrfToken");
+	LoginUserBean loginUser = (LoginUserBean)session.getAttribute("loginUser");
 	ArrayList<GoalBean> goalList = (ArrayList<GoalBean>)session.getAttribute("goalList");
 %>
 <jsp:include page="./layouts/layout.jsp">
@@ -10,7 +11,7 @@
 	<jsp:param name="header">
 		<jsp:attribute name="value">
 			<header id="home-header">
-				<p>ようこそ！testさん！</p>
+				<p>ようこそ！<%=loginUser.name() %>さん！</p>
 	    		<form method="post" action="login">
 	    			<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
 	    			<button type="submit" name="submit" value="logout" class="btn btn-flat button-logout"><span>ログアウト</span></button>
