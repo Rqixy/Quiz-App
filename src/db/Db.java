@@ -74,7 +74,7 @@ import java.sql.SQLException;
 	 * DB接続処理
 	 * @return con
 	 */
-	protected static Connection DbConnection() {
+	private static Connection DbConnection() {
 		Connection con = null;
 
 		if (con == null) {
