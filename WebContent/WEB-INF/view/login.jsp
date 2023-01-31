@@ -9,8 +9,8 @@
 			    <p>楽しく気軽にSDGｓを学べる教育的Webアプリケーション</p>
 			    <form class="login" action="login" method="POST" autocomplete="off">
 			    	<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
-			        <input type="text" name="name" placeholder="ユーザー名" class="name"><br>
-			        <input type="password" name="pass" placeholder="パスワード" class=""><br>
+			        <input type="text" name="name" placeholder="ユーザー名" value=""><br>
+			        <input type="password" name="pass" placeholder="パスワード"><br>
 			        <button type="submit" name="submit" value="login" class="btn btn-flat button-se" ><span>START!</span></button>
 			    </form>
 			
