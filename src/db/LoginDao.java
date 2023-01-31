@@ -1,50 +1,31 @@
 package db;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class LoginDao {
-	//DB接続
-	Db db = new Db();
-	Connection con = db.DbConnection();
+import bean.LoginUserBean;
+
+public class LoginDao extends Db {
+	private LoginDao() {}
 	
-	//
-	int loggedInUser;
-	
-	public int selectUser(String name, String pass){
-		try {
-			//SQLを書く
-			String sql = "select id, name from users where name = ? and pass = ?";
-			PreparedStatement ps = con.prepareStatement(sql);
-			
-			//名前を設定
-			ps.setString(1, name);
-			
-			//パスワードを設定
-			ps.setString(2, pass);
+	public static LoginUserBean selectUser(String name, String pass) throws SQLException {
+		dbInit();
+		LoginUserBean loginUser = null;
 		
+		try {
 			//SQLを実行
-			ResultSet res = ps.executeQuery();
+			ResultSet res = executeSelect("select id, name from users where name = ? and pass = ?", name, pass);
 			
 			//実行結果を貰う
 			if(res.next()) {
-				loggedInUser = res.getInt("id");
+				loginUser = new LoginUserBean(res.getInt("id"), rs.getString("name"));
 			}
 		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}finally{
-			//接続を解除
-			try {
-				con.close();
-			} catch (SQLException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-			}
+			dbClose();
 		}
-		//返す
-		return loggedInUser;
+
+		return loginUser;
 	}
 }

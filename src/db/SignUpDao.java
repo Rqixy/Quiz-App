@@ -1,40 +1,30 @@
 package db;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-public class SignUpDao {
-	//DB接続
-	Db db = new Db();
-	Connection con = db.DbConnection();
+import bean.RegisterUserBean;
+
+public class SignUpDao extends Db {
+	private SignUpDao() {}
 	
 	//登録処理
-	public boolean UserAdd(String name, String pass) throws Exception {
-		//初期化？
+	public static boolean userAdd(RegisterUserBean registUser) throws SQLException {
+		//初期化
+		dbInit();
 		boolean flag = false;
 		
 		try {
-			//SQLを書く
-			String sql = "INSERT into users (name, pass) VALUES(?, ?)";
-			PreparedStatement ps = con.prepareStatement(sql);
-			//名前を設定
-			ps.setString(1, name);
-		
-			//パスワードを設定
-			ps.setString(2, pass);
-			
 			//SQLを実行
-			int addCount = ps.executeUpdate();
+			int addCount = executeUpdate("INSERT into users (name, pass) VALUES(?, ?)", registUser.name(), registUser.pass());
 			if(addCount == 1) {
 				flag = true;
 			}
-		}catch(Exception e){
-			throw new Exception("登録エラー");
-		}finally {
-			con.close();
+		} catch (SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
+		} finally {
+			dbClose();
 		}
 		
 		return flag;
-		
 	}
 }

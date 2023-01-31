@@ -4,28 +4,28 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import bean.LoginUserBean;
 import db.LoginDao;
 
 public class Login {
-	public int loginCheck(String name, String pass) throws Exception{
-		int loggedInUser = 0;
+	private Login() {}
+	
+	public static LoginUserBean check(final String name, final String pass) throws Exception{
+		LoginUserBean loginUser = null;
 		
 		String reqularPattern = "^[a-zA-Z0-9$_]{1,24}$";
 		Pattern p = Pattern.compile(reqularPattern);
 		
 		if(!(p.matcher(name).find())) {
-			return loggedInUser;
+			return loginUser;
 		}
-		
 		if(!(p.matcher(pass).find())) {
-			return loggedInUser;
+			return loginUser;
 		}
 		
-		LoginDao dao = new LoginDao();
+		loginUser = LoginDao.selectUser(name, pass);
 		
-		loggedInUser = dao.selectUser(name, pass);
-		
-		return loggedInUser;
+		return loginUser;
 	}
 	
 	/**
