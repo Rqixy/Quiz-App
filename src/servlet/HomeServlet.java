@@ -45,7 +45,7 @@ public class HomeServlet extends HttpServlet {
 			}
 			
 			// クリア状況の内容をセッションに保存
-			LoginUserBean loginUserBean = (LoginUserBean)session.getAttribute("user");
+			LoginUserBean loginUserBean = (LoginUserBean)session.getAttribute("loginUser");
 			session.setAttribute("goalList", Home.goalList(loginUserBean));
 
 			// Top画面へ表示
