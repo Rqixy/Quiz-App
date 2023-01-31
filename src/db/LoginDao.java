@@ -1,6 +1,5 @@
 package db;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bean.LoginUserBean;
@@ -14,11 +13,11 @@ public class LoginDao extends Db {
 		
 		try {
 			//SQLを実行
-			ResultSet res = executeSelect("select id, name from users where name = ? and pass = ?", name, pass);
+			rs = executeSelect("select id, name from users where name = ? and pass = ?", name, pass);
 			
 			//実行結果を貰う
-			if(res.next()) {
-				loginUser = new LoginUserBean(res.getInt("id"), rs.getString("name"));
+			if(rs.next()) {
+				loginUser = new LoginUserBean(rs.getInt("id"), rs.getString("name"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
