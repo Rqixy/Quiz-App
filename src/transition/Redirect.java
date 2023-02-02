@@ -23,6 +23,20 @@ public class Redirect {
 	}
 	
 	/**
+	 * ログインへリダイレクトする処理
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	public static void register(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		try {
+			response.sendRedirect(request.getContextPath() + "/register");
+		} catch (IOException e) {
+			System.out.println("IOException : " + e.getMessage());
+		}
+	}
+	
+	/**
 	 * ホームへリダイレクトする処理
 	 * @param request
 	 * @param response
