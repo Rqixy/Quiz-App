@@ -2,11 +2,11 @@ package bean;
 
 import java.io.Serializable;
 
-public class RegisterUserBean implements Serializable {
+public class RegistUserBean implements Serializable {
 	private String name;
 	private String pass;
 
-	public RegisterUserBean(String name, String pass){
+	public RegistUserBean(String name, String pass){
 		this.name = name;
 		this.pass = pass;
 	}
