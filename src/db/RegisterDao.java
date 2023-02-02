@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import bean.RegistUserBean;
 
-public class SignUpDao extends Db {
-	private SignUpDao() {}
+public class RegisterDao extends Db {
+	private RegisterDao() {}
 	
 	public static ArrayList<String> selectAll() throws SQLException {
 		dbInit();
