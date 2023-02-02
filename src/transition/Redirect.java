@@ -16,9 +16,6 @@ public class Redirect {
 	 */
 	public static void login(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		try {
-			// セッション破棄
-			request.getSession().invalidate();
-			// リダイレクト
 			response.sendRedirect(request.getContextPath() + "/login");
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
