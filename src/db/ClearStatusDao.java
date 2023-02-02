@@ -64,6 +64,7 @@ public class ClearStatusDao extends Db {
 		try {
 			rs = select(loginUser);
 			final String columnName = columnName(rs, goalNumber);
+			
 			// DB内のクリア状況の取得
 			if (rs.next()) {
 				goal = new GoalBean(goalNumber, rs.getInt(columnName));
@@ -151,13 +152,15 @@ public class ClearStatusDao extends Db {
 	 * @return executeSelect(sql, userId)
 	 * @throws SQLException
 	 */
-	private static ResultSet select(final LoginUserBean loginUserBean) throws SQLException {
+	private static ResultSet select(final LoginUserBean loginUser) throws SQLException {
+		dbInit();
 		final String sql = "SELECT "
 							+ "1_poverty, 2_hunger, 3_health, 4_education, 5_gender, 6_water, "
 							+ "7_energy, 8_economic_growth, 9_industry, 10_inequalities, 11_cities, 12_responsible, "
 							+ "13_climate_action, 14_sea, 15_land, 16_peace, 17_partnerships "
 						 + "FROM clear_status WHERE user_id = ?";
-		return executeSelect(sql, loginUserBean.id());
+		
+		return executeSelect(sql, loginUser.id());
 	}
 	
 	/**
