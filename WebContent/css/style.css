@@ -43,6 +43,19 @@ main {
     text-align: center;
 }
 
+h1 {
+    font-size: 15rem;
+    color: rgb(224, 0, 0);
+    margin-bottom: 5rem;
+}
+
+a {
+    color: white;
+    margin-top: 10rem;
+    display: inline-block;
+    font-size: 2rem;
+}
+
 *,
 *:before,
 *:after {
@@ -69,13 +82,8 @@ button.btn {
     border-radius: 0.5rem;
 }
 
-h1 {
-    font-size: 15rem;
-    color: rgb(224, 0, 0);
-    margin-bottom: 5rem;
-}
-
-button.btn-flat {
+button.btn-flat,
+a.btn-flat {
     overflow: hidden;
     padding: 2rem 6rem;
     color: #fff;
@@ -83,12 +91,14 @@ button.btn-flat {
     background: #000;
 }
 
-button.btn-flat span {
+button.btn-flat span,
+a.btn-flat span {
     position: relative;
     z-index: 1;
 }
 
-button.btn-flat:before {
+button.btn-flat:before,
+a.btn-flat:before {
     position: absolute;
     top: 0;
     left: calc(-150% + 50px);
@@ -103,7 +113,8 @@ button.btn-flat:before {
     background: #ffa600;
 }
 
-button.btn-flat:after {
+button.btn-flat:after,
+a.btn-flat:after {
     position: absolute;
     top: -400%;
     right: calc(-150% + 50px);
@@ -118,23 +129,19 @@ button.btn-flat:after {
     background: #ff0000;
 }
 
-button.btn-flat:hover {
+button.btn-flat:hover,
+a.btn-flat:hover {
     color: black;
 }
 
-button.btn-flat:hover:before {
+button.btn-flat:hover:before,
+a.btn-flat:hover:before {
     transform: rotate(45deg) translateX(0) translateY(-50%);
 }
 
-button.btn-flat:hover:after {
+button.btn-flat:hover:after,
+a.btn-flat:hover:after {
     transform: rotate(45deg) translateX(0) translateY(50%);
-}
-
-a {
-    color: white;
-    margin-top: 10rem;
-    display: inline-block;
-    font-size: 2rem;
 }
 
 /* login.html */
@@ -143,10 +150,16 @@ a {
     margin-bottom: 1rem;
 }
 
-#login-main p {
+#login-main #sub-title {
     color: white;
     font-size: 2.5rem;
     margin-bottom: 6rem;
+}
+
+.error {
+	color: white;
+	font-size: 1.5rem;
+	margin-bottom: 0;
 }
 
 .login input {
@@ -178,6 +191,10 @@ a {
     margin-top: 5rem;
 }
 
+#register-main .login .btn-flat {
+	padding: 2rem 7rem;
+}
+
 /* register_confirm.html */
 #register-confirm h1 {
     margin: 0;
@@ -200,29 +217,21 @@ a {
     background: #fff;
 }
 
+#register-confirm .login .btn-flat {
+	padding: 2rem 4rem;
+}
+
 /* register_fin.html */
 #register-fin h1 {
     font-size: 15rem;
 }
 
 #register-fin a {
-    font-size: 3rem;
+    font-size: 2rem;
 }
 
-a.btn--orange {
-  	color: #fff;
-  	background-color: #eb6100;
-}
-  
-a.btn--orange:hover {
-    color: #fff;
-    background: #f56500;
-}
-  
-a.btn-c {
-    position: relative;
-    padding: 1.5rem 2rem 1.5rem 3rem;
-    border-radius: 100vh;
+#register-fin .btn-flat {
+	padding: 2rem 4.5rem;
 }
 
 /* home.html */
@@ -237,6 +246,10 @@ a.btn-c {
 	color: white;
 	font-size: 3rem;
 	text-align: center;
+}
+
+#home-header form .btn-flat {
+	padding: 2rem 5rem;
 }
 
 #home-main h1 {
@@ -487,28 +500,59 @@ a.btn-c {
 }
 
 #result-main h1 {
+	letter-spacing: 1rem;
     padding-top: 10rem;
     margin: 0;
 }
 
-#result {
+#clear-message {
+	color: rgb(217, 255, 0);
+}
+
+#fail-message {
+	color: rgb(0, 132, 255);
+}
+
+.effect {
+	display: flex;
+	justify-content: space-between;
+}
+
+.effect img{
+    width: 50rem;
+    margin:0 -20rem;
+    margin-top: -10%;
+}
+
+.effect img:last-child {
+	transform: scale(-1, 1);
+}
+
+.result {
     width: 50%;
+    height: 100%;
     margin: 0 auto;
-    padding: 3rem 0;
-    font-size: 5rem;
-    border: 1px solid black;
-    background: white;
+    margin-top: 3rem;
+    padding: 6rem 0;
+    font-size: 6rem;
+    color: white;
     border-radius: 20px;
 }
 
-#menu a {
-    padding: 2rem 7rem;
-    border: 1px solid black;
-    border-radius: 20px;
-    background: white;
-    color: black;
-    text-decoration: none;
-    font-size: 4rem;
+.clear-effect .result {
+	background: linear-gradient(to right, #ffb03c, #ff708d);
+}
+
+.fail-effect .result {
+	background: linear-gradient(to right,#0011ff, #ae00ff);
+}
+
+#back-home a {
+	margin-top: 0;
+}
+
+#back-home .btn-flat {
+    padding: 2rem 4rem;
 }
 
 #unicef-url {
