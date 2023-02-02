@@ -58,15 +58,14 @@ public class RegisterServlet extends HttpServlet {
 				String pass = request.getParameter("pass");
 				String pass2 = request.getParameter("pass2");
 				
+				session.setAttribute("name", name);
 				if(name.isEmpty() || pass.isEmpty() || pass2.isEmpty()) {
-					session.setAttribute("name", name);
 					session.setAttribute("errorMessage", "ユーザー名とパスワードを入力してください");
 					Redirect.register(request, response);
 					return;
 				}
 				
 				if(!pass.equals(pass2)) {
-					session.setAttribute("name", name);
 					session.setAttribute("errorMessage", "パスワードが正しくありません");
 					Redirect.register(request, response);
 					return;
@@ -74,7 +73,6 @@ public class RegisterServlet extends HttpServlet {
 				
 				ArrayList<String> registeredUserList = RegisterDao.selectAll();
 				if(registeredUserList.contains(name)) {
-					session.setAttribute("name", name);
 					session.setAttribute("errorMessage", "そのユーザー名はすでに存在しています");
 					Redirect.register(request, response);
 					return;
