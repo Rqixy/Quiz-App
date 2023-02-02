@@ -21,7 +21,7 @@
 			        <button type="submit" name="submit" value="login" class="btn btn-flat button-se" ><span>START!</span></button>
 			    </form>
 			
-			    <a class="button-se" href="signup">新しく始める方はこちら</a>
+			    <a class="button-se" href="register">新しく始める方はこちら</a>
 			</main>
 		</jsp:attribute>
 	</jsp:param>
