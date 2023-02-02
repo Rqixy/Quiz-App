@@ -1,7 +1,4 @@
-/csrf/
-/db/
-/exception/
-/model/
 /servlet/
+/db/
+/model/
 /transition/
-/bean/
