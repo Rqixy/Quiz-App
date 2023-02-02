@@ -45,14 +45,18 @@ public class ResultServlet extends HttpServlet {
 			// セッションスコープの準備
 			HttpSession session = request.getSession();
 			
-			LoginUserBean loginUserBean = (LoginUserBean)session.getAttribute("user");
+			LoginUserBean loginUserBean = (LoginUserBean)session.getAttribute("loginUser");
 			Quiz quiz = (Quiz)session.getAttribute("quiz");
+			
+			boolean isClear = false;
 			
 			// クリアしていたら、クリア状況を更新するため、現在のセッションを削除する
 			if (Result.clear(loginUserBean, quiz)) {
+				isClear = true;
 				session.removeAttribute("goalList");
 			}
 			
+			session.setAttribute("isClear", isClear);
 	        // セッションに目標番号のユニセフサイトのURLを保存
 	        session.setAttribute("goalUrl", Result.unicefUrl());
 
