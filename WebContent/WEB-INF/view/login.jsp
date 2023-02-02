@@ -18,7 +18,8 @@
 			    	<p class="error"><%=errorMessage %></p>
 			        <input type="text" name="name" placeholder="ユーザー名" value="<%=name %>"><br>
 			        <input type="password" name="pass" placeholder="パスワード"><br>
-			        <button type="submit" name="submit" value="login" class="btn btn-flat button-se" ><span>START!</span></button>
+			        <button type="submit" name="submit" value="login" class="btn btn-flat button-se" ><span>START!</span></button><br>
+			        <button type="submit" name="submit" value="guest" class="guest button-se" >ゲストアカウントで始める</button><br>
 			    </form>
 			
 			    <a class="button-se" href="register">新しく始める方はこちら</a>

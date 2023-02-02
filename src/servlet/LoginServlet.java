@@ -88,6 +88,18 @@ public class LoginServlet extends HttpServlet {
 			Redirect.home(request, response);
 		}
 		
+		if(button.equals("guest")) {
+			LoginUserBean guestUser = new LoginUserBean(1, "ゲスト");
+			// ログイン成功したら、セッションを再生成
+			session.invalidate();
+			session = request.getSession(true);
+			
+			// ユーザーidをスコープに設定(ホームでユーザー判別するのに使う)
+			session.setAttribute("loginUser", guestUser);
+			// ホーム画面に移動
+			Redirect.home(request, response);
+		}
+		
 		if(button.equals("logout")) { // ログアウト
 			// ユーザー情報を破棄
 			session.invalidate();
