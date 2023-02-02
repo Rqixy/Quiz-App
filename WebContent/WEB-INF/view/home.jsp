@@ -46,6 +46,8 @@
 		      		</button>
 					<% } %>
 	            </form>
+	            
+	            <a id="unicef-url" class="button-se" href="https://www.unicef.or.jp/kodomo/sdgs/17goals/" target="_blank">SDGsについて学ぶ</a>
 	        </main>
 		</jsp:attribute>
 	</jsp:param>
