@@ -17,6 +17,8 @@
 	            	<input type="hidden" name="csrf_token" value="<%=csrfToken %>"/>
 	                <button type="submit" name="submit" value="regist" class="btn btn-flat button-se"><span>登録する!!</span></button>
 	            </form>
+	            
+	            <a class="button-se" href="register">入力画面に戻る</a>
 	        </main>
 		</jsp:attribute>
 	</jsp:param>
