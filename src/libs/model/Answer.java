@@ -1,11 +1,11 @@
-package model;
+package libs.model;
 
 import java.util.HashMap;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import json.Json;
+import libs.json.Json;
 
 public class Answer {
 	private static final HashMap<String, Boolean> FLAG = new HashMap<String, Boolean>();

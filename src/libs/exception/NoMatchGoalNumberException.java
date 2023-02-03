@@ -1,4 +1,4 @@
-package exception;
+package libs.exception;
 
 public class NoMatchGoalNumberException extends Exception {
 	public NoMatchGoalNumberException(String message) {

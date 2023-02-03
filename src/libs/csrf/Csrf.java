@@ -1,4 +1,4 @@
-package csrf;
+package libs.csrf;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;

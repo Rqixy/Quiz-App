@@ -1,4 +1,4 @@
-package model;
+package libs.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import bean.AnswersBean;
 import bean.QuizInfoBean;
 import db.AnswersDao;
 import db.QuizInfoDao;
-import exception.NoMatchGoalNumberException;
+import libs.exception.NoMatchGoalNumberException;
 
 public class Quiz {
 	private static final Random RANDOM = new Random();

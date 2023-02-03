@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="model.Quiz" %>
+<%@ page import="libs.model.Quiz" %>
 <%@ page import="bean.QuizInfoBean" %>
 <%@ page import="bean.AnswersBean" %>
 <%

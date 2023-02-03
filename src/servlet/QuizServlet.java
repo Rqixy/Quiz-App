@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import csrf.Csrf;
-import exception.NoMatchGoalNumberException;
-import exception.NoMatchJspFileException;
-import model.Quiz;
-import transition.Redirect;
-import transition.ScreenTransition;
+import libs.csrf.Csrf;
+import libs.exception.NoMatchGoalNumberException;
+import libs.exception.NoMatchJspFileException;
+import libs.model.Quiz;
+import libs.transition.Redirect;
+import libs.transition.ScreenTransition;
 
 /**
  * クイズを表示する準備処理

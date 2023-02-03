@@ -14,10 +14,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import json.Json;
-import model.Answer;
-import model.Quiz;
-import transition.Redirect;
+import libs.json.Json;
+import libs.model.Answer;
+import libs.model.Quiz;
+import libs.transition.Redirect;
 
 /**
  * 選択した答えが合っているかどうか確認する処理

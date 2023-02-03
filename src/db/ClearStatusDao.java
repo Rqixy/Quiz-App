@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import bean.GoalBean;
 import bean.LoginUserBean;
-import model.Quiz;
+import libs.model.Quiz;
 
 /**
  * DBのclear_statusテーブルの処理するクラス

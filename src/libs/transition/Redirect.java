@@ -1,4 +1,4 @@
-package transition;
+package libs.transition;
 
 import java.io.IOException;
 

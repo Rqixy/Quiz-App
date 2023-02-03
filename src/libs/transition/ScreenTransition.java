@@ -1,4 +1,4 @@
-package transition;
+package libs.transition;
 
 import java.io.IOException;
 
@@ -8,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import exception.NoMatchJspFileException;
+import libs.exception.NoMatchJspFileException;
 
 /**
  * 画面遷移処理
