@@ -134,8 +134,6 @@ import java.sql.SQLException;
 	 * @throws SQLException
 	 */
 	protected static ResultSet executeSelect(final String sql, final Object... params) throws SQLException {
-		dbInit();
-		
 		ps = con.prepareStatement(sql);
 		setParams(ps, params);
 		
@@ -149,15 +147,18 @@ import java.sql.SQLException;
 	 * @return result
 	 * @throws SQLException
 	 */
-	protected static int executeUpdate(final String sql, final Object... params) throws SQLException {
+	protected static boolean executeUpdate(final String sql, final Object... params) throws SQLException {
 		dbInit();
 		con.setAutoCommit(false);
 		
-		int result = 0;
+		boolean result = false;
 		try {
 			ps = con.prepareStatement(sql);
 			setParams(ps, params);
-			result = ps.executeUpdate();
+			int updateNum = ps.executeUpdate();
+			if (updateNum == 1) {
+				result = true;
+			}
 		} catch (SQLException e) {
 			con.rollback();
 			System.out.println("SQLException : " + e.getMessage());

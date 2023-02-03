@@ -107,9 +107,9 @@ public class ClearStatusDao extends Db {
    	 * @return result
    	 * @throws SQLException
    	 */
-	public static int insert(final LoginUserBean loginUser) throws SQLException {
+	public static boolean insert(final LoginUserBean loginUser) throws SQLException {
 		dbInit();
-		int result = 0;
+		boolean result = false;
 		
 		try {
 			result = executeUpdate("INSERT into clear_status (user_id) values (?)", loginUser.id());
@@ -130,9 +130,9 @@ public class ClearStatusDao extends Db {
 	 * @return result
 	 * @throws SQLException
 	 */
-	public static int update(final LoginUserBean loginUser, final Quiz quiz, final int updateStatus) throws SQLException {
+	public static boolean update(final LoginUserBean loginUser, final Quiz quiz, final int updateStatus) throws SQLException {
 		dbInit();
-		int result = 0;
+		boolean result = false;
 		
 		try {
 			String sql = clearStatusUpdateStatement(quiz.goalNumber());

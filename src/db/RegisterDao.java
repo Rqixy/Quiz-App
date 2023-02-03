@@ -31,20 +31,17 @@ public class RegisterDao extends Db {
 	public static boolean userAdd(RegistUserBean registUser) throws SQLException {
 		//初期化
 		dbInit();
-		boolean flag = false;
+		boolean result = false;
 		
 		try {
 			//SQLを実行
-			int addCount = executeUpdate("INSERT into users (name, pass) VALUES(?, ?)", registUser.name(), registUser.pass());
-			if(addCount == 1) {
-				flag = true;
-			}
+			result = executeUpdate("INSERT into users (name, pass) VALUES(?, ?)", registUser.name(), registUser.pass());
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		} finally {
 			dbClose();
 		}
 		
-		return flag;
+		return result;
 	}
 }
