@@ -3,6 +3,8 @@ package servlet;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -52,6 +54,7 @@ public class RegisterServlet extends HttpServlet {
 			//ボタン判別
 			String button = request.getParameter("submit");
 			
+			// 登録確認時の処理
 			if(button.equals("confirm")) {
 				//入力された情報を貰う
 				String name = request.getParameter("name");
@@ -59,18 +62,22 @@ public class RegisterServlet extends HttpServlet {
 				String pass2 = request.getParameter("pass2");
 				
 				session.setAttribute("name", name);
+				
+				// どれか一つでも未入力ならエラー
 				if(name.isEmpty() || pass.isEmpty() || pass2.isEmpty()) {
 					session.setAttribute("errorMessage", "ユーザー名とパスワードを入力してください");
 					Redirect.register(request, response);
 					return;
 				}
 				
+				// パスワードとパスワード確認が同じでなければエラー
 				if(!pass.equals(pass2)) {
 					session.setAttribute("errorMessage", "パスワードが正しくありません");
 					Redirect.register(request, response);
 					return;
 				}
 				
+				// ユーザー名が既に存在していたらエラー
 				ArrayList<String> registeredUserList = RegisterDao.selectAll();
 				if(registeredUserList.contains(name)) {
 					session.setAttribute("errorMessage", "そのユーザー名はすでに存在しています");
@@ -78,6 +85,7 @@ public class RegisterServlet extends HttpServlet {
 					return;
 				}
 				
+				// DBに登録するパスワードをハッシュ化
 				MessageDigest md = MessageDigest.getInstance("SHA3-256");
 				byte[] bytePassword = md.digest(pass.getBytes());
 				String encodedPass = String.format("%040x", new BigInteger(1, bytePassword));
@@ -91,10 +99,12 @@ public class RegisterServlet extends HttpServlet {
 				return;
 			}
 			
+			// 登録完了時の処理
 			if(button.equals("regist")) {
 				RegistUserBean registerUser = (RegistUserBean)session.getAttribute("registUser");
 				boolean flag = RegisterDao.userAdd(registerUser);
 				
+				// 何かしらで登録に失敗したら登録画面に返す
 				if(!flag) {
 					Redirect.register(request, response);	
 					return;
@@ -102,8 +112,19 @@ public class RegisterServlet extends HttpServlet {
 				
 				ScreenTransition.forward(request, response, "register_fin.jsp");
 			}
-		} catch(Exception e) {
-			e.getStackTrace();
+			
+			// 何かしらあって入力が間違っていたらリダイレクト
+			Redirect.register(request, response);
+		} catch (NoMatchJspFileException e) {
+			System.out.println("NoMatchJspFileException : " + e.getMessage());
+		} catch (NoSuchAlgorithmException e) {
+			System.out.println("NoSuchAlgorithmException : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
+		} catch (ServletException e) {
+			System.out.println("ServletException : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("IOException : " + e.getMessage());
 		}
 	}
 
