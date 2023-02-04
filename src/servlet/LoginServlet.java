@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.LoginUserBean;
+import db.ClearStatusDao;
 import db.LoginDao;
 import libs.csrf.Csrf;
 import libs.exception.NoMatchJspFileException;
@@ -109,6 +110,12 @@ public class LoginServlet extends HttpServlet {
 			}
 			
 			if(button.equals("logout")) { // ログアウト
+				// ゲストユーザーで遊んでいたならログアウト時にそのクリア状況を削除する
+				LoginUserBean loginUser = (LoginUserBean)session.getAttribute("loginUser");
+				if(loginUser.name().equals("ゲスト")) {
+					ClearStatusDao.delete(loginUser);
+				}
+				
 				// ユーザー情報を破棄
 				session.invalidate();
 				Csrf.make(request);
