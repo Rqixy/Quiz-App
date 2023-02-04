@@ -58,10 +58,10 @@ import java.sql.SQLException;
  */
 
  abstract class Db {
-	private static final String MYSQL_DRIVER = "com.mysql.cj.jdbc.Driver";	//ドライバー名
-	private static final String JDBC_CONNECTION = "jdbc:mysql://localhost:3306/tech_c_itpj?useSSL=false";	// JDBC接続先情報
-	private static final String USER = "root";	// ユーザー名
-	private static final String PASS = "";	// パスワード
+	private static final String MYSQL_DRIVER = System.getenv("JDBC_MYSQL_DRIVER");	//ドライバー名
+	private static final String JDBC_CONNECTION = System.getenv("MYSQL_JDBC_CONNECTION");	// JDBC接続先情報
+	private static final String USER = System.getenv("MYSQL_ROOT_USER");	// ユーザー名
+	private static final String PASS = System.getenv("MYSQL_ROOT_PASS");	// パスワード
 	
 	private static Connection con;
 	protected static PreparedStatement ps;
