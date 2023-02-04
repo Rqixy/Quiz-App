@@ -17,7 +17,7 @@ public class ClearStatusDao extends Db {
 	
 	/**
 	 * 17の目情のオブジェクトリストを取得
-	 * @param loginUserBean
+	 * @param loginUser
 	 * @return clearStatusList
 	 * @throws SQLException
 	 */
@@ -80,7 +80,7 @@ public class ClearStatusDao extends Db {
 	
 	/**
 	 * 受け取ったユーザーIDのデータが存在するかチェックする
-	 * @param userId
+	 * @param loginUser
 	 * @return isExist
 	 * @throws SQLException
 	 */
@@ -103,7 +103,7 @@ public class ClearStatusDao extends Db {
 	
    	/**
    	 * 新しいクリアステータスを作成する
-   	 * @param userId
+   	 * @param loginUser
    	 * @return result
    	 * @throws SQLException
    	 */
@@ -124,9 +124,9 @@ public class ClearStatusDao extends Db {
 	
 	/**
 	 * クリア状況のUpdate文
-	 * @param goalNumber
+	 * @param loginUser
+	 * @param quiz
 	 * @param updateStatus
-	 * @param userId
 	 * @return result
 	 * @throws SQLException
 	 */
@@ -137,6 +137,27 @@ public class ClearStatusDao extends Db {
 		try {
 			String sql = clearStatusUpdateStatement(quiz.goalNumber());
 			result = executeUpdate(sql, updateStatus, loginUser.id());
+		} catch (SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
+		} finally {
+			dbClose();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * クリア状況のDelete文
+	 * @param loginUser
+	 * @return result
+	 * @throws SQLException
+	 */
+	public static boolean delete(final LoginUserBean loginUser) throws SQLException {
+		dbInit();
+		boolean result = false;
+		
+		try {
+			result = executeUpdate("DELETE FROM clear_status WHERE user_id = ?", loginUser.id());
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		} finally {
