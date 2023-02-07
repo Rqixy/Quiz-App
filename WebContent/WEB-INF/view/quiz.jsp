@@ -45,8 +45,8 @@
 	
 	<jsp:param name="js">
 		<jsp:attribute name="value">
-			<script src="<%=request.getContextPath() %>/js/shuffle.js"></script>
-			<script src="<%=request.getContextPath() %>/js/answer.js"></script>
+			<script src="js/shuffle.js"></script>
+			<script src="js/answer.js"></script>
 		</jsp:attribute>
 	</jsp:param>
 </jsp:include>
