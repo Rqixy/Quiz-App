@@ -56,6 +56,12 @@ a {
     font-size: 2rem;
 }
 
+button {
+    border: none;
+    padding: 0;
+    appearance: none;
+}
+
 *,
 *:before,
 *:after {
@@ -100,8 +106,8 @@ a.btn-flat span {
 button.btn-flat:before,
 a.btn-flat:before {
     position: absolute;
-    top: 0;
-    left: calc(-150% + 50px);
+    top: 10%;
+    left: calc(-150% + 5rem);
 
     width: 150%;
     height: 500%;
@@ -117,7 +123,7 @@ button.btn-flat:after,
 a.btn-flat:after {
     position: absolute;
     top: -400%;
-    right: calc(-150% + 50px);
+    right: calc(-150% + 5rem);
 
     width: 150%;
     height: 500%;
@@ -288,9 +294,6 @@ a.btn-flat:hover:after {
 	display: block;
 	width: 11%;
     margin: 1rem;
-    border: none;
-    padding: 0;
-    appearance: none;
 }
 
 .theme:hover {
@@ -330,12 +333,12 @@ a.btn-flat:hover:after {
     transform: rotate(45deg);
 }
 
-.gold {
-	background: linear-gradient(45deg, #B67B03 0%, #DAAF08 45%, #FEE9A0 70%, #DAAF08 85%, #B67B03 90% 100%);
+.rainbow {
+	background: linear-gradient(45deg,#de4141,#e8ac51,#f2e55c,#39a869,#4784bf,#5d5099,#a55b9a);
 }
 
-.silver {
-	background: linear-gradient(45deg, #757575 0%, #9E9E9E 45%, #E8E8E8 70%, #9E9E9E 85%, #757575 90% 100%);
+.gold {
+	background: linear-gradient(45deg, #B67B03 0%, #DAAF08 45%, #FEE9A0 70%, #DAAF08 85%, #B67B03 90% 100%);
 }
 
 #home-main a {
@@ -385,7 +388,7 @@ a.btn-flat:hover:after {
     margin: 2em auto;
     margin-bottom: 7rem;
     padding: 2.5rem 1rem;
-    border: solid 5px #FFC107;
+    border: solid 0.5rem #FFC107;
     background-color: rgb(255, 255, 255);
 }
 
@@ -425,8 +428,8 @@ a.btn-flat:hover:after {
 #answers button {
     color: black;
     background-color: white;
-    border: 4px solid #deb887;
-    border-radius: 10px;
+    border: 0.4rem solid #deb887;
+    border-radius: 1rem;
 	
     display: inline-block;
     width: 40%;
@@ -557,7 +560,7 @@ a.btn-flat:hover:after {
     padding: 6rem 0;
     font-size: 6rem;
     color: white;
-    border-radius: 20px;
+    border-radius: 2rem;
 }
 
 .clear-effect .result {
@@ -584,4 +587,110 @@ a.btn-flat:hover:after {
 	html {
 		font-size: 8px;
 	}
+}
+
+@media screen and (max-width: 770px) {
+    html {
+		font-size: 6px;
+	}
+
+    .theme {
+        width: 17%;
+    }
+
+    #result-main {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .effect {
+        justify-content: space-around;
+    }
+
+    .result {
+        width: 30%;
+        /* height: 100%; */
+        margin: 0 auto;
+        margin-top: 6rem;
+        padding: 6rem 0;
+        font-size: 3rem;
+        color: white;
+        border-radius: 20px;
+    }
+
+    .effect img {
+        width: 30rem;
+        margin: 0;
+        margin-top: 0;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    html {
+        font-size: 4px;
+    }
+
+    .wrapper {
+        max-width: 95rem;
+    }
+
+    input {
+        width: 80%;
+    }
+
+    button.btn-flat:hover:after,
+    a.btn-flat:hover:after {
+        transform: rotate(45deg) translateX(0) translateY(60%);
+    }
+
+    .confirm {
+        width: 80%;
+    }
+
+    .theme {
+        width: 25%;
+    }
+
+    #register-confirm h1 {
+        font-size: 10rem;
+    }
+
+    #register-fin h1 {
+        font-size: 10rem;
+    }
+
+    .result {
+        width: 30%;
+        /* height: 100%; */
+        margin: 0 auto;
+        margin-top: 6rem;
+        padding: 6rem 0;
+        font-size: 2rem;
+        color: white;
+        border-radius: 20px;
+    }
+
+    .effect img {
+        width: 25rem;
+        margin: 0;
+        margin-top: 5px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    html {
+        font-size: 3px;
+    }
+
+    #register-fin .btn-flat {
+        padding: 2rem 3rem;
+    }
+
+    #home-header form .btn-flat {
+        padding: 3rem 5rem;
+    }
+
+    #back-home .btn-flat {
+        padding: 2rem 2rem;
+    }
 }
