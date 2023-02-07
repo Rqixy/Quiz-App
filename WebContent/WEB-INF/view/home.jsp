@@ -36,11 +36,11 @@
 		      			<div class="ribon">
 		       			<img alt="" src="<%=request.getContextPath() %>/img/sdgs_icon/sdg_icon_<%= goal.goalNumber() %>.png">
 		      				<% if (goal.clearStatus() == 2) { %>
-			       				<div class="caption"><span class="upper gold"></span></div>
-			       				<div class="caption"><span class="under gold"></span></div>
+			       				<div class="caption"><span class="upper rainbow"></span></div>
+			       				<div class="caption"><span class="under rainbow"></span></div>
 			       			<% } else if (goal.clearStatus() == 1) { %>
-								<div class="caption"><span class="upper silver"></span></div>
-			       				<div class="caption"><span class="under silver"></span></div>
+								<div class="caption"><span class="upper gold"></span></div>
+			       				<div class="caption"><span class="under gold"></span></div>
 			       			<% } %>
 		      			</div>
 		      		</button>
