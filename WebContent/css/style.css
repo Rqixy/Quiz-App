@@ -1,10 +1,6 @@
 @charset "utf-8";
 @import url("reset.css");
 @font-face {
-	font-family: PixelMPlus12Bold;
-	src: url('../font/PixelMplus12-Bold.ttf') format("truetype");
-}
-@font-face {
 	font-family: PixelMPlus12Regular;
 	src: url('../font/PixelMplus12-Regular.ttf') format("truetype");
 }
@@ -626,6 +622,7 @@ a.btn-flat:hover:after {
 }
 
 @media screen and (max-width: 640px) {
+    /* General */
     html {
         font-size: 4px;
     }
@@ -638,17 +635,78 @@ a.btn-flat:hover:after {
         width: 80%;
     }
 
-    button.btn-flat:hover:after,
+    a {
+        font-size: 5rem;
+    }
+
+    /* login */
+    .login button.btn-flat:before, 
+    a.btn-flat:before {
+        top: 0;
+        left: calc(-97% + 5rem);
+        width: 150%;
+        height: 700%;
+    }
+
+    .login button.btn-flat:after, a.btn-flat:after {
+        top: -400%;
+        right: calc(-150% + 22rem);
+        width: 150%;
+        height: 700%;
+    }
+
+    .login button.btn-flat:hover:after,
     a.btn-flat:hover:after {
-        transform: rotate(45deg) translateX(0) translateY(60%);
+        transform: rotate(45deg) translateX(-20%) translateY(85%);
+    }
+
+    #login-main h1 {
+        font-size: 17rem;
+        margin-bottom: 7rem;
+    }
+
+    #login-main #sub-title {
+        font-size: 3.5rem;
+        margin-bottom: 11rem;
+    }
+
+    .login input {
+        font-size: 5rem;
+        margin-bottom: 10rem;
+    }
+
+    .login button {
+        font-size: 5rem;
+        width: 80%;
+    }
+
+    .login .guest {
+        margin-top: 25rem;
+        font-size: 4rem;
+    }
+    
+    
+    /* register */
+    .register h1 {
+        padding-top: 15%;
+        font-size: 14rem;
+        margin-bottom: 14rem;
+    }
+
+    #warning {
+        margin-bottom: 15rem;
     }
 
     .confirm {
         width: 80%;
+        font-size: 5rem;
+        margin-bottom: 10rem;
     }
 
-    .theme {
-        width: 25%;
+    #register-fin a {
+        font-size: 5rem;
+        width: 80%;
+        margin-top: 30%;
     }
 
     #register-confirm h1 {
@@ -659,38 +717,173 @@ a.btn-flat:hover:after {
         font-size: 10rem;
     }
 
+    /* home */
+    #home-header {
+        justify-content: space-around;
+    }
+
+    #home-header p {
+        font-size: 5rem;
+    }
+
+    #home-header form button {
+        font-size: 4rem;
+    }
+
+    #home-header form button.btn-flat:before {
+        left: calc(-150% + 12rem);
+    }
+
+    #home-header form button.btn-flat:after {
+        right: calc(-150% + 11rem);
+    }
+
+    #home-main h1 {
+        font-size: 22rem;
+    }
+
+    #home-main p {
+        font-size: 4rem;
+        margin-top: 5rem;
+        margin-bottom: 10rem;
+    }
+
+    .theme {
+        width: 26%;
+        margin: 3rem;
+    }
+
+    .ribon .upper {
+        top: 2rem;
+        right: -6rem;
+        width: 23.5rem;
+        height: 4rem;
+    }
+
+    .ribon .under {
+        bottom: 1rem;
+        left: -6rem;
+        width: 23.5rem;
+        height: 4rem;
+    }
+
+    #home-main a {
+        font-size: 5rem;
+        margin-bottom: 15rem;
+    }
+
+    /* quiz */
+    #quiz-header {
+        justify-content: space-around;
+    }
+
+    #quiz-header #battle-num {
+        font-size: 10rem;
+    }
+
+    #quiz-header .back a {
+        font-size: 6rem;
+    }
+
+    #field #enemy {
+        height: 50rem;
+    }
+
+    .weapon {
+        height: 22rem;
+        right: 1%;
+    }
+
+    #question-box {
+        width: 95%;
+        padding: 2.5rem 0;
+    }
+
+    #question-box #question-title {
+        padding: 0 10rem;
+        height: 4.5rem;
+        line-height: 4rem;
+        font-size: 4rem;
+    }
+
+    #question {
+        width: 75%;
+        margin: 0 auto;
+        padding-top: 3rem;
+        font-size: 5rem;
+    }
+
+    #answers {
+        width: 90%;
+    }
+
+    #answers button {
+        width: 90%;
+        padding: 3rem;
+        font-size: 5rem;
+        margin-bottom: 5rem;
+    }
+
+    #answers button:first-child, #answers button:nth-child(2) {
+        margin-bottom: 5rem;
+    }
+
+    #answers button:first-child, #answers button:nth-child(3) {
+        margin-right: 0;
+    }
+
+    #question img {
+        width: 100%;
+    }
+
+    .mark-maru {
+        width: 22rem;
+    }
+
+    .mark-batsu {
+        width: 18rem;
+    }
+
+    /* Result */
+    #result-main h1 {
+        margin: 0;
+        font-size: 20rem;
+    }
+
+    .effect {
+        display: block;
+    }
+
+    .effect img {
+        width: 30rem;
+        margin: 0 auto;
+        margin-top: 0;
+    }
+
     .result {
-        width: 30%;
-        /* height: 100%; */
+        width: 80%;
         margin: 0 auto;
         margin-top: 6rem;
-        padding: 6rem 0;
-        font-size: 2rem;
+        padding: 5rem 0;
+        font-size: 5rem;
         color: white;
         border-radius: 20px;
     }
 
-    .effect img {
-        width: 25rem;
-        margin: 0;
-        margin-top: 5px;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    html {
-        font-size: 3px;
+    #back-home a {
+        margin-top: 0;
+        width: 80%;
+        font-size: 5rem;
     }
 
-    #register-fin .btn-flat {
-        padding: 2rem 3rem;
+    .fail-effect img:last-child {
+        margin: 6rem auto 6rem;
     }
 
-    #home-header form .btn-flat {
-        padding: 3rem 5rem;
-    }
-
-    #back-home .btn-flat {
-        padding: 2rem 2rem;
+    .fail-effect img {
+        width: 30rem;
+        height: 26rem;
+        margin: 0 auto;
+        margin-top: 0;
     }
 }
