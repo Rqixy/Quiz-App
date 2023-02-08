@@ -49,14 +49,19 @@ public class AnswerServlet extends HttpServlet {
 			Json.ResponseStringJson(response, answerFlag);
 		} catch (JsonMappingException e) {
 			System.out.println("JsonMappingException : " + e.getMessage());
+			Redirect.home(request, response);
 		} catch (JsonProcessingException e) {
 			System.out.println("JsonProcessingException : " + e.getMessage());
+			Redirect.home(request, response);
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("UnsupportedEncodingException : " + e.getMessage());
+			Redirect.home(request, response);
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
+			Redirect.home(request, response);
 		} catch (Exception e) {
 			System.out.println("Exception : " + e.getMessage());
+			Redirect.home(request, response);
 		}
 	}
 }

@@ -63,12 +63,16 @@ public class QuizServlet extends HttpServlet {
 			ScreenTransition.forward(request, response, "quiz.jsp");
 		} catch (NoMatchGoalNumberException e) {
 			System.out.println("NoMatchGoalNumberException : " + e.getMessage());
+			Redirect.home(request, response);
 		} catch (NoMatchJspFileException e) {
 			System.out.println("NoMatchJspFileException : " + e.getMessage());
+			Redirect.home(request, response);
 		} catch (ServletException e) {
 			System.out.println("ServletException : " + e.getMessage());
+			Redirect.home(request, response);
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
+			Redirect.home(request, response);
 		}
 	}
 }

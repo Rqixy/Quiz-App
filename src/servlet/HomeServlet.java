@@ -53,10 +53,13 @@ public class HomeServlet extends HttpServlet {
 		} catch (NoMatchJspFileException e) {
 			System.out.println("NoMatchJspFileException : " + e.getMessage());
 			e.printStackTrace();
+			Redirect.login(request, response);
 		} catch (ServletException e) {
 			System.out.println("ServletException : " + e.getMessage());
+			Redirect.login(request, response);
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
+			Redirect.login(request, response);
 		}
 	}
 }
