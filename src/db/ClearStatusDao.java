@@ -147,27 +147,6 @@ public class ClearStatusDao extends Db {
 	}
 	
 	/**
-	 * クリア状況のDelete文
-	 * @param loginUser
-	 * @return result
-	 * @throws SQLException
-	 */
-	public static boolean delete(final LoginUserBean loginUser) throws SQLException {
-		dbInit();
-		boolean result = false;
-		
-		try {
-			result = executeUpdate("DELETE FROM clear_status WHERE user_id = ?", loginUser.id());
-		} catch (SQLException e) {
-			System.out.println("SQLException : " + e.getMessage());
-		} finally {
-			dbClose();
-		}
-		
-		return result;
-	}
-	
-	/**
 	 * DBからクリア状況のデータを取得する処理
 	 * @param loginUserBean
 	 * @return executeSelect(sql, userId)
