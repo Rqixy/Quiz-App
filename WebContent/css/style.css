@@ -723,7 +723,8 @@ a.btn-flat:hover:after {
     }
 
     #home-header p {
-        font-size: 5rem;
+        font-size: 4rem;
+    	margin-top: 2rem;
     }
 
     #home-header form button {
