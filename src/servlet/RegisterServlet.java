@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.RegistUserBean;
-import db.RegisterDao;
+import db.UsersDao;
 import libs.csrf.Csrf;
 import libs.exception.NoMatchJspFileException;
 import libs.transition.Redirect;
@@ -78,7 +78,7 @@ public class RegisterServlet extends HttpServlet {
 				}
 				
 				// ユーザー名が既に存在していたらエラー
-				ArrayList<String> registeredUserList = RegisterDao.selectAll();
+				ArrayList<String> registeredUserList = UsersDao.selectAll();
 				if(registeredUserList.contains(name)) {
 					session.setAttribute("errorMessage", "そのユーザー名はすでに存在しています");
 					Redirect.register(request, response);
@@ -102,7 +102,7 @@ public class RegisterServlet extends HttpServlet {
 			// 登録完了時の処理
 			if(button.equals("regist")) {
 				RegistUserBean registerUser = (RegistUserBean)session.getAttribute("registUser");
-				boolean flag = RegisterDao.userAdd(registerUser);
+				boolean flag = UsersDao.insert(registerUser);
 				
 				// 何かしらで登録に失敗したら登録画面に返す
 				if(!flag) {
@@ -117,14 +117,19 @@ public class RegisterServlet extends HttpServlet {
 			Redirect.register(request, response);
 		} catch (NoMatchJspFileException e) {
 			System.out.println("NoMatchJspFileException : " + e.getMessage());
+			Redirect.register(request, response);
 		} catch (NoSuchAlgorithmException e) {
 			System.out.println("NoSuchAlgorithmException : " + e.getMessage());
+			Redirect.register(request, response);
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
+			Redirect.register(request, response);
 		} catch (ServletException e) {
 			System.out.println("ServletException : " + e.getMessage());
+			Redirect.register(request, response);
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
+			Redirect.register(request, response);
 		}
 	}
 
