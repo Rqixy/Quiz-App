@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.LoginUserBean;
-import db.ClearStatusDao;
-import db.LoginDao;
+import bean.RegistUserBean;
+import db.UsersDao;
 import libs.csrf.Csrf;
 import libs.exception.NoMatchJspFileException;
 import libs.transition.Redirect;
@@ -75,7 +76,7 @@ public class LoginServlet extends HttpServlet {
 				byte[] bytePassword = md.digest(pass.getBytes());
 				String encodedPass = String.format("%040x", new BigInteger(1, bytePassword));
 				
-				loginUser = LoginDao.selectUser(name, encodedPass);
+				loginUser = UsersDao.select(name, encodedPass);
 				
 				// ログイン可否で分岐
 				if(loginUser == null) { // 失敗時
@@ -97,13 +98,29 @@ public class LoginServlet extends HttpServlet {
 			
 			// ゲストアカウントでログインする処理
 			if(button.equals("guest")) {
-				LoginUserBean guestUser = new LoginUserBean(1, "ゲスト");
+				// ゲスト用のランダムな文字列のアカウント作成
+				String randString = UUID.randomUUID().toString();
+				
+				// DBに登録するパスワードをハッシュ化
+				MessageDigest md = MessageDigest.getInstance("SHA3-256");
+				byte[] bytePassword = md.digest(randString.getBytes());
+				String encodedPass = String.format("%040x", new BigInteger(1, bytePassword));
+				
+				//登録確認画面に情報を渡す
+				RegistUserBean registerUser = new RegistUserBean(randString, encodedPass);
+				UsersDao.insert(registerUser);
+				
+				// そのアカウントでログインし、ゲストユーザーとして表示する
+				LoginUserBean randUser = UsersDao.select(randString, encodedPass);
+				LoginUserBean guestUser = new LoginUserBean(randUser.id(), "ゲスト");
+				
 				// ログイン成功したら、セッションを再生成
 				session.invalidate();
 				session = request.getSession(true);
 				
 				// ユーザーidをスコープに設定(ホームでユーザー判別するのに使う)
 				session.setAttribute("loginUser", guestUser);
+				
 				// ホーム画面に移動
 				Redirect.home(request, response);
 				return;
@@ -111,9 +128,10 @@ public class LoginServlet extends HttpServlet {
 			
 			if(button.equals("logout")) { // ログアウト
 				// ゲストユーザーで遊んでいたならログアウト時にそのクリア状況を削除する
+				// ゲストユーザーも削除する
 				LoginUserBean loginUser = (LoginUserBean)session.getAttribute("loginUser");
 				if(loginUser.name().equals("ゲスト")) {
-					ClearStatusDao.delete(loginUser);
+					UsersDao.delete(loginUser);
 				}
 				
 				// ユーザー情報を破棄
@@ -128,12 +146,16 @@ public class LoginServlet extends HttpServlet {
 			Redirect.login(request, response);
 		} catch (NoSuchAlgorithmException e) {
 			System.out.println("NoSuchAlgorithmException : " + e.getMessage());
+			Redirect.login(request, response);
 		} catch (SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
+			Redirect.login(request, response);
 		} catch (ServletException e) {
 			System.out.println("ServletException : " + e.getMessage());
+			Redirect.login(request, response);
 		} catch (IOException e) {
 			System.out.println("IOException : " + e.getMessage());
+			Redirect.login(request, response);
 		}
 	}
 }
