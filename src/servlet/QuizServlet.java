@@ -41,7 +41,11 @@ public class QuizServlet extends HttpServlet {
 			}
 			
 			// セッションスコープの準備
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(false);
+			if (session == null) {
+				Redirect.login(request, response);
+			}
+			
 			// 目標番号を取得
 			String requestGoalNumber = request.getParameter("goalNumber");
 			
@@ -49,7 +53,6 @@ public class QuizServlet extends HttpServlet {
 				// goalNumberのパラメータが存在していたら、送信された目標番号の問題を準備する
 				Quiz quiz = Quiz.prepareQuiz(requestGoalNumber);
 				// セッションへ使いまわす情報を保存
-				session.setMaxInactiveInterval(600);					// セッションの保存期間の設定(10分)
 				session.setAttribute("quiz", quiz);
 			} else {
 				// goalNumberのパラメータが存在していなかったら、２問目以降なので次の問題の準備する
@@ -58,7 +61,7 @@ public class QuizServlet extends HttpServlet {
 				session.setAttribute("quiz", quiz);
 			}
 			
-			Csrf.make(request);
+			Csrf.make(session);
 			// 問題画面へ表示
 			ScreenTransition.forward(request, response, "quiz.jsp");
 		} catch (NoMatchGoalNumberException e) {

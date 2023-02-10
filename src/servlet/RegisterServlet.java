@@ -30,7 +30,13 @@ public class RegisterServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-    		Csrf.make(request);
+			HttpSession session = request.getSession(false);
+			if (session == null) {
+				Redirect.login(request, response);
+				return;
+			}
+			
+    		Csrf.make(session);
 			ScreenTransition.forward(request, response, "register.jsp");
 		} catch (NoMatchJspFileException e) {
 			System.out.println("NoMatchJspFileException : " + e.getMessage());
@@ -49,7 +55,10 @@ public class RegisterServlet extends HttpServlet {
 				Redirect.login(request, response);
 				return;
 			}
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(false);
+			if (session == null) {
+				Redirect.login(request, response);
+			}
 			
 			//ボタン判別
 			String button = request.getParameter("submit");
@@ -94,7 +103,7 @@ public class RegisterServlet extends HttpServlet {
 				RegistUserBean registerUser = new RegistUserBean(name, encodedPass);
 				session.setAttribute("registUser", registerUser);
 				
-				Csrf.make(request);
+				Csrf.make(session);
 				ScreenTransition.forward(request, response, "register_confirm.jsp");
 				return;
 			}

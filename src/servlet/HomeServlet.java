@@ -34,9 +34,14 @@ public class HomeServlet extends HttpServlet {
 				return;
 			}
 			
-			Csrf.make(request);
 			// セッションスコープの準備
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(false);
+			if (session == null) {
+				Redirect.login(request, response);
+				return;
+			}
+			
+			Csrf.make(session);
 			
 			// クリア状況の内容のセッションが存在していたら、何もせずhome.jspに移動
 			if(session.getAttribute("goalList") != null) {

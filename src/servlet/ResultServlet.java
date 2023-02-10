@@ -43,7 +43,11 @@ public class ResultServlet extends HttpServlet {
 			}
 			
 			// セッションスコープの準備
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(false);
+			if (session == null) {
+				Redirect.login(request, response);
+				return;
+			}
 			
 			LoginUserBean loginUserBean = (LoginUserBean)session.getAttribute("loginUser");
 			Quiz quiz = (Quiz)session.getAttribute("quiz");

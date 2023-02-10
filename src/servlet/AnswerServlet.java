@@ -39,7 +39,11 @@ public class AnswerServlet extends HttpServlet {
 		try {
 			request.setCharacterEncoding("UTF-8");
 			// セッションスコープの準備
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(false);
+			if (session == null) {
+				Redirect.login(request, response);
+				return;
+			}
 			
 			Quiz quiz = (Quiz)session.getAttribute("quiz");
 			JsonNode selectedAnswerJson = Json.jsonByRequest(request);

@@ -31,7 +31,10 @@ public class LoginServlet extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	try {
-    		Csrf.make(request);
+    		HttpSession session = request.getSession(true);
+    		session.setMaxInactiveInterval(3600);
+    		
+    		Csrf.make(session);
 			ScreenTransition.forward(request, response, "login.jsp");
 		} catch (NoMatchJspFileException e) {
 			System.out.println("NoMatchJspFileException : " + e.getMessage());
@@ -52,7 +55,7 @@ public class LoginServlet extends HttpServlet {
 			}
 			
 			//セッションスコープの準備
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(false);
 	
 			// ボタンで要件を確認
 			String button = request.getParameter("submit");
@@ -85,9 +88,9 @@ public class LoginServlet extends HttpServlet {
 					return;
 				}
 				
-				// ログイン成功したら、セッションを再生成
 				session.invalidate();
 				session = request.getSession(true);
+				session.setMaxInactiveInterval(3600);	// セッションの保存期間の設定(1時間)
 				
 				// ユーザー情報をスコープに設定(ホームでユーザー判別するのに使う)
 				session.setAttribute("loginUser", loginUser);
@@ -114,10 +117,9 @@ public class LoginServlet extends HttpServlet {
 				LoginUserBean randUser = UsersDao.select(randString, encodedPass);
 				LoginUserBean guestUser = new LoginUserBean(randUser.id(), "ゲスト");
 				
-				// ログイン成功したら、セッションを再生成
 				session.invalidate();
 				session = request.getSession(true);
-				
+				session.setMaxInactiveInterval(3600);	// セッションの保存期間の設定(1時間)
 				// ユーザーidをスコープに設定(ホームでユーザー判別するのに使う)
 				session.setAttribute("loginUser", guestUser);
 				
@@ -136,7 +138,7 @@ public class LoginServlet extends HttpServlet {
 				
 				// ユーザー情報を破棄
 				session.invalidate();
-				Csrf.make(request);
+
 				// トップに帰す
 				Redirect.login(request, response);
 				return;

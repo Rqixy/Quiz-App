@@ -21,14 +21,13 @@ public class Csrf {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public static void make(final HttpServletRequest request) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		
+	public static void make(final HttpSession session) throws ServletException, IOException {
 		// トークン発行
 		final String token = getToken();
 		
-		// セッションに保存
-		HttpSession session = request.getSession();
+		if (session == null) {
+			throw new ServletException("Sessionがありません");
+		}
 		session.setAttribute("csrfToken", token);
 	}
 	
@@ -50,7 +49,11 @@ public class Csrf {
 		}
 		
 		// セッションのCSRFトークン
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
+		if (session == null) {	
+			return false;
+		}
+		
 		final String csrfToken = (String)session.getAttribute("csrfToken");
 		
 		// トークンの値が変わっていたらfalse
